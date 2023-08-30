@@ -1,10 +1,11 @@
-function App() {
+import FrontendRoutes from "./routes";
 
+function App() {
   return (
     <>
-    
+      <FrontendRoutes />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
