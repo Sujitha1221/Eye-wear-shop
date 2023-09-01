@@ -1,0 +1,33 @@
+{
+    "data" : [
+        {
+            "name": "Dashboard",
+            "icon": "fa-solid fa-chart-simple",
+            "link": "/"
+        },
+
+        {
+            "name": "User Management",
+            "icon": "fa-solid fa-users",
+            "link": "/users"
+        },
+
+        {
+            "name": "Product Management",
+            "icon": "fa-solid fa-cart-shopping",
+            "link": "/products"
+        },
+
+        {
+            "name": "Delivery Management",
+            "icon": "fa-solid fa-truck",
+            "link": "/delivery/view-delivery"
+        },
+
+        {
+            "name": "Delivery Driver Management",
+            "icon": "fa-solid fa-users",
+            "link": "/delivery-driver/view-delivery-driver"
+        }
+    ]
+}
