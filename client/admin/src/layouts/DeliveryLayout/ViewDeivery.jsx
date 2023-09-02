@@ -70,13 +70,13 @@ const ViewDelivery = () => {
                             <StyledTableCell align="right">protein</StyledTableCell>
                             <StyledTableCell align="right">
                                 <Link to="/delivery/add-delivery">
-                                    <button class="bg-transparent text-cyan-600 hover:bg-cyan-600 hover:text-white font-semibold  py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+                                    <button className="bg-transparent text-cyan-600 hover:bg-cyan-600 hover:text-white font-semibold  py-2 px-4 border border-blue-500 hover:border-transparent rounded">
                                         Edit
                                     </button>
                                 </Link>
                             </StyledTableCell>
                             <StyledTableCell align="right">
-                                <button class="bg-transparent text-cyan-600 hover:bg-cyan-600 hover:text-white font-semibold  py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+                                <button className="bg-transparent text-cyan-600 hover:bg-cyan-600 hover:text-white font-semibold  py-2 px-4 border border-blue-500 hover:border-transparent rounded">
                                     Delete
                                 </button>
                             </StyledTableCell>
@@ -90,13 +90,13 @@ const ViewDelivery = () => {
                             <StyledTableCell align="right">protein</StyledTableCell>
                             <StyledTableCell align="right">
                                 <Link to="/delivery/add-delivery">
-                                    <button class="bg-transparent text-cyan-600 hover:bg-cyan-600 hover:text-white font-semibold  py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+                                    <button className="bg-transparent text-cyan-600 hover:bg-cyan-600 hover:text-white font-semibold  py-2 px-4 border border-blue-500 hover:border-transparent rounded">
                                         Edit
                                     </button>
                                 </Link>
                             </StyledTableCell>
                             <StyledTableCell align="right">
-                                <button class="bg-transparent text-cyan-600 hover:bg-cyan-600 hover:text-white font-semibold  py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+                                <button className="bg-transparent text-cyan-600 hover:bg-cyan-600 hover:text-white font-semibold  py-2 px-4 border border-blue-500 hover:border-transparent rounded">
                                     Delete
                                 </button>
                             </StyledTableCell>
@@ -110,13 +110,13 @@ const ViewDelivery = () => {
                             <StyledTableCell align="right">protein</StyledTableCell>
                             <StyledTableCell align="right">
                                 <Link to="/delivery/add-delivery">
-                                    <button class="bg-transparent text-cyan-600 hover:bg-cyan-600 hover:text-white font-semibold  py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+                                    <button className="bg-transparent text-cyan-600 hover:bg-cyan-600 hover:text-white font-semibold  py-2 px-4 border border-blue-500 hover:border-transparent rounded">
                                         Edit
                                     </button>
                                 </Link>
                             </StyledTableCell>
                             <StyledTableCell align="right">
-                                <button class="bg-transparent text-cyan-600 hover:bg-cyan-600 hover:text-white font-semibold  py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+                                <button className="bg-transparent text-cyan-600 hover:bg-cyan-600 hover:text-white font-semibold  py-2 px-4 border border-blue-500 hover:border-transparent rounded">
                                     Delete
                                 </button>
                             </StyledTableCell>

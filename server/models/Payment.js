@@ -2,6 +2,12 @@ const mongoose = require ('mongoose')
 
 const PaymentSchema = new mongoose.Schema({
 
+    products: [{
+        name: String,
+        price: Number,
+        quantity: Number
+    }],
+
     paymentType: {
         type: String,
         required: true
