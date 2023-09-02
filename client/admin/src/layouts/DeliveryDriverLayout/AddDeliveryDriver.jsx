@@ -31,7 +31,7 @@ const AddDeliveryDriver = () => {
                         <TextField label="Vehicle Number" variant="outlined" style={{ width: '100%' }} />
                     </div>
                     <div class="col-span-2 flex justify-center pt-5">
-                    <button type='submit' className="bg-transparent text-cyan-600 hover:bg-cyan-600 hover:text-white font-semibold  py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+                    <button type='submit' className="bg-transparent text-cyan-600 border-cyan-600 hover:bg-cyan-600 hover:text-white font-semibold  py-2 px-4 border border-blue-500 hover:border-transparent rounded">
                         Add Delivery Driver
                     </button>
                     </div>

@@ -8,6 +8,9 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import DeleteIcon from '@mui/icons-material/Delete';
+import ModeEditIcon from '@mui/icons-material/ModeEdit';
+
 
 const ViewDeliveryDriver = () => {
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -48,7 +51,7 @@ const ViewDeliveryDriver = () => {
         <>
             <div className='flex  justify-end'>
                 <Link to="/delivery-driver/add-delivery-driver">
-                    <button className="bg-transparent text-cyan-600 hover:bg-cyan-600 hover:text-white font-semibold  py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+                    <button className="bg-transparent text-cyan-600 border-cyan-600 hover:bg-cyan-600 hover:text-white font-semibold  py-2 px-4 border border-blue-500 hover:border-transparent rounded">
                         Add Delivery Driver
                     </button>
                 </Link>
@@ -76,14 +79,14 @@ const ViewDeliveryDriver = () => {
                             <StyledTableCell align="right">protein</StyledTableCell>
                             <StyledTableCell align="right">
                                 <Link to="/delivery/add-delivery">
-                                    <button className="bg-transparent text-cyan-600 hover:bg-cyan-600 hover:text-white font-semibold  py-2 px-4 border border-blue-500 hover:border-transparent rounded">
-                                        Edit
+                                    <button className="bg-transparent text-cyan-600 border-cyan-600 hover:bg-cyan-600 hover:text-white font-semibold  py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+                                        <ModeEditIcon />
                                     </button>
                                 </Link>
                             </StyledTableCell>
                             <StyledTableCell align="right">
-                                <button className="bg-transparent text-cyan-600 hover:bg-cyan-600 hover:text-white font-semibold  py-2 px-4 border border-blue-500 hover:border-transparent rounded">
-                                    Delete
+                                <button className="bg-transparent text-red-600 border-red-600 hover:bg-cyan-600 hover:text-white font-semibold  py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+                                    <DeleteIcon />
                                 </button>
                             </StyledTableCell>
                         </StyledTableRow>
@@ -95,14 +98,14 @@ const ViewDeliveryDriver = () => {
                             <StyledTableCell align="right">protein</StyledTableCell>
                             <StyledTableCell align="right">
                                 <Link to="/delivery/add-delivery">
-                                    <button className="bg-transparent text-cyan-600 hover:bg-cyan-600 hover:text-white font-semibold  py-2 px-4 border border-blue-500 hover:border-transparent rounded">
-                                        Edit
+                                    <button className="bg-transparent text-cyan-600 border-cyan-600 hover:bg-cyan-600 hover:text-white font-semibold  py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+                                        <ModeEditIcon />
                                     </button>
                                 </Link>
                             </StyledTableCell>
                             <StyledTableCell align="right">
-                                <button className="bg-transparent text-cyan-600 hover:bg-cyan-600 hover:text-white font-semibold  py-2 px-4 border border-blue-500 hover:border-transparent rounded">
-                                    Delete
+                                <button className="bg-transparent text-red-600 border-red-600 hover:bg-cyan-600 hover:text-white font-semibold  py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+                                    <DeleteIcon />
                                 </button>
                             </StyledTableCell>
                         </StyledTableRow>
@@ -114,36 +117,14 @@ const ViewDeliveryDriver = () => {
                             <StyledTableCell align="right">protein</StyledTableCell>
                             <StyledTableCell align="right">
                                 <Link to="/delivery/add-delivery">
-                                    <button className="bg-transparent text-cyan-600 hover:bg-cyan-600 hover:text-white font-semibold  py-2 px-4 border border-blue-500 hover:border-transparent rounded">
-                                        Edit
+                                    <button className="bg-transparent text-cyan-600 border-cyan-600 hover:bg-cyan-600 hover:text-white font-semibold  py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+                                        <ModeEditIcon />
                                     </button>
                                 </Link>
                             </StyledTableCell>
                             <StyledTableCell align="right">
-                                <button className="bg-transparent text-cyan-600 hover:bg-cyan-600 hover:text-white font-semibold  py-2 px-4 border border-blue-500 hover:border-transparent rounded">
-                                    Delete
-                                </button>
-                            </StyledTableCell>
-                        </StyledTableRow>
-
-
-
-                        <StyledTableRow>
-                            <StyledTableCell component="th" scope="row"> row.name</StyledTableCell>
-                            <StyledTableCell align="right">calories</StyledTableCell>
-                            <StyledTableCell align="right">fat</StyledTableCell>
-                            <StyledTableCell align="right">carbs</StyledTableCell>
-                            <StyledTableCell align="right">protein</StyledTableCell>
-                            <StyledTableCell align="right">
-                                <Link to="/delivery/add-delivery">
-                                    <button className="bg-transparent text-cyan-600 hover:bg-cyan-600 hover:text-white font-semibold  py-2 px-4 border border-blue-500 hover:border-transparent rounded">
-                                        Edit
-                                    </button>
-                                </Link>
-                            </StyledTableCell>
-                            <StyledTableCell align="right">
-                                <button className="bg-transparent text-cyan-600 hover:bg-cyan-600 hover:text-white font-semibold  py-2 px-4 border border-blue-500 hover:border-transparent rounded">
-                                    Delete
+                                <button className="bg-transparent text-red-600 border-red-600 hover:bg-cyan-600 hover:text-white font-semibold  py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+                                    <DeleteIcon />
                                 </button>
                             </StyledTableCell>
                         </StyledTableRow>
@@ -155,14 +136,14 @@ const ViewDeliveryDriver = () => {
                             <StyledTableCell align="right">protein</StyledTableCell>
                             <StyledTableCell align="right">
                                 <Link to="/delivery/add-delivery">
-                                    <button className="bg-transparent text-cyan-600 hover:bg-cyan-600 hover:text-white font-semibold  py-2 px-4 border border-blue-500 hover:border-transparent rounded">
-                                        Edit
+                                    <button className="bg-transparent text-cyan-600 border-cyan-600 hover:bg-cyan-600 hover:text-white font-semibold  py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+                                        <ModeEditIcon />
                                     </button>
                                 </Link>
                             </StyledTableCell>
                             <StyledTableCell align="right">
-                                <button className="bg-transparent text-cyan-600 hover:bg-cyan-600 hover:text-white font-semibold  py-2 px-4 border border-blue-500 hover:border-transparent rounded">
-                                    Delete
+                                <button className="bg-transparent text-red-600 border-red-600 hover:bg-cyan-600 hover:text-white font-semibold  py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+                                    <DeleteIcon />
                                 </button>
                             </StyledTableCell>
                         </StyledTableRow>
