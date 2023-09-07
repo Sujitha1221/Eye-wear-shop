@@ -3,6 +3,7 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import databaseConnection from "./config/database.mjs";
 import logger from "./utils/logger.mjs";
+import virtualTryOnRouter from "./routes/virtualtryon.route.mjs";
 
 const app = express();
 const PORT = process.env.PORT || "8080";
@@ -22,3 +23,5 @@ app.listen(PORT, () => {
     logger.info(`Server is up and running on port ${PORT}`)
     databaseConnection();
 })
+
+app.use("/try-on", virtualTryOnRouter)
