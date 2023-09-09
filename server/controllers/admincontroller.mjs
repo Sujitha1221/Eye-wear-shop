@@ -1,9 +1,10 @@
-import Admin from "../models/admin.mjs";
+import Admin from "../models/Admin.mjs";
 import logger from "../utils/logger.mjs";
 import bcrypt from "bcrypt";
 
 const AdminController = {
   //create driver
+
   createAdmin: async (req, res) => {
     try {
       const { password, ...adminData } = req.body; // Destructure the password
@@ -14,14 +15,16 @@ const AdminController = {
   
       admin.password = hashedPassword;
       await admin.save();
-      
-      res.status(201).json(user);
+  
+      res.status(201).json(admin); // You should respond with the admin object, not 'user'
       logger.info(`Admin created successfully`);
     } catch (error) {
+      console.error(error); // Log the error to the console for debugging
       res.status(400).json({ message: `Error creating admin` });
       logger.error(`Admin Creation Failed`);
     }
   },
+  
   
 
   // getAllAdmins: async (req, res) => {

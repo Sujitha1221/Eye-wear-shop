@@ -1,21 +1,20 @@
-import User from "../models/user.mjs";
+import User from "../models/User.mjs";
 import logger from "../utils/logger.mjs";
 import bcrypt from "bcrypt";
-
+import jwt from "jsonwebtoken";
 
 const UserController = {
-
   createUser: async (req, res) => {
     try {
       const { password, ...userData } = req.body; // Destructure the password
       const user = new User(userData);
-  
+
       // Hash the password asynchronously
       const hashedPassword = await bcrypt.hash(password, 12);
-  
+
       user.password = hashedPassword;
       await user.save();
-      
+
       res.status(201).json(user);
       logger.info(`User created successfully`);
     } catch (error) {
@@ -71,29 +70,25 @@ const UserController = {
     }
   },
 
-  userLogin:async (req,res) => {
-    
-      const{email,password} = req.body;
-      const check =  User.findOne({email:email})
-      if(check){
-        const passwordCheck = await User.findOne({password:password});
-        if(passwordCheck){
-          res.status(201).send("success");
-          logger.info(`User logged in successfully`);
-        }
-        else{
-          res.status(400).send("invalid password")
-          logger.error("Invalid password")
-        }
-      }
+  userLogin: async (req, res) => {
+    const { email, password } = req.body;
 
-      else{
-        res.status(400).send("invalid email")
-          logger.error("User doesn't exist")
+    try {
+      const user = await User.findOne({ email: email });
+
+      if (user) {
+        bcrypt.compare(password, user.password, (err, response) => {
+          if (response) {
+            res.json(user);
+          } else {
+            res.json("Invalid Password");
+          }
+        });
       }
- 
-  }
-  
+    } catch (e) {
+      res.json("No");
+    }
+  },
 };
 
 export default UserController;

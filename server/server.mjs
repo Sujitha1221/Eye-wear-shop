@@ -4,8 +4,9 @@ import dotenv from 'dotenv';
 import cors from "cors";
 import databaseConnection from "./config/database.mjs";
 import logger from "./utils/logger.mjs";
-import AdminRouter from "./routes/adminRoute.mjs";
+import AdminRouter from "./routes/AdminRoute.mjs";
 import UserRouter from "./routes/userRoute.mjs";
+import LoginRouter from "./routes/LoginRoute.mjs";
 
 const app = express();
 const PORT = process.env.PORT || "8080";
@@ -30,4 +31,5 @@ app.listen(PORT, () => {
 
 //routes
 app.use('/admin', AdminRouter);
+app.use('/login',LoginRouter)
 app.use('/user',UserRouter);

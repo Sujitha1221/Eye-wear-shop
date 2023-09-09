@@ -42,10 +42,6 @@ const AdminSchema = new Schema({
         
     },
     
-    image:{
-        type:String,
-        
-    } 
 
 });
 

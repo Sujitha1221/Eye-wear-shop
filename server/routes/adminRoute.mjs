@@ -1,4 +1,4 @@
-import AdminController from '../controllers/admincontroller.mjs';
+import AdminController from '../controllers/Admincontroller.mjs';
 import express from "express";
 
 const AdminRouter = express.Router();
