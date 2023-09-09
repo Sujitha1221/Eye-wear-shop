@@ -22,13 +22,13 @@ const SideNav = () => {
         {
             name: "Dashboard",
             icon: faChartSimple,
-            link: "/"
+            link: "/admin"
         },
 
         {
             name: "User Management",
             icon: faUsers,
-            link: "/users"
+            link: "/view-user"
         },
 
         {

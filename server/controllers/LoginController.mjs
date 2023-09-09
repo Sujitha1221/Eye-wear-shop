@@ -6,9 +6,6 @@ import jwt from "jsonwebtoken";
 
 
 const LoginController = {
-
-
-
 Login:async (req,res) => {
     const{email,password} = req.body;
 
@@ -29,6 +26,7 @@ Login:async (req,res) => {
          
                 
         }else if(driver){
+            
             bcrypt.compare(password,driver.password,(err,response) => {
                 if(response){
                     res.json({type:"driver",driver})
