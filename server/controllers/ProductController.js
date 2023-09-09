@@ -175,6 +175,21 @@ const updateProduct = async (req, res) => {
   }
 };
 
+const filterProducts = async (req, res) => {
+  // try {
+  //   const {checked} =req.body
+  //   let args={}
+  //   if(checked.length >0) args.category =che
+  // } catch (error) {
+  //   console.log(error);
+  //   res.status(500).send({
+  //     success: false,
+  //     error,
+  //     message: "Error in getting filter",
+  //   });
+  // }
+};
+
 module.exports = {
   createProduct,
   getProducts,
@@ -182,4 +197,5 @@ module.exports = {
   getPhoto,
   deleteproduct,
   updateProduct,
+  filterProducts,
 };
