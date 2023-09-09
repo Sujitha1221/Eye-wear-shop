@@ -3,6 +3,6 @@ import express from "express";
 
 const LoginRouter = express.Router();
 
-LoginRouter.get('/', LoginController.Login);
+LoginRouter.post('/', LoginController.Login);
 
 export default LoginRouter;

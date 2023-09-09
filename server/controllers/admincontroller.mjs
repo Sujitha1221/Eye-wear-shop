@@ -64,15 +64,18 @@ const AdminController = {
   },
 
   getAdminbyId: async (req,res) => {
-    try{
-        const admin = await Admin.findById(req.params.id);
-        res.status(200).json(admin);
-        logger.info(`Admin data fetched successfully `)
-
-    }catch (error) {
-      logger.error(`Couldn't get admin details`);
-      res.status(400).send("failed");
-    }
+    let id = req.params.id; //get the id from the request(parameter)
+  
+    await Admin.findOne({ _id: `${id}` }) //compare the did with the got id and return the details
+      .then((admin) => {
+        res.status(200).send({ status: "Admin Details fetched", admin}); //send response as a json object and a status
+      })
+      .catch((err) => {
+        console.log(err.message);
+  
+        res.status(500).send({ status: "Error with fetching Admin details", error: err.message }); //send error message
+      });
+  
   }
   
 };
