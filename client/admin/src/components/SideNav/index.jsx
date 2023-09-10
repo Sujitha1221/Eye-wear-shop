@@ -18,26 +18,6 @@ const SideNav = () => {
         console.log(isOpen)
     }
 
-    const adminNavigation = [
-        {
-            name: "Dashboard",
-            icon: faChartSimple,
-            link: "/"
-        },
-
-        {
-            name: "User Management",
-            icon: faUsers,
-            link: "/users"
-        },
-
-        {
-            name: 'Product Management',
-            icon: faCartShopping,
-            link: '/products'
-        }
-    ]
-
     return (
         <>
             <div className={`h-screen bg-gradient-to-t from-cyan-300 to-cyan-700 w-fit sticky top-0 left-0 z-50 ${isOpen ? 'absolute md:fixed' : ''}`}>
