@@ -42,8 +42,6 @@ const GiveRating = () => {
       });
   };
 
-  useState
-
   return (
     <>
       <div className="flex items-center w-[300px] p-[20px]">

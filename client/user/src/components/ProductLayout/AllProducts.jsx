@@ -147,6 +147,11 @@ const AllProducts = () => {
     window.location.replace("/payment");
   }
 
+  const redirectToProduct = (pid, pslug) => {
+    localStorage.setItem("productId", pid);
+    navigate(`/product/view-product/${pslug}`)
+  }
+
   return (
     <>
       <div className="bg-white w-full">
@@ -244,7 +249,7 @@ const AllProducts = () => {
                           type="submit"
                           className="bg-transparent text-gray-600 border-gray-600 hover:bg-gray-600 hover:text-white font-semibold py-2 px-4 border border-blue-500 hover:border-transparent rounded"
                           onClick={() =>
-                            navigate(`/product/view-product/${p.slug}`)
+                            redirectToProduct(p._id, p.slug)
                           }
                         >
                           More Details
