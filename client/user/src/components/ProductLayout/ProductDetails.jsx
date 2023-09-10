@@ -4,6 +4,8 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { Rating } from "@mui/material";
 import Loader from "../Loader";
+import Header from "../HeaderLayout";
+import Footer from "../FooterLayout";
 
 const ProductDetails = () => {
   const [noofItems, setNoOfItems] = useState("");
@@ -127,6 +129,7 @@ const ProductDetails = () => {
 
   return (
     <>
+      <Header></Header>
       <div className="bg-gray-100 py-8">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row -mx-4">
@@ -176,6 +179,7 @@ const ProductDetails = () => {
                 readOnly
               />
               <div className="mt-4 flex items-center gap-[20px]">
+              <div className="mt-4">
                 <TextField
                   id="outlined-basic"
                   type="Number"
@@ -258,6 +262,7 @@ const ProductDetails = () => {
         </div>
       </div>
       {loading ? <Loader /> : ""}
+      <Footer></Footer>
     </>
   );
 };

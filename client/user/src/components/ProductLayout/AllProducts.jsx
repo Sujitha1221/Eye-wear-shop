@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { Checkbox, Radio } from "antd";
 import { Link, TextField } from "@mui/material";
 import { Prices } from "../Prices";
+import Header from "../HeaderLayout";
+import Footer from "../FooterLayout";
 
 const AllProducts = () => {
   const navigate = useNavigate();
@@ -154,6 +156,7 @@ const AllProducts = () => {
 
   return (
     <>
+      <Header></Header>
       <div className="bg-white w-full">
         <div className="flex">
           <div className="mx-auto max-w-2xl px-4 py-4 sm:px-6 sm:py-4 lg:max-w-7xl lg:px-8">
@@ -282,6 +285,7 @@ const AllProducts = () => {
           </div>
         </div>
       </div>
+      <Footer></Footer>
     </>
   );
 };

@@ -10,6 +10,8 @@ import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
 import { TextField } from "@mui/material";
 import axios from "axios";
+import Header from "../HeaderLayout";
+import Footer from "../FooterLayout";
 
 const Payment = () => {
   const [products, setProducts] = useState();
@@ -17,7 +19,10 @@ const Payment = () => {
   const [phoneNumber, setPhoneNumber] = useState();
   const [paymentType, setPaymentType] = useState();
   const [cardNumber, setCardNumber] = useState();
+  const [cvv, setCVV] = useState();
+  const [cardDate, setCardDate] = useState();
   const [amount, setAmount] = useState();
+  const [errors, setErrors] = useState("");
 
   useEffect(() => {
     //var product = JSON.parse(localStorage.getItem("cart"));
@@ -26,8 +31,36 @@ const Payment = () => {
 
   function makePayment(e) {
     e.preventDefault();
+    if (!address) {
+      setErrors("Please provide a address");
+      return;
+    }
 
-    alert("payment made successfully");
+    if (!phoneNumber) {
+      setErrors("Please provide a phone number");
+      return;
+    } else if (phoneNumber.length != 10) {
+      setErrors("phone number must 10 characters");
+      return;
+    }
+
+    if (!paymentType) {
+      setErrors("Please provide a payment type");
+      return;
+    }
+
+    if (!cardNumber) {
+      setErrors("Please provide a card number");
+      return;
+    } else if (cardNumber.length != 10) {
+      setErrors("card number must 10 characters");
+      return;
+    }
+
+    if (!cvv) {
+      setErrors("Please provide a cvv");
+      return;
+    }
 
     axios
       .post("http://localhost:8080/payment/new-payment", {
@@ -113,6 +146,7 @@ const Payment = () => {
 
   return (
     <>
+      <Header></Header>
       <div className="w-full">
         <div className="w-full flex justify-center mt-6">
           <TableContainer component={Paper} sx={{ width: 800 }}>
@@ -177,6 +211,7 @@ const Payment = () => {
           </div>
           <div className="p-4 flex justify-center">
             <TextField
+              type="number"
               label="Phone Number"
               name="phoneNumber"
               onChange={(e) => setPhoneNumber(e.target.value)}
@@ -213,6 +248,7 @@ const Payment = () => {
           </div>
           <div className="p-4 flex justify-center">
             <TextField
+              type="number"
               label="Card Number"
               name=""
               onChange={(e) => setCardNumber(e.target.value)}
@@ -223,6 +259,7 @@ const Payment = () => {
           <div className="p-4 flex justify-center">
             <TextField
               label="CVV"
+              onChange={(e) => setCVV(e.target.value)}
               name="cvv"
               variant="outlined"
               style={{ width: "100%" }}
@@ -238,6 +275,15 @@ const Payment = () => {
           </div>
         </div>
       </div>
+      <div class="col-span-2 flex justify-center pt-5">
+        {errors ? (
+          <div className="w-full justify-center text-center px-[20px] py-[10px] border-2 border-red-700 bg-red-100 text-red-700 rounded text-xs">
+            {errors ? errors : ""}
+          </div>
+        ) : (
+          <></>
+        )}
+      </div>
       <div className="h-[64px] fixed bottom-0 w-full px-[20px] flex justify-end items-center shadow-[0px_0px_10px_0px_rgba(0,0,0,0.5)]  z-10 bg-white">
         <button
           type="submit"
@@ -250,6 +296,7 @@ const Payment = () => {
       <h1> d</h1>
       <h1> d </h1>
       <h1> d </h1>
+      <Footer></Footer>
     </>
   );
 };

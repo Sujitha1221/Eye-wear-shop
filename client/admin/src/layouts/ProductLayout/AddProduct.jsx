@@ -14,6 +14,7 @@ const AddProduct = () => {
   const [inStock, setInStock] = useState("");
   const [category, setCategory] = useState("");
   const [photo, setPhoto] = useState("");
+  const [errors, setErrors] = useState("");
 
   const getAllCategory = async () => {
     try {
@@ -33,8 +34,34 @@ const AddProduct = () => {
     getAllCategory();
   }, []);
 
+  const minStock = 10;
+  const maxStock = 1000;
+  const minimumPrice = 1000;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!productName) {
+      setErrors("Please provide a product name");
+      return;
+    }
+    if (!price || price <= minimumPrice) {
+      setErrors("Please provide a product price greater than 1000");
+      return;
+    }
+    if (!inStock || inStock < minStock || inStock > maxStock) {
+      setErrors(
+        `Please provide available stock details between ${minStock} and ${maxStock}`
+      );
+      return;
+    }
+    if (!photo) {
+      setErrors("Please provide product image");
+      return;
+    }
+    if (!category) {
+      setErrors("Please provide product category");
+      return;
+    }
     try {
       const productData = new FormData();
       productData.append("productName", productName);
@@ -148,6 +175,13 @@ const AddProduct = () => {
                 onChange={(e) => setInStock(e.target.value)}
               />
             </div>
+            {errors ? (
+              <div className="w-full justify-center text-center px-[20px] py-[10px] border-2 border-red-700 bg-red-100 text-red-700 rounded text-xs">
+                {errors ? errors : ""}
+              </div>
+            ) : (
+              <></>
+            )}
             <div className="col-span-2 flex justify-center pt-5">
               <button
                 type="submit"

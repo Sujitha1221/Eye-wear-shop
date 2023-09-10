@@ -15,6 +15,7 @@ const UpdateDelivery = () => {
   const [phoneNumber, setPhoneNumber] = useState();
   const [address, setAddress] = useState();
   const [status, setStatus] = useState();
+  const [errors, setErrors] = useState("");
 
   useEffect(() => {
     function getDeliveryDriver() {
@@ -35,6 +36,7 @@ const UpdateDelivery = () => {
         });
     }
     function getAllDriverNames() {
+      
       axios
         .get(
           "http://localhost:8080/delivery-driver/get-all-delivery-drivers-name"
@@ -54,6 +56,23 @@ const UpdateDelivery = () => {
   function updateDeliveryDriver(e) {
     e.preventDefault();
 
+    if( !address) {
+      setErrors("Please provide a address");
+      return;
+    }
+
+    if( !phoneNumber) {
+      setErrors("Please provide a phone number");
+      return;
+    }else if( phoneNumber.length != 10) {
+      setErrors("phone number must 10 characters");
+      return;
+    } else {
+      if(isNaN(phoneNumber)) {
+        setErrors("Phone number must be numeric");
+        return;
+      }
+    }
     axios
       .put("http://localhost:8080/delivery/update-delivery-driver-id", {
         _id,
@@ -120,7 +139,7 @@ const UpdateDelivery = () => {
           <div class="p-4 flex justify-center">
             <TextField
               label="Phone Number"
-              defaultValue="  "
+              defaultValue=" "
               value={phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value)}
               variant="outlined"
@@ -136,6 +155,15 @@ const UpdateDelivery = () => {
               variant="outlined"
               style={{ width: "100%" }}
             />
+          </div>
+          <div class="col-span-2 flex justify-center pt-5">
+            {errors ? (
+              <div className="w-full justify-center text-center px-[20px] py-[10px] border-2 border-red-700 bg-red-100 text-red-700 rounded text-xs">
+                {errors ? errors : ""}
+              </div>
+            ) : (
+              <></>
+            )}
           </div>
           <div class="col-span-2 flex justify-center pt-5">
             <button
