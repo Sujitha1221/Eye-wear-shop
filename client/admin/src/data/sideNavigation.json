@@ -15,8 +15,14 @@
         {
             "name": "Product Management",
             "icon": "fa-solid fa-cart-shopping",
-            "link": "/products"
-        },
+            "link": "/product/view-product"
+          },
+      
+          {
+            "name": "Category Management",
+            "icon": "fa-solid fa-glasses",
+            "link": "/category/view-category"
+          },
 
         {
             "name": "Delivery Management",
@@ -28,6 +34,12 @@
             "name": "Delivery Driver Management",
             "icon": "fa-solid fa-users",
             "link": "/delivery-driver/view-delivery-driver"
+        },
+
+        {
+            "name": "Delivery Driver View",
+            "icon": "fa-solid fa-users",
+            "link": "/delivery-driver-view/view-delivery-driver"
         }
     ]
 }

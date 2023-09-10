@@ -1,9 +1,9 @@
-const { default: slugify } = require("slugify");
-const Product = require("../models/Product");
-const fs = require("fs");
+import slugify from "slugify";
+import Product from "../models/Product.mjs";
+import fs from "fs";
 
 //create product
-const createProduct = async (req, res) => {
+export const createProduct = async (req, res) => {
   try {
     const { productName, slug, description, price, category, inStock } =
       req.fields;
@@ -48,7 +48,7 @@ const createProduct = async (req, res) => {
 };
 
 //get all products
-const getProducts = async (req, res) => {
+export const getProducts = async (req, res) => {
   try {
     const products = await Product.find({})
       .populate("category")
@@ -72,7 +72,7 @@ const getProducts = async (req, res) => {
 };
 
 //get single product
-const getSingleProduct = async (req, res) => {
+export const getSingleProduct = async (req, res) => {
   try {
     const product = await Product.findOne({ slug: req.params.slug })
       .select("-photo")
@@ -93,7 +93,7 @@ const getSingleProduct = async (req, res) => {
 };
 
 //get photo of a particular product
-const getPhoto = async (req, res) => {
+export const getPhoto = async (req, res) => {
   try {
     const product = await Product.findById(req.params.pid).select("photo");
     if (product.photo.data) {
@@ -111,7 +111,7 @@ const getPhoto = async (req, res) => {
 };
 
 //delete a particular product
-const deleteproduct = async (req, res) => {
+export const deleteproduct = async (req, res) => {
   try {
     await Product.findByIdAndDelete(req.params.pid).select("-photo");
     res.status(200).send({
@@ -129,7 +129,7 @@ const deleteproduct = async (req, res) => {
 };
 
 //update a particular product
-const updateProduct = async (req, res) => {
+export const updateProduct = async (req, res) => {
   try {
     const { productName, description, price, category, inStock } = req.fields;
     const { photo } = req.files;
@@ -175,7 +175,7 @@ const updateProduct = async (req, res) => {
   }
 };
 
-const filterProducts = async (req, res) => {
+export const filterProducts = async (req, res) => {
   try {
     const { checked, radio } = req.body;
     let args = {};
@@ -196,7 +196,7 @@ const filterProducts = async (req, res) => {
   }
 };
 
-const productCount = async (req, res) => {
+export const productCount = async (req, res) => {
   try {
     const total = await Product.find({}).estimatedDocumentCount();
     res.status(200).send({
@@ -213,7 +213,7 @@ const productCount = async (req, res) => {
   }
 };
 
-const productList = async (req, res) => {
+export const productList = async (req, res) => {
   try {
     const perPage = 6;
     const page = req.params.page ? req.params.page : 1;
@@ -236,7 +236,7 @@ const productList = async (req, res) => {
   }
 };
 
-const searchproduct = async (req, res) => {
+export const searchproduct = async (req, res) => {
   try {
     const { keyword } = req.params;
     const results = await Product.find({
@@ -254,17 +254,4 @@ const searchproduct = async (req, res) => {
       message: "Error in search product api",
     });
   }
-};
-
-module.exports = {
-  createProduct,
-  getProducts,
-  getSingleProduct,
-  getPhoto,
-  deleteproduct,
-  updateProduct,
-  filterProducts,
-  productCount,
-  productList,
-  searchproduct,
 };

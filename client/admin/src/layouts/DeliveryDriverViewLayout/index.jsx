@@ -1,11 +1,11 @@
 import React from "react";
+import { Route, Routes } from "react-router-dom";
 import SideNav from "../../components/SideNav";
 import Header from "../../components/Header";
-import { Outlet, Route, Routes } from "react-router-dom";
-import ViewDelivery from "./ViewDeivery";
-import UpdateDelivery from "./UpdateDelivery";
+import { Outlet } from "react-router-dom";
+import ViewDeliveryDriverView from "./ViewDeliveryDriverView";
 
-const DeliveryLayout = () => {
+const DeliveryDriverViewLayout = () => {
   return (
     <>
       <div className="flex sticky top-0 left-0">
@@ -16,10 +16,9 @@ const DeliveryLayout = () => {
             <Outlet />
             <Routes>
               <Route>
-                <Route path="view-delivery" element={<ViewDelivery />} />
                 <Route
-                  path="update-delivery/:id"
-                  element={<UpdateDelivery />}
+                  path="view-delivery-driver"
+                  element={<ViewDeliveryDriverView />}
                 />
               </Route>
             </Routes>
@@ -30,4 +29,4 @@ const DeliveryLayout = () => {
   );
 };
 
-export default DeliveryLayout;
+export default DeliveryDriverViewLayout;

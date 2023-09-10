@@ -9,9 +9,8 @@ import {
   faTruck,
   faUser,
   faUsers,
-  faGlasses,
 } from "@fortawesome/free-solid-svg-icons";
-
+import sideNavigation from "../../data/sideNavigation.json";
 const SideNav = () => {
   const [activePage, setActivePage] = useState("");
   const [isOpen, setIsOpen] = useState(false);
@@ -26,48 +25,10 @@ const SideNav = () => {
     console.log(isOpen);
   };
 
-  const adminNavigation = [
-    {
-      name: "Dashboard",
-      icon: faChartSimple,
-      link: "/",
-    },
-
-    {
-      name: "User Management",
-      icon: faUsers,
-      link: "/users",
-    },
-
-    {
-      name: "Product Management",
-      icon: faCartShopping,
-      link: "/product/view-product",
-    },
-
-    {
-      name: "Category Management",
-      icon: faGlasses,
-      link: "/category/view-category",
-    },
-
-    {
-      name: "Delivery Management",
-      icon: faTruck,
-      link: "/delivery/view-delivery",
-    },
-
-    {
-      name: "Delivery Driver Management",
-      icon: faUsers,
-      link: "/delivery-driver/view-delivery-driver",
-    },
-  ];
-
   return (
     <>
       <div
-        className={`h-screen sticky top-0 left-0 bg-gradient-to-t from-cyan-300 to-cyan-700 w-fit ${
+        className={`h-screen sticky top-0 left-0 bg-gradient-to-t from-cyan-300 to-cyan-700 w-fit z-50 ${
           isOpen ? "absolute md:fixed" : ""
         }`}
       >
@@ -86,8 +47,10 @@ const SideNav = () => {
           </div>
         </div>
         <div className="grid">
-          {adminNavigation && adminNavigation.length ? (
-            adminNavigation.map((item) => (
+          {sideNavigation &&
+          sideNavigation.data &&
+          sideNavigation.data.length ? (
+            sideNavigation.data.map((item) => (
               <Link key={item.link} to={item.link}>
                 <div
                   className={`px-[20px] py-[10px] w-full flex items-center gap-[10px] hover:bg-black hover:bg-opacity-20 ${

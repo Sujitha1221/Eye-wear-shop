@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Checkbox, Radio } from "antd";
-import { TextField } from "@mui/material";
+import { Link, TextField } from "@mui/material";
 import { Prices } from "../Prices";
 
 const AllProducts = () => {
@@ -143,6 +143,10 @@ const AllProducts = () => {
     }
   };
 
+  function redirect() {
+    window.location.replace("/payment");
+  }
+
   return (
     <>
       <div className="bg-white w-full">
@@ -186,6 +190,7 @@ const AllProducts = () => {
             </div>
           </div>
           <div className="w-full justify-end">
+            <button onClick={redirect}> Make Payment </button>
             <div className="mx-auto max-w-2xl px-4 py-4 sm:px-6 sm:py-4 lg:max-w-7xl lg:px-8">
               <h2 className="text-2xl font-bold tracking-tight text-gray-900">
                 All Products
@@ -194,7 +199,7 @@ const AllProducts = () => {
                 type="search"
                 id="default-search"
                 onChange={searchHandle}
-                className="block w-full p-4 pl-10 text-sm text-black border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500  dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="block w-full p-4 pl-10 text-sm text-black border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500  dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500 mt-5"
                 placeholder="Search Product"
                 required
               ></input>

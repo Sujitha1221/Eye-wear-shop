@@ -1,7 +1,7 @@
-const route = require("express").Router();
-const formidable = require("express-formidable");
+import express from "express";
+import formidable from "express-formidable";
 
-const {
+import {
   createProduct,
   getProducts,
   getSingleProduct,
@@ -12,7 +12,9 @@ const {
   productCount,
   productList,
   searchproduct,
-} = require("../controllers/ProductController");
+} from "../controllers/ProductController.mjs"; // Import your controllers as ES6 modules
+
+const route = express.Router();
 
 route.post("/create-product", formidable(), createProduct);
 route.get("/get-products", getProducts);
@@ -25,4 +27,4 @@ route.get("/product-count", productCount);
 route.get("/product-list/:page", productList);
 route.get("/search/:keyword", searchproduct);
 
-module.exports = route;
+export default route;

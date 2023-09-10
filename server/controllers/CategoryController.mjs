@@ -1,8 +1,8 @@
-const Category = require("../models/Category");
-const slugify = require("slugify");
+import Category from "../models/Category.mjs";
+import slugify from "slugify";
 
 //create new category
-const createCategory = async (req, res) => {
+export const createCategory = async (req, res) => {
   try {
     const { categoryName } = req.body;
     if (!categoryName) {
@@ -35,7 +35,7 @@ const createCategory = async (req, res) => {
 };
 
 //update a particular category
-const updateCategory = async (req, res) => {
+export const updateCategory = async (req, res) => {
   try {
     const { categoryName } = req.body;
     const { id } = req.params;
@@ -60,7 +60,7 @@ const updateCategory = async (req, res) => {
 };
 
 //retrieve all categories
-const getCategory = async (req, res) => {
+export const getCategory = async (req, res) => {
   try {
     const category = await Category.find({});
     res.status(200).send({
@@ -79,7 +79,7 @@ const getCategory = async (req, res) => {
 };
 
 //retrieve a particular category
-const getSingleCategory = async (req, res) => {
+export const getSingleCategory = async (req, res) => {
   try {
     const category = await Category.findOne({ slug: req.params.slug });
     res.status(200).send({
@@ -98,7 +98,7 @@ const getSingleCategory = async (req, res) => {
 };
 
 //delete a particular category
-const deleteCategory = async (req, res) => {
+export const deleteCategory = async (req, res) => {
   try {
     const { id } = req.params;
     await Category.findByIdAndDelete(id);
@@ -114,12 +114,4 @@ const deleteCategory = async (req, res) => {
       message: "Error while deleting category",
     });
   }
-};
-
-module.exports = {
-  createCategory,
-  updateCategory,
-  getCategory,
-  getSingleCategory,
-  deleteCategory,
 };
