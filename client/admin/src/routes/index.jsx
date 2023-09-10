@@ -7,6 +7,12 @@ import DeliveryDriverViewLayout from "../layouts/DeliveryDriverViewLayout";
 import CategoryLayout from "../layouts/CategoryLayout";
 import ProductLayout from "../layouts/ProductLayout";
 import "antd/dist/reset.css";
+import CommonLayout from "../layouts/CommonLayout";
+import UserLayout from "../layouts/UserLayout";
+import LogOut from "../layouts/LogoutLayout";
+import DriverLayout from "../layouts/DeliveryDriverLayout";
+
+
 
 const FrontendRoutes = () => {
   return (
@@ -14,7 +20,25 @@ const FrontendRoutes = () => {
       <Router>
         <Routes>
           <Route element={<AdminLayout />}>
+             <Route path="/admin" /> 
+             <Route path="/profile" />
+          </Route>
+
+          <Route element={<CommonLayout />}>
             <Route path="/" />
+            <Route path="signup"/>
+          </Route>
+
+          <Route element={<UserLayout />}>
+            <Route path="view-user" />
+          </Route>
+
+          <Route element={<LogOut />}>
+            <Route path="/logout" />
+          </Route>
+
+          <Route element={<DriverLayout />}>
+            <Route path="/driver" />
           </Route>
           <Route path="delivery" element={<DeliveryLayout />}>
             <Route path="view-delivery" />
@@ -42,6 +66,9 @@ const FrontendRoutes = () => {
             <Route path="update-product/:slug" />
           </Route>
         </Routes>
+
+        
+        
       </Router>
     </>
   );

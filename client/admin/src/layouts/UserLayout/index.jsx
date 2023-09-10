@@ -1,11 +1,11 @@
 import React from 'react';
+import { Route, Routes } from 'react-router-dom';
 import SideNav from '../../components/SideNav';
 import Header from '../../components/Header';
-import { Outlet, Route, Routes } from 'react-router-dom';
-import AdminProfile from './Profile';
+import { Outlet } from 'react-router-dom';
+import ViewUsers from './viewUsers';
 
-
-const AdminLayout = () => {
+const UserLayout = () => {
     return (
         <>
             <div className='flex sticky top-0 left-0'>
@@ -16,14 +16,16 @@ const AdminLayout = () => {
                         <Outlet />
                         <Routes>
                             <Route>
-                                <Route path='profile' element={<AdminProfile />}/>
+                                <Route path='view-user' element={<ViewUsers />} />
+                                
                             </Route>
                         </Routes>
                     </div>
                 </div>
             </div>
+            
         </>
     );
 }
 
-export default AdminLayout;
+export default UserLayout;

@@ -1,6 +1,7 @@
 import FrontendRoutes from "./routes";
 
 function App() {
+
   return (
     <>
       <FrontendRoutes />
