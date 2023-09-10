@@ -16,6 +16,12 @@
             "name": "Product Management",
             "icon": "fa-solid fa-cart-shopping",
             "link": "/products"
+        },
+
+        {
+            "name": "Rating",
+            "icon": "fa-solid fa-star",
+            "link": "/ratings"
         }
     ]
 }

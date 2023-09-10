@@ -21,7 +21,7 @@ const SideNav = () => {
 
     return (
         <>
-            <div className={`h-screen bg-gradient-to-t from-cyan-300 to-cyan-700 w-fit z-50 ${isOpen ? 'absolute md:fixed' : ''}`}>
+            <div className={`h-screen bg-gradient-to-t from-cyan-300 to-cyan-700 w-fit sticky top-0 left-0 z-50 ${isOpen ? 'absolute md:fixed' : ''}`}>
                 <div className='px-[20px] h-[64px] uppercase text-white font-bold text-xl w-full flex justify-center items-center gap-[20px]'>
                     <div className={`md:flex text-center ${isOpen ? 'block' : 'hidden'}`}>
                         Admin Panel

@@ -1,13 +1,13 @@
 import { spawn } from "child_process"
 
 const virtualTryOnController =  (req, res) => {
-    const imageFilename = req.query.imageFilename; // Get the image filename from the query parameter
+    const imageURL = req.query.imageURL;
   
-    if (!imageFilename) {
-      return res.status(400).send('Image filename is missing in the query parameter.');
+    if (!imageURL) {
+      return res.status(400).send('Image URL is missing in the query parameter.');
     }
   
-    const pythonProcess = spawn('python', ['./python/script.py', imageFilename]);
+    const pythonProcess = spawn('python', ['./python/script.py', imageURL]);
   
     pythonProcess.stdout.on('data', (data) => {
       console.log(`Python Script Output: ${data.toString()}`);
