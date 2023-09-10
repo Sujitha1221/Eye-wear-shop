@@ -4,6 +4,8 @@ import dotenv from "dotenv";
 import cors from "cors";
 import databaseConnection from "./config/database.mjs";
 import logger from "./utils/logger.mjs";
+import virtualTryOnRouter from "./routes/virtualtryon.route.mjs";
+import ratingRouter from "./routes/rating.route.mjs";
 import DeliveryDriverRoute from "./routes/DeliveryDriverRoute.mjs";
 import DeliveryRoute from "./routes/DeliveryRoute.mjs";
 import PaymentRoute from "./routes/PaymentRoute.mjs";
@@ -41,9 +43,13 @@ app.use("/login", LoginRouter);
 app.use("/user", UserRouter);
 
 app.listen(PORT, () => {
-  logger.info(`Server is up and running on port ${PORT}`);
-  databaseConnection();
-});
+    logger.info(`Server is up and running on port ${PORT}`)
+    databaseConnection();
+})
+
+app.use("/try-on", virtualTryOnRouter)
+app.use("/rating", ratingRouter)
+
 // app.use((req, res, next) => {
 //     // Set COOP and COEP headers to loosen security restrictions (for development purposes).
 //     res.setHeader('Cross-Origin-Opener-Policy', 'same-origin');

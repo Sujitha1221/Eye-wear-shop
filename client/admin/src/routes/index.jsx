@@ -7,12 +7,14 @@ import DeliveryDriverViewLayout from "../layouts/DeliveryDriverViewLayout";
 import CategoryLayout from "../layouts/CategoryLayout";
 import ProductLayout from "../layouts/ProductLayout";
 import "antd/dist/reset.css";
+import ViewRating from "../views/ViewRating";
+import Dashboard from "../views/Dashboard";
+import GetRatingForProduct from "../views/GetRatingForProduct";
+import GiveRating from "../views/GiveRating";
 import CommonLayout from "../layouts/CommonLayout";
 import UserLayout from "../layouts/UserLayout";
 import LogOut from "../layouts/LogoutLayout";
 import DriverLayout from "../layouts/DeliveryDriverLayout";
-
-
 
 const FrontendRoutes = () => {
   return (
@@ -20,6 +22,8 @@ const FrontendRoutes = () => {
       <Router>
         <Routes>
           <Route element={<AdminLayout />}>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/ratings" element={<ViewRating />} />
              <Route path="/admin" /> 
              <Route path="/profile" />
           </Route>
@@ -65,6 +69,8 @@ const FrontendRoutes = () => {
             <Route path="add-product" />
             <Route path="update-product/:slug" />
           </Route>
+          <Route path="/product/rating" element={<GetRatingForProduct />} />
+          <Route path="/product/give-rating" element={<GiveRating />} />
         </Routes>
 
         

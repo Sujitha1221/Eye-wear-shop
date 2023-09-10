@@ -16,13 +16,19 @@
             "name": "Product Management",
             "icon": "fa-solid fa-cart-shopping",
             "link": "/product/view-product"
-          },
+        },
+
+        {
+            "name": "Rating",
+            "icon": "fa-solid fa-star",
+            "link": "/ratings"
+        },
       
-          {
-            "name": "Category Management",
-            "icon": "fa-solid fa-glasses",
-            "link": "/category/view-category"
-          },
+        {
+        "name": "Category Management",
+        "icon": "fa-solid fa-glasses",
+        "link": "/category/view-category"
+        },
 
         {
             "name": "Delivery Management",
