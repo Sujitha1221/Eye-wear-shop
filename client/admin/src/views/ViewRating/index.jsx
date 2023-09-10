@@ -157,8 +157,8 @@ const ViewRating = () => {
           <Table>
             <TableHead>
               <TableRow>
-                <StyledTableCell>User Email</StyledTableCell>
-                <StyledTableCell align="center">Product Name</StyledTableCell>
+                <StyledTableCell>User ID</StyledTableCell>
+                <StyledTableCell align="center">Product ID</StyledTableCell>
                 <StyledTableCell align="center">Rating</StyledTableCell>
                 <StyledTableCell align="right">Feedback</StyledTableCell>
               </TableRow>

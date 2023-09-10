@@ -21,6 +21,7 @@ const UpdateDeliveryDriver = () => {
 
   useEffect(() => {
     function getDeliveryDriver() {
+      alert(id);
       axios
         .get(
           `http://localhost:8080/delivery-driver/get-delivery-driver-by-id/${id}`

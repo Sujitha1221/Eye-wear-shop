@@ -14,7 +14,8 @@ import GiveRating from "../views/GiveRating";
 import CommonLayout from "../layouts/CommonLayout";
 import UserLayout from "../layouts/UserLayout";
 import LogOut from "../layouts/LogoutLayout";
-import DriverLayout from "../layouts/DeliveryDriverLayout";
+import DriverLayout from "../layouts/DriverLayout";
+import SignIn from "../layouts/CommonLayout/SignIn"; 
 
 const FrontendRoutes = () => {
   return (
@@ -22,14 +23,13 @@ const FrontendRoutes = () => {
       <Router>
         <Routes>
           <Route element={<AdminLayout />}>
-            <Route path="/" element={<Dashboard />} />
+            <Route path="/admin" element={<Dashboard />} />
             <Route path="/ratings" element={<ViewRating />} />
-             <Route path="/admin" /> 
              <Route path="/profile" />
           </Route>
 
           <Route element={<CommonLayout />}>
-            <Route path="/" />
+            <Route path="/" element={<SignIn />}/>
             <Route path="signup"/>
           </Route>
 
@@ -41,9 +41,6 @@ const FrontendRoutes = () => {
             <Route path="/logout" />
           </Route>
 
-          <Route element={<DriverLayout />}>
-            <Route path="/driver" />
-          </Route>
           <Route path="delivery" element={<DeliveryLayout />}>
             <Route path="view-delivery" />
             <Route path="update-delivery/:id" />
@@ -71,6 +68,7 @@ const FrontendRoutes = () => {
           </Route>
           <Route path="/product/rating" element={<GetRatingForProduct />} />
           <Route path="/product/give-rating" element={<GiveRating />} />
+          <Route path="/driver/*" element={<DriverLayout />}/>
         </Routes>
 
         

@@ -23,6 +23,9 @@ const Payment = () => {
   const [cardDate, setCardDate] = useState();
   const [amount, setAmount] = useState();
   const [errors, setErrors] = useState("");
+  const [userEmail, setUserEmail] = useState(
+    JSON.parse(localStorage.getItem("UserInfo")).email
+  );
 
   useEffect(() => {
     //var product = JSON.parse(localStorage.getItem("cart"));
@@ -65,7 +68,7 @@ const Payment = () => {
     axios
       .post("http://localhost:8080/payment/new-payment", {
         products,
-        userName: "ask",
+        userName: userEmail,
         paymentType,
         cardNumber,
         amount: "1212",

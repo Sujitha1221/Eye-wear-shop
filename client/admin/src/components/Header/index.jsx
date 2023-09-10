@@ -14,11 +14,10 @@ function classNames(...classes) {
 const Header = () => {
   return (
     <>
-      <div className="h-[64px] w-10xl fixed top-0 w-full flex justify-between px-[20px] shadow-[0px_0px_10px_0px_rgba(0,0,0,0.5)]  z-10 bg-cyan-700">
+      <div className="h-[64px] w-10xl fixed top-0 w-full flex justify-between px-[20px] shadow-[0px_0px_10px_0px_rgba(0,0,0,0.5)]  z-10 bg-cyan-700 relative flex items-center">
         <Menu
           as="div"
-          className="relative w-10xl"
-          style={{ marginLeft: "900px", marginTop: "15px" }}
+          className="absolute right-[20px] w-10xl"
         >
           <div>
             <Menu.Button className="relative flex max-w-xs items-center rounded-full bg-cyan-700 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-cyan-700">

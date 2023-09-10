@@ -14,7 +14,7 @@ const ProductDetails = () => {
   const [averageRating, setAverageRating] = useState();
   const [productId, setProductId] = useState(localStorage.getItem("productId"));
   const [userId, setUserId] = useState(
-    localStorage.getItem("userId") || "64f1ee23de20fa25ef6e884f"
+    JSON.parse(localStorage.getItem("UserInfo"))._id
   );
   const [rating, setRating] = useState();
   const [feedback, setFeedback] = useState();
@@ -74,7 +74,7 @@ const ProductDetails = () => {
   const addRatings = (e) => {
     e.preventDefault();
 
-    setSuccess('');
+    setSuccess("");
 
     if (!rating) {
       setErrors("Please provide a rating");
@@ -107,12 +107,12 @@ const ProductDetails = () => {
   };
 
   const hideSuccess = () => {
-    setSuccess('');
-  }
+    setSuccess("");
+  };
 
   useEffect(() => {
     setTimeout(hideSuccess, 3000);
-  }, [success])
+  }, [success]);
 
   const virtualTryOn = () => {
     setLoading(true);
@@ -179,7 +179,6 @@ const ProductDetails = () => {
                 readOnly
               />
               <div className="mt-4 flex items-center gap-[20px]">
-              <div className="mt-4">
                 <TextField
                   id="outlined-basic"
                   type="Number"
