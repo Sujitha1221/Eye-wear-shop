@@ -1,28 +1,45 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { Checkbox, Modal } from "antd";
-import { TextField, Radio } from "@mui/material";
+import { Checkbox, Radio } from "antd";
+import { TextField } from "@mui/material";
+import { Prices } from "../Prices";
 
 const AllProducts = () => {
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
-  const [pricesData, setPricesData] = useState([]);
   const [categories, setCategories] = useState([]);
   const [checked, setChecked] = useState([]);
-  const [noofItems, setNoOfItems] = useState("");
   const [radio, setRadio] = useState([]);
+  const [noofItems, setNoOfItems] = useState("");
+  const [total, setTotal] = useState(0);
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+
+  const getTotal = async () => {
+    try {
+      const { data } = await axios.get(
+        "http://localhost:8080/product/product-count"
+      );
+      setTotal(data?.total);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const getAllProducts = async () => {
     try {
+      setLoading(true);
       const { data } = await axios.get(
-        "http://localhost:8080/product/get-products"
+        `http://localhost:8080/product/product-list/${page}`
       );
+      setLoading(false);
       if (data.success) {
         setProducts(data.products);
       }
     } catch (error) {
       console.log(error);
+      setLoading(false);
       alert("Something went wrong in getting products");
     }
   };
@@ -47,6 +64,7 @@ const AllProducts = () => {
 
   useEffect(() => {
     getAllCategory();
+    getTotal();
   }, []);
 
   const handleFilter = (value, id) => {
@@ -58,6 +76,13 @@ const AllProducts = () => {
     }
     setChecked(all);
   };
+  useEffect(() => {
+    if (!checked.length || !radio.length) getAllProducts();
+  }, [checked.length, radio.length]);
+
+  useEffect(() => {
+    if (checked.length || radio.length) filterProduct();
+  }, [checked, radio]);
 
   const addToCart = (product, selectedQuantity) => {
     const existingCartItem = JSON.parse(localStorage.getItem("cart")) || [];
@@ -72,6 +97,50 @@ const AllProducts = () => {
     }
     localStorage.setItem("cart", JSON.stringify(existingCartItem));
     alert("Item added to cart successfully");
+  };
+
+  useEffect(() => {
+    if (page === 1) return;
+    loadMore();
+  }, [page]);
+  const loadMore = async () => {
+    try {
+      setLoading(true);
+      const { data } = await axios.get(
+        `http://localhost:8080/product/product-list/${page}`
+      );
+      setLoading(false);
+      setProducts([...products, ...data?.products]);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
+  const filterProduct = async () => {
+    try {
+      const { data } = await axios.post(
+        "http://localhost:8080/product/product-filters",
+        { checked, radio }
+      );
+      setProducts(data?.products);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  //fetch search function from backend
+  const searchHandle = async (event) => {
+    let key = event.target.value;
+    if (key) {
+      let result = await fetch(`http://localhost:8080/product/search/${key}`);
+      result = await result.json();
+      if (result) {
+        setProducts(result);
+      }
+    } else {
+      getAllProducts();
+    }
   };
 
   return (
@@ -93,13 +162,42 @@ const AllProducts = () => {
                 </div>
               ))}
             </div>
+            <h2 className="text-xl font-bold tracking-tight text-gray-900 mt-7">
+              Filter by price
+            </h2>
+            <div className="mt-4">
+              {" "}
+              <Radio.Group onChange={(e) => setRadio(e.target.value)}>
+                {Prices?.map((r) => (
+                  <div key={r._id}>
+                    <Radio value={r.array}>{r.name}</Radio>
+                  </div>
+                ))}
+              </Radio.Group>
+            </div>
+            <div className="mt-4">
+              <button
+                type="button"
+                className="text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+                onClick={() => window.location.reload()}
+              >
+                RESET FILTERS
+              </button>
+            </div>
           </div>
           <div className="w-full justify-end">
             <div className="mx-auto max-w-2xl px-4 py-4 sm:px-6 sm:py-4 lg:max-w-7xl lg:px-8">
-              {JSON.stringify(checked, null, 4)}
               <h2 className="text-2xl font-bold tracking-tight text-gray-900">
                 All Products
               </h2>
+              <input
+                type="search"
+                id="default-search"
+                onChange={searchHandle}
+                className="block w-full p-4 pl-10 text-sm text-black border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500  dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="Search Product"
+                required
+              ></input>
             </div>
             <div className="mt-9 w-100 flex flex-wrap">
               {products?.map((p) => (
@@ -124,9 +222,6 @@ const AllProducts = () => {
                         <p className="text-sm font-medium text-gray-900">
                           Rs. {p.price}.00
                         </p>
-                        <p className="mt-1 text-sm text-gray-500">
-                          In Stock: {p.inStock}
-                        </p>
                       </div>
 
                       <TextField
@@ -143,7 +238,9 @@ const AllProducts = () => {
                         <button
                           type="submit"
                           className="bg-transparent text-gray-600 border-gray-600 hover:bg-gray-600 hover:text-white font-semibold py-2 px-4 border border-blue-500 hover:border-transparent rounded"
-                          onClick={() => navigate(`/product/${p.slug}`)}
+                          onClick={() =>
+                            navigate(`/product/view-product/${p.slug}`)
+                          }
                         >
                           More Details
                         </button>
@@ -158,6 +255,19 @@ const AllProducts = () => {
                   </div>
                 </div>
               ))}
+            </div>
+            <div className="m-2 p-3">
+              {products && products.length < total && (
+                <button
+                  className="text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setPage(page + 1);
+                  }}
+                >
+                  {loading ? "Loading..." : "Load more"}
+                </button>
+              )}
             </div>
           </div>
         </div>

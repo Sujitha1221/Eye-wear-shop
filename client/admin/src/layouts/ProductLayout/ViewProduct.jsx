@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
@@ -11,6 +11,7 @@ import Paper from "@mui/material/Paper";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import axios from "axios";
+import { useReactToPrint } from "react-to-print";
 
 const ViewProduct = () => {
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -33,7 +34,7 @@ const ViewProduct = () => {
     },
   }));
   const [products, setProducts] = useState([]);
-
+  const componentPDF = useRef();
   const getAllProducts = async () => {
     try {
       const { data } = await axios.get(
@@ -68,18 +69,51 @@ const ViewProduct = () => {
     }
   };
 
+  //fetch search function from backend
+  const searchHandle = async (event) => {
+    let key = event.target.value;
+    if (key) {
+      let result = await fetch(`http://localhost:8080/product/search/${key}`);
+      result = await result.json();
+      if (result) {
+        setProducts(result);
+      }
+    } else {
+      getAllProducts();
+    }
+  };
+  const generatePDF = useReactToPrint({
+    content: () => componentPDF.current,
+    documentTitle: "Products",
+    onAfterPrint: () => window.location.replace("/product/view-product"),
+  });
   return (
     <>
-      <div className="flex  justify-end">
+      <input
+        type="search"
+        id="default-search"
+        onChange={searchHandle}
+        className="block w-full p-4 pl-10 text-sm text-black border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500  dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        placeholder="Search Product"
+        required
+      ></input>
+      <div className="flex justify-end">
         <Link to="/product/add-product">
-          <button className="bg-transparent text-cyan-600 border-cyan-600 hover:bg-cyan-600 hover:text-white font-semibold  py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+          <button className="bg-transparent text-cyan-600 border-cyan-600 hover:bg-cyan-600 hover:text-white font-semibold py-2 px-4 border border-blue-500 hover:border-transparent rounded">
             Add Product
           </button>
         </Link>
+        <div className="mr-6"></div>
+        <button
+          className="bg-transparent text-cyan-600 border-cyan-600 hover:bg-cyan-600 hover:text-white font-semibold py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+          onClick={generatePDF}
+        >
+          Generate Report
+        </button>
       </div>
 
       <TableContainer component={Paper} style={{ marginTop: "20px" }}>
-        <Table>
+        <Table ref={componentPDF}>
           <TableHead>
             <TableRow>
               <StyledTableCell>Product Name</StyledTableCell>

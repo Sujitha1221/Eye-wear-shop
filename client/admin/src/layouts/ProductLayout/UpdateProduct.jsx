@@ -169,7 +169,7 @@ const UpdateProduct = () => {
                 onChange={(e) => setPrice(e.target.value)}
               />
             </div>
-            <div class="p-4 flex justify-center">
+            <div className="p-4 flex justify-center">
               <TextField
                 label="Product Quantity"
                 type="Number"
