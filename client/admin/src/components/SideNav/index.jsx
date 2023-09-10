@@ -5,19 +5,38 @@ import { faBars } from '@fortawesome/free-solid-svg-icons'
 import sideNavigation from '../../data/sideNavigation.json'
 
 const SideNav = () => {
+  const [activePage, setActivePage] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation().pathname;
 
-    const [activePage, setActivePage] = useState('');
-    const [isOpen, setIsOpen] = useState(false);
-    const location = useLocation().pathname;
-
-    useEffect(() => {
-        setActivePage(location);
-    }, [location])
+  useEffect(() => {
+    setActivePage(location);
+  }, [location]);
 
     const handleMenu = () => {
         setIsOpen(!isOpen);
         console.log(isOpen)
     }
+
+    const adminNavigation = [
+        {
+            name: "Dashboard",
+            icon: faChartSimple,
+            link: "/"
+        },
+
+        {
+            name: "User Management",
+            icon: faUsers,
+            link: "/users"
+        },
+
+        {
+            name: 'Product Management',
+            icon: faCartShopping,
+            link: '/products'
+        }
+    ]
 
     return (
         <>
