@@ -5,7 +5,7 @@ import cors from "cors";
 import databaseConnection from "./config/database.mjs";
 import logger from "./utils/logger.mjs";
 import AdminRouter from "./routes/AdminRoute.mjs";
-import UserRouter from "./routes/userRoute.mjs";
+import UserRouter from "./routes/UserRoute.mjs";
 import LoginRouter from "./routes/LoginRoute.mjs";
 
 const app = express();
@@ -14,6 +14,7 @@ const PORT = process.env.PORT || "8080";
 dotenv.config();
 
 app.use(cors());
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true
 }))
@@ -28,6 +29,13 @@ app.listen(PORT, () => {
     logger.info(`Server is up and running on port ${PORT}`)
     databaseConnection();
 })
+
+// app.use((req, res, next) => {
+//     // Set COOP and COEP headers to loosen security restrictions (for development purposes).
+//     res.setHeader('Cross-Origin-Opener-Policy', 'same-origin');
+//     res.setHeader('Cross-Origin-Embedder-Policy', 'require-corp');
+//     next();
+//   });
 
 //routes
 app.use('/admin', AdminRouter);

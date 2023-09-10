@@ -43,6 +43,12 @@ export default function Profile() {
     e.preventDefault();
 
     const updateUser = { firstname, lastname, email };
+
+    if(!email.match(/^[a-z0-9._%+-]+@[a-z0-9-]+(?:\.[a-z0-9-]+)*$/)){
+      alert("Email doesn't match the format")
+
+    }
+    else{
     await axios
       .put(`http://localhost:8080/user/update/${user._id}`, updateUser)
       .then((res) => {
@@ -60,6 +66,7 @@ export default function Profile() {
       .catch((msg) => {
         alert(msg);
       });
+    }
   }
 
   async function deleteData(e) {

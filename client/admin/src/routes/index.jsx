@@ -4,6 +4,7 @@ import AdminLayout from "../layouts/AdminLayout";
 import CommonLayout from "../layouts/CommonLayout";
 import UserLayout from "../layouts/UserLayout";
 import LogOut from "../layouts/LogoutLayout";
+import DriverLayout from "../layouts/DeliveryDriverLayout";
 
 
 
@@ -29,7 +30,14 @@ const FrontendRoutes = () => {
           <Route element={<LogOut />}>
             <Route path="/logout" />
           </Route>
+
+          <Route element={<DriverLayout />}>
+            <Route path="/driver" />
+          </Route>
         </Routes>
+
+        
+        
       </Router>
     </>
   );

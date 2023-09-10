@@ -5,6 +5,8 @@ export default function SignIn() {
 
     const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  
   
 
 //   let navigate = useNavigate();
@@ -19,7 +21,16 @@ export default function SignIn() {
             password,
           })
           .then((res) => {
-            if (res.data.type === "admin") {
+
+            if(res.data === "Not exist"){
+              alert("User doesn't exist");
+            }
+
+            else if(res.data === "Invalid Password"){
+              alert("Invalid password");
+
+            }
+            else if (res.data.type === "admin") {
               window.localStorage.setItem("AdminInfo",JSON.stringify(res.data.admin))
               window.location.replace("/admin");
 
@@ -27,10 +38,12 @@ export default function SignIn() {
               alert("Success")
             } else if (res.data.type === "driver") {
               window.localStorage.setItem("DriverInfo",JSON.stringify(res.data.driver))
-              window.location.replace("//");
+              window.location.replace("/driver");
               
               alert("Success")
               
+            }else{
+
             }
           })
           .catch((e) => {

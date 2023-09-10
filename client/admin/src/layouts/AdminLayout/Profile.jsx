@@ -50,6 +50,16 @@ setPhone(res.data.admin.phone)
 async function updateData(e) {
     e.preventDefault();
 
+    if (!email.match(/^[a-z0-9._%+-]+@[a-z0-9-]+(?:\.[a-z0-9-]+)*$/)){
+      alert("Email didn't match the format");
+    }
+
+    else if(nic.length != 12){
+      alert("NIC should consist 12 characters")
+    }
+
+    else{
+
 
     const updateAdmin = {firstname,
       lastname,
@@ -78,6 +88,7 @@ async function updateData(e) {
       .catch((msg) => {
         alert(msg);
       });
+    }
 
     }
 

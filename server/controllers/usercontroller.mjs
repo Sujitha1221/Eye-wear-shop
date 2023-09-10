@@ -102,10 +102,62 @@ const UserController = {
           }
         });
       }
+      else{
+        res.json("Invalid email");
+
+      }
     } catch (e) {
       res.json("No");
     }
   },
+
+//   forgotPassword:async (req, res) => {
+//     const {email} = req.body;
+//     User.findOne({email: email})
+//     .then(user => {
+//         if(!user) {
+//             return res.send({Status: "User not existed"})
+//         } 
+        
+//         var transporter = nodemailer.createTransport({
+//             service: 'gmail',
+//             auth: {
+//               user: 'nonamenecessary0612@gmail.com',
+//               pass: 'ekbgdpcvlpdiciws'
+//             }
+//           });
+          
+//           var mailOptions = {
+//             from: 'nonamenecessary0612@gmail.com',
+//             to: email,
+//             subject: 'Reset Password Link',
+//             text: `http://localhost:4000/reset/${user._id}/`
+//           };
+          
+//           transporter.sendMail(mailOptions, function(error, info){
+//             if (error) {
+//               console.log(error);
+//             } else {
+//               return res.send({Status: "Success"})
+//             }
+//           });
+//     })
+// },
+
+// resetPassword:async (req, res) => {
+//   const {id} = req.params
+//   const {password} = req.body
+
+//           bcrypt.hash(password, 10)
+//           .then(hash => {
+//               UserModel.findByIdAndUpdate({_id: id}, {password: hash})
+//               .then(u => res.send({Status: "Success"}))
+//               .catch(err => res.send({Status: err}))
+//           })
+//           .catch(err => res.send({Status: err}))
+      
+  
+// }
 };
 
 export default UserController;

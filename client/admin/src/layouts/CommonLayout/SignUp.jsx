@@ -31,6 +31,8 @@ export default function SignUp() {
     
      if (!firstname || !lastname || !email || !password || !repassword || !address || !phone || !nic) {
       alert("Fields can't be empty");
+    }else if(nic.length != 12){
+      alert("NIC should consist 12 characters")
     }
     else if (password.trim().length < 8) {
       alert("Password should consist atleast 8 chracters");
@@ -173,7 +175,7 @@ export default function SignUp() {
       <input
         id="phone"
         name="phone"
-        type="text"
+        type="number"
         required
         className="p-10 flex justify-center rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
         onChange={(e) => {
