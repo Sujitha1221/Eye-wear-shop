@@ -60,15 +60,32 @@ const UserController = {
   },
 
   getUserbyId: async (req, res) => {
-    try {
-      const user = await User.findById(req.params.id);
-      res.status(200).json(user);
-      logger.info(`User data fetched successfully `);
-    } catch (error) {
-      logger.error(`Couldn't get user details`);
-      res.statuFs(400).send("failed");
-    }
+    let id = req.params.id; //get the id from the request(parameter)
+  
+    await User.findOne({ _id: `${id}` }) //compare the did with the got id and return the details
+      .then((user) => {
+        res.status(200).send({ status: "User Details fetched", user }); //send response as a json object and a status
+      })
+      .catch((err) => {
+        console.log(err.message);
+  
+        res.status(500).send({ status: "Error with fetching User details", error: err.message }); //send error message
+      });
   },
+
+  // router.route("/getDid/:id").get(async (req, res) => {
+  //   let id = req.params.id; //get the id from the request(parameter)
+  
+  //   await DeliveryDriver.findOne({ did: `${id}` }) //compare the did with the got id and return the details
+  //     .then((dd) => {
+  //       res.status(200).send({ status: "DD Details fetched", dd }); //send response as a json object and a status
+  //     })
+  //     .catch((err) => {
+  //       console.log(err.message);
+  
+  //       res.status(500).send({ status: "Error with fetching DD details", error: err.message }); //send error message
+  //     });
+  // });
 
   userLogin: async (req, res) => {
     const { email, password } = req.body;
@@ -79,16 +96,68 @@ const UserController = {
       if (user) {
         bcrypt.compare(password, user.password, (err, response) => {
           if (response) {
-            res.json(user);
+            res.json({type:"user",user});
           } else {
             res.json("Invalid Password");
           }
         });
       }
+      else{
+        res.json("Invalid email");
+
+      }
     } catch (e) {
       res.json("No");
     }
   },
+
+//   forgotPassword:async (req, res) => {
+//     const {email} = req.body;
+//     User.findOne({email: email})
+//     .then(user => {
+//         if(!user) {
+//             return res.send({Status: "User not existed"})
+//         } 
+        
+//         var transporter = nodemailer.createTransport({
+//             service: 'gmail',
+//             auth: {
+//               user: 'nonamenecessary0612@gmail.com',
+//               pass: 'ekbgdpcvlpdiciws'
+//             }
+//           });
+          
+//           var mailOptions = {
+//             from: 'nonamenecessary0612@gmail.com',
+//             to: email,
+//             subject: 'Reset Password Link',
+//             text: `http://localhost:4000/reset/${user._id}/`
+//           };
+          
+//           transporter.sendMail(mailOptions, function(error, info){
+//             if (error) {
+//               console.log(error);
+//             } else {
+//               return res.send({Status: "Success"})
+//             }
+//           });
+//     })
+// },
+
+// resetPassword:async (req, res) => {
+//   const {id} = req.params
+//   const {password} = req.body
+
+//           bcrypt.hash(password, 10)
+//           .then(hash => {
+//               UserModel.findByIdAndUpdate({_id: id}, {password: hash})
+//               .then(u => res.send({Status: "Success"}))
+//               .catch(err => res.send({Status: err}))
+//           })
+//           .catch(err => res.send({Status: err}))
+      
+  
+// }
 };
 
 export default UserController;

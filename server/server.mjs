@@ -19,6 +19,7 @@ const PORT = process.env.PORT || "8080";
 dotenv.config();
 
 app.use(cors());
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -43,3 +44,14 @@ app.listen(PORT, () => {
   logger.info(`Server is up and running on port ${PORT}`);
   databaseConnection();
 });
+// app.use((req, res, next) => {
+//     // Set COOP and COEP headers to loosen security restrictions (for development purposes).
+//     res.setHeader('Cross-Origin-Opener-Policy', 'same-origin');
+//     res.setHeader('Cross-Origin-Embedder-Policy', 'require-corp');
+//     next();
+//   });
+
+//routes
+app.use("/admin", AdminRouter);
+app.use("/login", LoginRouter);
+app.use("/user", UserRouter);

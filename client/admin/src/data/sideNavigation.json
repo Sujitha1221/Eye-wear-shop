@@ -9,7 +9,7 @@
         {
             "name": "User Management",
             "icon": "fa-solid fa-users",
-            "link": "/users"
+            "link": "/view-user"
         },
 
         {

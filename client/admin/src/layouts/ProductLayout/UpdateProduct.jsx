@@ -74,10 +74,6 @@ const UpdateProduct = () => {
       );
       return;
     }
-    if (!photo) {
-      setErrors("Please provide product image");
-      return;
-    }
     if (!category) {
       setErrors("Please provide product category");
       return;
