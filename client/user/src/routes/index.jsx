@@ -27,7 +27,7 @@ const FrontendRoutes = () => {
           <Route exact path="/profile" element={<Profile/>}/> 
           <Route exact path="/logout" element={<LogOut/>}/> 
           <Route exact path="/forgot" element={<ForgotPassword/>}/> 
-          <Route exact path="/reset" element={<ResetPassword/>}/> 
+          <Route exact path="/reset/:id" element={<ResetPassword/>}/> 
            
           
 

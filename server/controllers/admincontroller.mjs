@@ -1,5 +1,7 @@
 import Admin from "../models/Admin.mjs";
 import logger from "../utils/logger.mjs";
+import nodemailer from "nodemailer";
+import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
 const AdminController = {
@@ -27,16 +29,6 @@ const AdminController = {
   
   
 
-  // getAllAdmins: async (req, res) => {
-  //   try {
-  //     const drivers = await Driver.find();
-  //     res.status(200).json(drivers);
-  //     logger.info(`Driver details fetched`);
-  //   } catch (error) {
-  //     res.status(500).json({ message: error });
-  //     logger.error(`Error getting all drivers ${error.message}`);
-  //   }
-  // },
 
   updateAdminById: async (req, res) => {
     try {
@@ -76,7 +68,69 @@ const AdminController = {
         res.status(500).send({ status: "Error with fetching Admin details", error: err.message }); //send error message
       });
   
-  }
+  },
+
+  forgotPassword : async (req, res) => {
+    const { email } = req.body;
+  
+    try {
+      const admin = await Admin.findOne({ email });
+  
+      if (!admin) {
+        return res.status(404).json({ Status: "Admin not found" });
+      }
+  
+     
+
+      const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: 'nonamenecessary0612@gmail.com',
+          pass: 'ekbgdpcvlpdiciws',
+        },
+        tls: {
+          // Allow self-signed certificates
+          rejectUnauthorized: false,
+        },
+      });
+  
+      const mailOptions = {
+        from: 'nonamenecessary0612@gmail.com',
+        to: email,
+        subject: 'Reset Password Link',
+        text: `http://localhost:3000/reset/${admin._id}`,
+      };
+  
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          console.error("Error:", error);
+          return res.status(500).json({ Status: "Error sending email" });
+        } else {
+          console.log("Email sent:", info.response);
+          return res.status(200).json({ Status: "Success" });
+        }
+      });
+    } catch (error) {
+      console.error("Error:", error);
+      return res.status(500).json({ Status: "Internal Server Error" });
+    }
+  },
+
+  resetPassword:async (req, res) => {
+    const {id} = req.params
+    const {password} = req.body
+
+
+            bcrypt.hash(password, 10)
+            .then(hash => {
+                Admin.findByIdAndUpdate({_id: id}, {password: hash})
+                .then(u => res.send({Status: "Success"}))
+                .catch(err => res.send({Status: err}))
+            })
+            .catch(err => res.send({Status: err}))
+        
+    
+}
   
 };
 

@@ -1,31 +1,33 @@
-import React, { useState,useParams } from "react";
+import React, { useState} from "react";
+import { useParams,useNavigate } from "react-router-dom";
 import axios from "axios";
 
-
-// import { Navigate } from "react-router-dom";
 
 export default function ResetPassword() {
 
   const [password, setPassword] = useState("");
+  const[repassword,setRePassword] = useState("");
   const {id} = useParams()
 
- 
+  let navigate = useNavigate();
   
+const handleSubmit = (e) => {
+    e.preventDefault()
+    if(password === repassword){
+      axios.post(`http://localhost:8080/user/reset/${id}`, {password})
+    .then(res => {
+        if(res.data.Status === "Success") {
+          alert("Password changed successfully")
+            navigate('/')
+           
+        }
+    }).catch(err => console.log(err))
 
-//   let navigate = useNavigate();
-
-
-   const  handleSubmit = (e) => {
-    e.preventDefault();
-    axios.post(`http://localhost:8080/user/reset/${id}/`, {password})
-        .then(res => {
-            if(res.data.Status === "Success") {
-                window.location.replace('/')
-               
-            }
-        }).catch(err => console.log(err))
-   
-  }
+    }else{
+      alert("Password mismatch")
+    }
+    
+}
 
     return (
       <>
@@ -56,13 +58,9 @@ export default function ResetPassword() {
               <div>
                 <div className="flex items-center justify-between">
                   <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
-                    Password
+                    New Password
                   </label>
-                  <div className="text-sm">
-                    <a href="#" className="font-semibold text-stone-500 hover:text-black">
-                      Forgot password?
-                    </a>
-                  </div>
+                  
                 </div>
                 <div className="mt-2">
                   <input
@@ -71,25 +69,48 @@ export default function ResetPassword() {
                     type="password"
                     autoComplete="current-password"
                     required
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="block p-5 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     onChange={(e) => {
                         setPassword(e.target.value);
                      }}
                   />
                 </div>
               </div>
-  
+
+              <div>
+                <div className="flex items-center justify-between">
+                  <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
+                    Re-enter Password
+                  </label>
+                  
+                </div>
+                <div className="mt-2">
+                  <input
+                    id="password"
+                    name="password"
+                    type="password"
+                    autoComplete="current-password"
+                    required
+                    className="block p-5 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    onChange={(e) => {
+                        setRePassword(e.target.value);
+                     }}
+                  />
+                </div>
+              </div>
+              <div className="flex justify-center">
               <div>
                 <button
                   type="submit"
                   onClick={handleSubmit}
                   className="flex w-full justify-center rounded-md bg-gray-800 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
-                  Sign in
+                  Reset
                 </button>
                 <br/>
    
               
+              </div>
               </div>
 
               

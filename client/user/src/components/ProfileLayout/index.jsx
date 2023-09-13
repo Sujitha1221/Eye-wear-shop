@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Header from "../HeaderLayout";
 import Footer from "../FooterLayout";
 import axios from "axios";
 
 export default function Profile() {
+  let navigate = useNavigate();
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
-//   const [user, setUser] = useState("");
 
   const user = JSON.parse(localStorage.getItem("UserInfo"));
   const id = user._id;
@@ -31,14 +32,6 @@ export default function Profile() {
   }, []);
     
 
-    // useEffect(() => {
-
-    //       setFirstname(user.firstname);
-    //       setLastname(user.lastname);
-    //       setEmail(user.email);
- 
-    //   }, []);
-
   async function updateData(e) {
     e.preventDefault();
 
@@ -57,10 +50,10 @@ export default function Profile() {
           setFirstname(firstname);
           setLastname(lastname);
           setEmail(email);
-          window.location.replace("/profile");
+          navigate("/profile");
         } else {
           alert("Couldn't update profile");
-          window.location.replace("/home");
+          navigate("/home");
         }
       })
       .catch((msg) => {
@@ -71,19 +64,26 @@ export default function Profile() {
 
   async function deleteData(e) {
     e.preventDefault();
-    axios
-      .delete(`http://localhost:8080/user/delete/${user._id}`)
-      .then((res) => {
-        if (res.data === "success") {
-          window.location.replace("/user/signup");
-        } else if (res.data === "failed") {
-          alert("Error deleting your profile");
-        }
-      })
-      .catch((err) => {
-        alert(err);
-      });
+  
+    // Show a confirmation dialog to the user
+    const confirmed = window.confirm("Are you sure you want to delete your profile? This action cannot be undone.");
+  
+    if (confirmed) {
+      axios
+        .delete(`http://localhost:8080/user/delete/${user._id}`)
+        .then((res) => {
+          if (res.data === "success") {
+            navigate("/signup");
+          } else if (res.data === "failed") {
+            alert("Error deleting your profile");
+          }
+        })
+        .catch((err) => {
+          alert(err);
+        });
+    }
   }
+  
 
   return (
     <div
@@ -159,6 +159,7 @@ export default function Profile() {
                 value={email}
                 className="border-1 bg-white rounded-r px-4 py-2 w-full"
                 type="email"
+                disabled
               />
             </div>
 

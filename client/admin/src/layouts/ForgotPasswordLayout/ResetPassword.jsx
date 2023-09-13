@@ -1,59 +1,35 @@
 import  { useState } from "react";
+import { useParams,useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
-export default function SignIn() {
+export default function ResetPassword() {
 
-    const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+    const [password, setPassword] = useState("");
+    const [repassword, setRepassword] = useState("");
 
+    const {id} = useParams()
 
   let navigate = useNavigate();
+  
+const handleSubmit = (e) => {
+    e.preventDefault()
+    if(password === repassword){
+      axios.post(`http://localhost:8080/admin/reset/${id}`, {password})
+    .then(res => {
+        if(res.data.Status === "Success") {
+          alert("Password changed successfully")
+            navigate('/')
+           
+        }
+    }).catch(err => console.log(err))
 
-
-   const  handleSubmit = (e) => {
-    e.preventDefault();
-    try {
-         axios
-          .post("http://localhost:8080/login/", {
-            email,
-            password,
-          })
-          .then((res) => {
-
-            if(res.data === "Not exist"){
-              alert("User doesn't exist");
-            }
-
-            else if(res.data === "Invalid Password"){
-              alert("Invalid password");
-
-            }
-            else if (res.data.type === "admin") {
-              window.localStorage.setItem("AdminInfo",JSON.stringify(res.data.admin))
-              navigate("/admin");
-
-              
-              alert("Success")
-            } else if (res.data.type === "driver") {
-              window.localStorage.setItem("DriverInfo",JSON.stringify(res.data.driver))
-              navigate.replace("/driver");
-              
-              alert("Success")
-              
-            }
-          })
-          .catch((e) => {
-            alert("invalid credentials")
-            console.log(e);
-          });
-      } catch (e) {
-        console.log(e);
-      }
+    }else{
+      alert("Password mismatch")
+    }
     
+}
 
-   
-  }
+
 
     return (
       <>
@@ -73,7 +49,7 @@ export default function SignIn() {
               alt="Your Company"
             /> */}
             <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-              Sign in to your account
+              Reset Password
             </h2>
           </div>
   
@@ -81,40 +57,14 @@ export default function SignIn() {
             <form className="mt-6 space-y-6" action="#" method="POST">
               <div>
                 <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
-                  Email address
+                  Password
                 </label>
                 <div className="mt-2">
                   <input
                     id="email"
                     name="email"
-                    type="email"
-                    autoComplete="email"
-                    required
-                    className="block p-5 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    onChange={(e) => {
-                        setEmail(e.target.value);
-                     }}
-                  />
-                </div>
-              </div>
-  
-              <div>
-                <div className="flex items-center justify-between">
-                  <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
-                    Password
-                  </label>
-                  <div className="text-sm">
-                    <a href="/forgot" className="font-semibold text-cyan-700 hover:text-black">
-                      Forgot password?
-                    </a>
-                  </div>
-                </div>
-                <div className="mt-2">
-                  <input
-                    id="password"
-                    name="password"
                     type="password"
-                    autoComplete="current-password"
+                    autoComplete="email"
                     required
                     className="block p-5 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     onChange={(e) => {
@@ -123,27 +73,40 @@ export default function SignIn() {
                   />
                 </div>
               </div>
+
+              <div>
+                <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
+                  Re-enter Password
+                </label>
+                <div className="mt-2">
+                  <input
+                    id="email"
+                    name="email"
+                    type="password"
+                    autoComplete="email"
+                    required
+                    className="block w-full p-5 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    onChange={(e) => {
+                        setRepassword(e.target.value);
+                     }}
+                  />
+                </div>
+              </div>
               <div className="flex justify-center">
-              <div >
+  
+              <div>
                 <button
                   type="submit"
                 onClick={handleSubmit}
                   className="flex w-full justify-center rounded-md bg-cyan-700 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-stone-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
-                  Sign in
+                  Send
                 </button>
                 
               </div>
               </div>
             </form>
-  
-            <p className="mt-10 text-center text-sm text-gray-500">
-              New Admin?
-              <span className="mr-2"></span>{" "}
-              <a href="/signup" className="font-semibold leading-6 text-cyan-700 hover:text-black">
-                  Sign Up
-              </a>
-            </p>
+
           </div>
         </div>
         </div>

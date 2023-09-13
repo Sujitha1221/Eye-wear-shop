@@ -1,36 +1,33 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import axios from "axios";
 
-
-
-// import { Navigate } from "react-router-dom";
-
 export default function ForgotPassword() {
+
     const [email, setEmail] = useState("");
 
-  const  handleSubmit = (e) => {
-    e.preventDefault();
-
-    axios.post('http://localhost:8080/user/forgot/', {email})
-        .then(res => {
-          if (res.data.Status === "User not existed"){
-            alert("Invalid email")
-          }
-            else if(res.data.Status === "Success") {
-                alert("Email sent")
-               
-            }
-        }).catch(err => console.log(err))
-}
+    const  handleSubmit = (e) => {
+        e.preventDefault();
+    
+        axios.post('http://localhost:8080/admin/forgot/', {email})
+            .then(res => {
+              if (res.data.Status === "Admin not existed"){
+                alert("Invalid email")
+              }
+                else if(res.data.Status === "Success") {
+                    alert("Email sent")
+                   
+                }
+            }).catch(err => console.log(err))
+    }
 
 
     return (
       <>
         <div
-      className="flex min-h-screen justify-center items-center bg-cover bg-center"
+      className="flex min-h-screen justify-center items-center bg-cover bg-center bg-cyan-700"
       style={{
-        backgroundImage: `url('https://www.chashmay.com.pk/images/blogs/8738Thickvs.ThinSunglassesFrames.jpg')` // Replace with the actual path to your background image
-        
+        // backgroundImage: `url('https://www.chashmay.com.pk/images/blogs/8738Thickvs.ThinSunglassesFrames.jpg')` // Replace with the actual path to your background image
+        backgroundColor:"#0e7490"
 
       }}
     >
@@ -42,7 +39,7 @@ export default function ForgotPassword() {
               alt="Your Company"
             /> */}
             <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-              Forgot password?
+              Forgot Password?
             </h2>
           </div>
   
@@ -59,31 +56,28 @@ export default function ForgotPassword() {
                     type="email"
                     autoComplete="email"
                     required
-                    className="block w-full p-5 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="block p-5 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     onChange={(e) => {
                         setEmail(e.target.value);
                      }}
                   />
                 </div>
               </div>
-  
-  
+
               <div className="flex justify-center">
+              <div>
                 <button
                   type="submit"
-                  onClick={handleSubmit}
-                  className="flex  justify-center rounded-md bg-gray-800 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                onClick={handleSubmit}
+                  className="flex w-full justify-center rounded-md bg-cyan-700 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-stone-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
                   Send
                 </button>
-                <br/>
-
-              
+                
               </div>
-
-              
+              </div>
             </form>
-  
+
           </div>
         </div>
         </div>

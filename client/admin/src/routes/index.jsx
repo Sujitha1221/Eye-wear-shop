@@ -5,6 +5,7 @@ import CommonLayout from "../layouts/CommonLayout";
 import UserLayout from "../layouts/UserLayout";
 import LogOut from "../layouts/LogoutLayout";
 import DriverLayout from "../layouts/DeliveryDriverLayout";
+import ForgotPasswordLayout from "../layouts/ForgotPasswordLayout";
 
 
 
@@ -33,6 +34,11 @@ const FrontendRoutes = () => {
 
           <Route element={<DriverLayout />}>
             <Route path="/driver" />
+          </Route>
+
+          <Route element={<ForgotPasswordLayout />}>
+            <Route path="/forgot" />
+            <Route path="/reset/:id" />
           </Route>
         </Routes>
 

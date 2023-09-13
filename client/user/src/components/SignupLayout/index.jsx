@@ -1,8 +1,10 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 
 export default function SignUp() {
+  let navigate = useNavigate();
 
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
@@ -36,7 +38,7 @@ export default function SignUp() {
         })
         .then(() => {
            alert("Inserted new User");
-           window.location.replace("/");
+           navigate("/");
         
         })
         .catch((err) => {
@@ -81,7 +83,7 @@ export default function SignUp() {
         name="fname"
         type="text"
         required
-        className="w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+        className="w-full p-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
         onChange={(e) => {
           setFirstname(e.target.value);
         }}
@@ -99,7 +101,7 @@ export default function SignUp() {
         name="lname"
         type="text"
         required
-        className="w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+        className="w-full p-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
         onChange={(e) => {
           setLastname(e.target.value);
         }}
@@ -121,7 +123,7 @@ export default function SignUp() {
                     type="email"
                     autoComplete="email"
                     required
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="block p-5 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     onChange={(e) => {
                         setEmail(e.target.value);
                      }}
@@ -143,7 +145,7 @@ export default function SignUp() {
                     type="password"
                     autoComplete="current-password"
                     required
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="block p-5 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     onChange={(e) => {
                         setPassword(e.target.value);
                      }}
@@ -165,7 +167,7 @@ export default function SignUp() {
                     type="password"
                     autoComplete="current-password"
                     required
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="block p-5 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     onChange={(e) => {
                         setRePassword(e.target.value);
                      }}
@@ -174,15 +176,35 @@ export default function SignUp() {
               </div>
   
               <div>
+                <div className="flex justify-center">
                 <button
                   type="submit"
                   onClick={handleSubmit}
-                  className="flex w-full justify-center rounded-md bg-black px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-stone-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  className="flex justify-center rounded-md bg-black px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-stone-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
                   Sign up
                 </button>
+                </div>
+<br/>
+<div className="flex items-center justify-center text-sm">
+                <a
+                  href="/forgot"
+                  className="font-semibold text-stone-700 hover:text-black"
+                >
+                  Have an account?
+                </a>
+                <span className="mr-5"></span>{" "}
+                <a
+                  type="submit"
+                  href="/"
+                  className="flex justify-center rounded-md bg-black px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-stone-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                >
+                  Sign in
+                </a>
+              </div>
               </div>
             </form>
+            
           </div>
         </div>
         </div>

@@ -1,25 +1,14 @@
 import React, { useState } from "react";
 import axios from "axios";
-import {GoogleLogin} from 'react-google-login'
-// import CLIENT_ID from "../../config/google.config";
-
-
-// import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function SignIn() {
 
     const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-//   const responseGoogleSuccess = async (response) => {
-//     console.log("login success",response.profileObj);
-// }
-// const responseGoogleError = (response) => {
-//         console.log(response)
-// }
-  
 
-//   let navigate = useNavigate();
+  let navigate = useNavigate();
 
 
    const  handleSubmit = (e) => {
@@ -46,13 +35,10 @@ export default function SignIn() {
             else{
               window.localStorage.setItem("UserInfo",JSON.stringify(res.data.user))
             console.log(res.data)
-            window.location.replace("/home");
+            navigate("/home");
 
             }
-            
 
-            
-           
            
           }).catch((e) => {
             alert("Wrong details");
@@ -100,7 +86,7 @@ export default function SignIn() {
                     type="email"
                     autoComplete="email"
                     required
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="block p-5 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     onChange={(e) => {
                         setEmail(e.target.value);
                      }}
@@ -126,14 +112,14 @@ export default function SignIn() {
                     type="password"
                     autoComplete="current-password"
                     required
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="block w-full p-5 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     onChange={(e) => {
                         setPassword(e.target.value);
                      }}
                   />
                 </div>
               </div>
-  
+  <div className="flex justify-center">
               <div>
                 <button
                   type="submit"
@@ -142,7 +128,7 @@ export default function SignIn() {
                 >
                   Sign in
                 </button>
-                <br/>
+                
                 {/* <GoogleLogin
     clientId = "122074645009-i1srlja2777lsga95qdj8cas7l25b95r.apps.googleusercontent.com"
     buttonText="Login with google"
@@ -150,7 +136,7 @@ export default function SignIn() {
     onFailure={()=>{responseGoogleError}}
     cookiePolicy={'single_host_origin'}
   /> */}
-              
+              </div>
               </div>
 
               
@@ -158,6 +144,9 @@ export default function SignIn() {
   
             <p className="mt-10 text-center text-sm text-gray-500">
               Don't have an account?
+
+              <span className="mr-3"></span>{" "}
+
               <a href="/signup" className="font-semibold leading-6 text-gray-800 hover:text-black">
                   Sign Up
               </a>

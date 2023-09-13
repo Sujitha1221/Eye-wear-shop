@@ -30,12 +30,6 @@ app.listen(PORT, () => {
     databaseConnection();
 })
 
-// app.use((req, res, next) => {
-//     // Set COOP and COEP headers to loosen security restrictions (for development purposes).
-//     res.setHeader('Cross-Origin-Opener-Policy', 'same-origin');
-//     res.setHeader('Cross-Origin-Embedder-Policy', 'require-corp');
-//     next();
-//   });
 
 //routes
 app.use('/admin', AdminRouter);

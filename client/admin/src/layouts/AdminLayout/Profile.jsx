@@ -1,172 +1,188 @@
-import {useState,useEffect} from 'react'
-import { TextField } from '@mui/material';
+import { useState, useEffect } from "react";
+import { TextField } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const AdminProfile = () => {
+  let navigate = useNavigate();
 
-    const [firstname, setFirstname] = useState("");
-    const [lastname, setLastname] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [nic,setNic]=useState("");
-    const [address,setAddress] = useState("");
-    const [phone,setPhone] = useState("");
+  const [firstname, setFirstname] = useState("");
+  const [lastname, setLastname] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [nic, setNic] = useState("");
+  const [address, setAddress] = useState("");
+  const [phone, setPhone] = useState("");
 
-    var admin = JSON.parse(localStorage.getItem("AdminInfo"));
-    const id = admin._id
+  var admin = JSON.parse(localStorage.getItem("AdminInfo"));
+  const id = admin._id;
 
+  useEffect(() => {
+    function GET() {
+      axios
+        .get(`http://localhost:8080/admin/get/${id}`)
+        .then((res) => {
+          setFirstname(res.data.admin.firstname);
+          setLastname(res.data.admin.lastname);
+          setEmail(res.data.admin.email);
+          setPassword(res.data.admin.password);
+          setNic(res.data.admin.nic);
+          setAddress(res.data.admin.address);
+          setPhone(res.data.admin.phone);
+        })
+        .catch((err) => {
+          alert(err.message);
+        });
+    }
 
-    useEffect(() => {
-        function GET() {
-          axios
-            .get(`http://localhost:8080/admin/get/${id}`)
-            .then((res) => {
-                setFirstname(res.data.admin.firstname)
-  setLastname(res.data.admin.lastname)
-  setEmail(res.data.admin.email)
-  setPassword(res.data.admin.password)
-setNic(res.data.admin.nic)
-setAddress(res.data.admin.address)
-setPhone(res.data.admin.phone)
-              
-            })
-            .catch((err) => {
-              alert(err.message);
-            });
-        }
-    
-        GET();
-      }, []);
-      // setFirstname(admin.firstname)
-  // setLastname(admin.lastname)
-  // setEmail(admin.email)
-//   setPassword(admin.password)
-// setNic(admin.nic)
-// setAddress(admin.address)
-// setPhone(admin.phone)
-// setImage(admin.image)
+    GET();
+  }, []);
 
-
-async function updateData(e) {
+  async function updateData(e) {
     e.preventDefault();
 
-    if (!email.match(/^[a-z0-9._%+-]+@[a-z0-9-]+(?:\.[a-z0-9-]+)*$/)){
-      alert("Email didn't match the format");
-    }
-
-    else if(nic.length != 12){
-      alert("NIC should consist 12 characters")
-    }
-
-    else{
-
-
-    const updateAdmin = {firstname,
-      lastname,
-      email,
-      password,
-      nic,
-      address,
-      phone,
-      
-
-    };
+    if (!phone.match(/^\d{10}$/)) {
+      alert("Phone Number should contain only 10 numbers");
+    } else {
+      const updateAdmin = { firstname, lastname, password, address, phone };
       await axios
-      .put(
-        `http://localhost:8080/admin/update/${admin._id}`,
-        updateAdmin
-      )
-      .then((res) => {
-        if (res.data === "Done") {
-          alert("Admin updated successfully ");
-          window.location.replace("/profile");
-        } else {
-          alert("Couldn't update profile");
-          window.location.replace("/admin");
-        }
-      })
-      .catch((msg) => {
-        alert(msg);
-      });
+        .put(`http://localhost:8080/admin/update/${admin._id}`, updateAdmin)
+        .then((res) => {
+          if (res.data === "Done") {
+            alert("Admin updated successfully ");
+            navigate("/profile");
+          } else {
+            alert("Couldn't update profile");
+            navigate("/admin");
+          }
+        })
+        .catch((msg) => {
+          alert(msg);
+        });
     }
+  }
 
-    }
+  async function deleteData(e) {
+    e.preventDefault();
 
-    
-    async function deleteData(e){
-        e.preventDefault();
-          axios
-            .delete(
-              `http://localhost:8080/admin/delete/${admin._id}`
-            )
-            .then((res) => {
-              if (res.data === "success") {
-                
-                window.location.replace("/signUp");
-              } else if (res.data === "failed") {
-                alert("Error deleting your profile");
-              }
-            })
-            .catch((err) => {
-              alert(err);
-            });
-        }
-  
-    
-    return (
-        <>
-            <div className='flex flex-col align-items w-full min-h-[85vh]' >
-                <div className='px-[20px] h-[64px] font-bold text-xl w-full flex justify-center items-center gap-[20px]'>
-                    My profile
-                </div>
-                <div className='flex justify-center grid grid-cols-2 gap-4 p-10'>
-
-            
-                    <div className="p-4 flex justify-center">
-                        <TextField label="First Name" value = {firstname} variant="outlined" style={{ width: '100%' }} onChange={(e) => {
-          setFirstname(e.target.value);
-        }}/>
-                    </div>
-                    <div className="p-4 flex justify-center">
-                        <TextField label="Last Name" value = {lastname} variant="outlined" style={{ width: '100%' }} onChange={(e) => {
-          setLastname(e.target.value);
-        }} />
-                    </div>
-                    <div className="col-span-2 p-4">
-                        <TextField label="Email" variant="outlined" value = {email} style={{ width: '100%' }} onChange={(e) => {
-          setEmail(e.target.value);
-        }} />
-                    </div>
-                    <div className="p-4 flex justify-center">
-                        <TextField label="NIC Number" variant="outlined" value = {nic} style={{ width: '100%' }} onChange={(e) => {
-          setNic(e.target.value);
-        }}/>
-                    </div>
-                    <div className="p-4 flex justify-center">
-                        <TextField label="Phone Number" variant="outlined"value = {phone} style={{ width: '100%' }} onChange={(e) => {
-          setPhone(e.target.value);
-        }} />
-                    </div>
-                    <div className="col-span-2 p-4">
-                        <TextField label="Address" variant="outlined" value = {address} style={{ width: '100%' }} onChange={(e) => {
-          setAddress(e.target.value);
-        }}/>
-                    </div>
-                    
-                    
-                    <button type='submit' onClick = {updateData} className="w-48 ml-80 bg-transparent text-cyan-600 ml-100 border-cyan-600 hover:bg-cyan-600 hover:text-white font-semibold  py-2 px-4 border border-blue-500 hover:border-transparent rounded">
-                        Update
-                    </button>
-
-                    <button type='submit' onClick = {deleteData} className="w-48 mr-80 bg-transparent text-rose-700 border-rose-700 hover:bg-rose-700 hover:text-white font-semibold  py-2 px-4 border border-rose-700 hover:border-transparent rounded">
-                       Delete
-                    </button>
-                    
-                </div>
-            </div>
-
-        </>
+    // Show a confirmation dialog to the user
+    const confirmed = window.confirm(
+      "Are you sure you want to delete your profile? This action cannot be undone."
     );
-}
+
+    if (confirmed) {
+      axios
+        .delete(`http://localhost:8080/admin/delete/${admin._id}`)
+        .then((res) => {
+          if (res.data === "success") {
+            navigate("/signUp");
+          } else if (res.data === "failed") {
+            alert("Error deleting your profile");
+          }
+        })
+        .catch((err) => {
+          alert(err);
+        });
+    }
+  }
+
+  return (
+    <>
+      <div className="flex flex-col align-items w-full min-h-[85vh]">
+        <div className="px-[20px] h-[64px] font-bold text-xl w-full flex justify-center items-center gap-[20px]">
+          My profile
+        </div>
+        <div className="flex justify-center grid grid-cols-2 gap-4 p-10">
+          <div className="p-4 flex justify-center">
+            <TextField
+              label="First Name"
+              value={firstname}
+              variant="outlined"
+              style={{ width: "100%" }}
+              onChange={(e) => {
+                setFirstname(e.target.value);
+              }}
+            />
+          </div>
+          <div className="p-4 flex justify-center">
+            <TextField
+              label="Last Name"
+              value={lastname}
+              variant="outlined"
+              style={{ width: "100%" }}
+              onChange={(e) => {
+                setLastname(e.target.value);
+              }}
+            />
+          </div>
+          <div className="col-span-2 p-4">
+            <TextField
+              label="Email"
+              variant="outlined"
+              value={email}
+              style={{ width: "100%" }}
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
+              disabled
+            />
+          </div>
+          <div className="p-4 flex justify-center">
+            <TextField
+              label="NIC Number"
+              variant="outlined"
+              value={nic}
+              style={{ width: "100%" }}
+              onChange={(e) => {
+                setNic(e.target.value);
+              }}
+              disabled
+            />
+          </div>
+          <div className="p-4 flex justify-center">
+            <TextField
+              type="text"
+              label="Phone Number"
+              variant="outlined"
+              value={phone}
+              style={{ width: "100%" }}
+              onChange={(e) => {
+                setPhone(e.target.value);
+              }}
+            />
+          </div>
+          <div className="col-span-2 p-4">
+            <TextField
+              label="Address"
+              variant="outlined"
+              value={address}
+              style={{ width: "100%" }}
+              onChange={(e) => {
+                setAddress(e.target.value);
+              }}
+            />
+          </div>
+        </div>
+        <div className="flex justify-center">
+          <button
+            type="submit"
+            onClick={updateData}
+            className="w-48 bg-transparent text-cyan-600 ml-100 border-cyan-600 hover:bg-cyan-600 hover:text-white font-semibold  py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+          >
+            Update
+          </button>
+          <span className="mr-10"></span>{" "}
+          <button
+            type="submit"
+            onClick={deleteData}
+            className="w-48  bg-transparent text-rose-700 border-rose-700 hover:bg-rose-700 hover:text-white font-semibold  py-2 px-4 border border-rose-700 hover:border-transparent rounded"
+          >
+            Delete
+          </button>
+        </div>
+      </div>
+    </>
+  );
+};
 
 export default AdminProfile;
