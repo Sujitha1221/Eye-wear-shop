@@ -7,6 +7,9 @@ const Dashboard = () => {
   const [allRatings, setAllRatings] = useState([]);
   const [chartData, setChartData] = useState(null);
   const [chartLabel, setChartLabel] = useState(null);
+  const [deliveryChartData, setDeliveryChartData] = useState(null);
+  const [deliveryChartLabel, setDeliveryChartLabel] = useState(null);
+  const [deliveries, setAllDeliveries] = useState([]);
 
   useEffect(() => {
     const getAllRatings = () => {
@@ -20,6 +23,18 @@ const Dashboard = () => {
           console.log(err.message);
         });
     };
+    function getAllDeliveries() {
+      axios
+        .get("http://localhost:8080/delivery/get-all-delivery")
+        .then((res) => {
+          setAllDeliveries(res.data);
+        })
+        .catch((err) => {
+          console.error("Error : " + err.message);
+        });
+    }
+
+    getAllDeliveries();
     getAllRatings();
   }, []);
 
@@ -44,6 +59,23 @@ const Dashboard = () => {
 
       setChartData(data);
       setChartLabel(labels);
+    }
+
+    if (deliveries) {
+      let delivered = 0;
+      let totalDeliveries = deliveries.length;
+      let notDelivered = totalDeliveries - delivered;
+
+      deliveries.map((delivery) => {
+        if (delivery.status == "Delivered") 
+          delivered++;
+      });
+
+      const data = [delivered, notDelivered];
+      const labels = ["Delivered", "Pending Delivery"];
+
+      setDeliveryChartData(data);
+      setDeliveryChartLabel(labels);
     }
   }, [allRatings]);
 
@@ -78,6 +110,27 @@ const Dashboard = () => {
     ],
   };
 
+  const deliveryData = {
+    labels: deliveryChartLabel,
+    width: "300 px",
+    height: "300 px",
+    datasets: [ 
+      {
+        label: "Deliveries",
+        data: deliveryChartData,
+        backgroundColor: [
+          "rgba(255, 99, 132, 0.2)",
+          "rgba(54, 162, 235, 0.2)",
+        ],
+        borderColor: [
+          "rgba(255, 99, 132, 1)",
+          "rgba(54, 162, 235, 1)",
+        ],
+        borderWidth: 2,
+      },
+    ],
+  };
+
   const chartOptions = {
     plugins: {
       legend: {
@@ -89,9 +142,15 @@ const Dashboard = () => {
 
   return (
     <>
+      <div className="flex">
       <div className="h-[full] w-fit px-[40px] text-xl font-semibold pt-[20px] flex flex-col justify-center text-center rounded shadow-[0px_0px_10px_0px_rgba(0,0,0,0.3)]">
         Total Ratings
         <Pie data={data} options={chartOptions} />
+      </div>
+      <div className="h-[full] w-fit px-[40px] text-xl font-semibold pt-[20px] flex flex-col justify-center text-center rounded shadow-[0px_0px_10px_0px_rgba(0,0,0,0.3)]">
+        Deliveries
+        <Pie data={deliveryData} options={chartOptions} />
+      </div>
       </div>
     </>
   );

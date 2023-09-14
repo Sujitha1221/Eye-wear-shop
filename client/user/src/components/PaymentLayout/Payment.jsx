@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -12,6 +12,8 @@ import { TextField } from "@mui/material";
 import axios from "axios";
 import Header from "../HeaderLayout";
 import Footer from "../FooterLayout";
+import { toPng } from 'html-to-image';
+
 
 const Payment = () => {
   const [products, setProducts] = useState();
@@ -26,6 +28,7 @@ const Payment = () => {
   const [userEmail, setUserEmail] = useState(
     JSON.parse(localStorage.getItem("UserInfo")).email
   );
+  const elementRef = useRef(null);
 
   useEffect(() => {
     function getAllProducts() {
@@ -34,9 +37,22 @@ const Payment = () => {
     getAllProducts();
   }, []);
 
+  const printBill = () => {
+    toPng(elementRef.current, { cacheBust: false })
+      .then((dataUrl) => {
+        const link = document.createElement("a");
+        link.download = "Receipt";
+        link.href = dataUrl;
+        link.click();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   
   function makePayment(e) {
     e.preventDefault();
+
     amount = 0;
     products.forEach((product) => {
       amount += product.price * product.selectedQuantity;
@@ -74,6 +90,8 @@ const Payment = () => {
       return;
     }
 
+    printBill();
+
     axios
       .post("http://localhost:8080/payment/new-payment", {
         products,
@@ -99,6 +117,7 @@ const Payment = () => {
               })
               .then((res) => {
                 console.log(res.data);
+                
                 localStorage.removeItem("cart");
                 window.location.replace(
                   "http://localhost:4000/product/all-products"
@@ -144,8 +163,8 @@ const Payment = () => {
     <>
       <Header></Header>
       <div className="w-full">
-        <div className="w-full flex justify-center mt-6">
-          <TableContainer component={Paper} sx={{ width: 800 }}>
+        <div className="w-full flex justify-center mt-6 bg-white">
+          <TableContainer component={Paper} sx={{ width: 800 }} ref={elementRef}>
             <Table aria-label="spanning table">
               <TableHead>
                 <StyledTableRow>
