@@ -92,6 +92,7 @@ const UpdateProduct = () => {
       );
       if (data?.success) {
         alert("Product updated Successfully");
+        window.location.replace("/product/view-product");
       } else {
         alert(data?.message);
       }

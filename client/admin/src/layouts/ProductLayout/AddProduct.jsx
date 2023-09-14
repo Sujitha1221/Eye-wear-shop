@@ -76,6 +76,7 @@ const AddProduct = () => {
       );
       if (data?.success) {
         alert("Product created Successfully");
+        window.location.replace("/product/view-product");
       } else {
         alert(data?.message);
       }

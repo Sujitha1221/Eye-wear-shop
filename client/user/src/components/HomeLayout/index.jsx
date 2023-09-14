@@ -16,7 +16,7 @@ export default function Home() {
               </h1>
               <p className="mt-4 text-xl text-gray-500">
                 Discover a curated collection of eyewear that blends fashion and
-                function seamlessly. At Shop, we believe that the perfect pair
+                function seamlessly. At SolarFlare, we believe that the perfect pair
                 of glasses can not only enhance your vision but also elevate
                 your style.
               </p>

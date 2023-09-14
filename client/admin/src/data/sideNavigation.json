@@ -3,7 +3,7 @@
         {
             "name": "Dashboard",
             "icon": "fa-solid fa-chart-simple",
-            "link": "/"
+            "link": "/admin"
         },
 
         {

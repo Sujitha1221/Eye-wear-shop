@@ -38,11 +38,21 @@ while not exit_flag:
     faces = cascade.detectMultiScale(gray_scale)
     
     for (x, y, w, h) in faces:
+        # Define how much higher you want to move the overlay
+        offset_y = -20  # You can adjust this value as needed
+        
+        # Calculate the new y-coordinate for the overlay
+        new_y = y + offset_y
+        
+        # Make sure the new_y is within the frame boundaries
+        if new_y < 0:
+            new_y = 0
+        
         # Resize the downloaded image to match the size of the detected face
         overlay_resize = cv2.resize(image, (w, h))
         
         # Get the ROI for overlay placement
-        roi = frame[y:y+h, x:x+w]
+        roi = frame[new_y:new_y+h, x:x+w]
 
         # Extract the alpha channel from the overlay
         alpha_channel = overlay_resize[:, :, 3]
@@ -52,7 +62,8 @@ while not exit_flag:
 
         # Multiply the overlay with the mask and the inverse of the mask with the ROI
         overlayed_roi = cv2.multiply(roi.astype(float), (1.0 - mask))
-        frame[y:y+h, x:x+w] = cv2.add(overlayed_roi, overlay_resize[:, :, 0:3] * mask)
+        frame[new_y:new_y+h, x:x+w] = cv2.add(overlayed_roi, overlay_resize[:, :, 0:3] * mask)
+
 
     cv2.imshow('Virtual Try On', frame)
 
