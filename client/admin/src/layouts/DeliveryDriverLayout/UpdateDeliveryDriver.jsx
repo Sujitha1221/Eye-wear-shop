@@ -21,7 +21,6 @@ const UpdateDeliveryDriver = () => {
 
   useEffect(() => {
     function getDeliveryDriver() {
-      alert(id);
       axios
         .get(
           `http://localhost:8080/delivery-driver/get-delivery-driver-by-id/${id}`
@@ -58,7 +57,7 @@ const UpdateDeliveryDriver = () => {
       return;
     }
 
-    if( !lastName) {
+    if (!lastName) {
       setErrors("Please provide a last name");
       return;
     } else if (lastName.length < 4) {
@@ -69,9 +68,16 @@ const UpdateDeliveryDriver = () => {
     if( !email) {
       setErrors("Please provide a email");
       return;
+    } else {
+      const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+
+      if (!emailPattern.test(email)) {
+        setErrors("Invalid email format");
+        return;
+      }
     }
 
-    if( !NIC) {
+    if (!NIC) {
       setErrors("Please provide a NIC number");
       return;
     } else if (NIC.length != 12) {
@@ -79,7 +85,7 @@ const UpdateDeliveryDriver = () => {
       return;
     }
 
-    if( !licenseNo) {
+    if (!licenseNo) {
       setErrors("Please provide a License Number");
       return;
     } else if (licenseNo.length != 8) {
@@ -87,19 +93,18 @@ const UpdateDeliveryDriver = () => {
       return;
     }
 
-    if( !address) {
+    if (!address) {
       setErrors("Please provide a address");
       return;
     }
 
-    if( !vehicleNo) {
+    if (!vehicleNo) {
       setErrors("Please provide a Vehicle Number");
       return;
     } else if (vehicleNo.length != 8) {
       setErrors("Vehicle number must 8 characters");
       return;
     }
-
 
     axios
       .put("http://localhost:8080/delivery-driver/update-delivery-driver", {
@@ -206,14 +211,14 @@ const UpdateDeliveryDriver = () => {
               style={{ width: "100%" }}
             />
           </div>
-          <div class="col-span-2 flex justify-center pt-5"> 
-          {errors ? (
-            <div className="w-full justify-center text-center px-[20px] py-[10px] border-2 border-red-700 bg-red-100 text-red-700 rounded text-xs">
-              {errors ? errors : ""}
-            </div>
-          ) : (
-            <></>
-          )}
+          <div class="col-span-2 flex justify-center pt-5">
+            {errors ? (
+              <div className="w-full justify-center text-center px-[20px] py-[10px] border-2 border-red-700 bg-red-100 text-red-700 rounded text-xs">
+                {errors ? errors : ""}
+              </div>
+            ) : (
+              <></>
+            )}
           </div>
           {/* <div class="p-4 flex justify-center">
                         <TextField label="Password" name="password" defaultValue=" " value={password} onChange={(e) => setPassword(e.target.value)} variant="outlined" style={{ width: '100%' }} />

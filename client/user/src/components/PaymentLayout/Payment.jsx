@@ -21,19 +21,28 @@ const Payment = () => {
   const [cardNumber, setCardNumber] = useState();
   const [cvv, setCVV] = useState();
   const [cardDate, setCardDate] = useState();
-  const [amount, setAmount] = useState();
+  var [amount, setAmount] = useState(0);
   const [errors, setErrors] = useState("");
   const [userEmail, setUserEmail] = useState(
     JSON.parse(localStorage.getItem("UserInfo")).email
   );
 
   useEffect(() => {
-    //var product = JSON.parse(localStorage.getItem("cart"));
-    setProducts(JSON.parse(localStorage.getItem("cart")));
+    function getAllProducts() {
+      setProducts(JSON.parse(localStorage.getItem("cart")));
+    }
+    getAllProducts();
   }, []);
 
+  
   function makePayment(e) {
     e.preventDefault();
+    amount = 0;
+    products.forEach((product) => {
+      amount += product.price * product.selectedQuantity;
+    });
+    setAmount(amount);
+
     if (!address) {
       setErrors("Please provide a address");
       return;
@@ -71,7 +80,7 @@ const Payment = () => {
         userName: userEmail,
         paymentType,
         cardNumber,
-        amount: "1212",
+        amount,
       })
       .then((res) => {
         console.log(res.data);
@@ -106,22 +115,6 @@ const Payment = () => {
       .catch((err) => {
         console.error("Error : " + err.message);
       });
-  }
-
-  function test(e) {
-    const productData = {
-      _id: "64f7502a4bb126cf1ca4c923",
-      categoryName: "sun glasses",
-      createdAt: "2023-09-09T05:46:40.361Z",
-      description:
-        "Keep it HIGH KEY with our #1 bestselling aviator designed to flatter every face shape",
-      inStock: 18,
-      price: 5600,
-      productName: "HIGH KEY",
-      selectedQuantity: "3",
-      updatedAt: "2023-09-09T05:46:40.361Z",
-      __v: 0,
-    };
 
     const productDataString = JSON.stringify(productData);
     localStorage.setItem("productData", productDataString);
@@ -191,7 +184,7 @@ const Payment = () => {
                   <TableCell colSpan={3} align="right">
                     Total
                   </TableCell>
-                  <TableCell align="right">039403940</TableCell>
+                  <TableCell align="right">{amount}</TableCell>
                 </StyledTableRow>
               </TableBody>
             </Table>
@@ -230,7 +223,7 @@ const Payment = () => {
         </div>
         <div className="flex justify-center grid grid-cols-3">
           <div className="col-span-3 p-4 flex justify-center">
-            <label>
+            <label style={{fontSize: 17}}>
               <input
                 type="radio"
                 value="credit"
@@ -239,12 +232,13 @@ const Payment = () => {
               />
               Credit Card
             </label>
-            <label>
+            <label style={{fontSize: 17}}>
               <input
                 type="radio"
                 value="debit"
                 name="card"
                 onChange={(e) => setPaymentType(e.target.value)}
+                style={{marginLeft: 27}}
               />
               Debit Card
             </label>
@@ -297,8 +291,6 @@ const Payment = () => {
         </button>
       </div>
       <h1> d</h1>
-      <h1> d </h1>
-      <h1> d </h1>
       <Footer></Footer>
     </>
   );

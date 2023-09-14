@@ -36,6 +36,13 @@ const AddDeliveryDriver = () => {
     if( !email) {
       setErrors("Please provide a email");
       return;
+    } else {
+      const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+
+      if (!emailPattern.test(email)) {
+        setErrors("Invalid email format");
+        return;
+      }
     }
 
     if( !NIC) {

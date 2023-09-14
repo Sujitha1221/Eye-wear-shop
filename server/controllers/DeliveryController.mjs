@@ -110,3 +110,20 @@ export const deleteDelivery = async (req, res) => {
       return res.json({ status: "Error", err });
     });
 };
+
+export const getDeliveryByDriverID = async(req,res) => {
+  let objId = req.params.id;
+
+  Delivery.find({ driverId: objId })
+    .then((DeliveryDriver) => {
+      if (!DeliveryDriver) {
+        return res.json({ status: "No drivers found" });
+      } else {
+        return res.json(DeliveryDriver);
+      }
+    })
+    .catch((err) => {
+      console.log({ status: "Error", err });
+      return res.json({ status: "Error", err });
+    });
+};

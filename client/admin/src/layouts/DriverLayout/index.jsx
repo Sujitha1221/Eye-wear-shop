@@ -18,17 +18,20 @@ import Header from "../../components/Header";
 const DriverLayout = () => {
   const [deliveries, setAllDeliveries] = useState([]);
   const [searchKey, setSearchKey] = useState("");
-  const [userEmail, setUserEmail] = useState(
-    JSON.parse(localStorage.getItem("DriverInfo")).email
+  const [driverId, setDriverId] = useState(
+    JSON.parse(localStorage.getItem("DriverInfo"))._id
   );
 
   useEffect(() => {
     function getAllDeliveries() {
       axios
-        .get(`http://localhost:8080/delivery/get-delivery-driver-by-email/${userEmail}`)
+        .get(
+          `http://localhost:8080/delivery/get-delivery-by-driver-id/${driverId}`
+        )
         .then((res) => {
-          console.log(res.data)
+          console.log(res.data);
           setAllDeliveries(res.data);
+          //setAllDeliveries(deliveries.filter((delivery) => delivery.status == "Order Confirmed"));
         })
         .catch((err) => {
           console.error("Error : " + err.message);
@@ -51,16 +54,13 @@ const DriverLayout = () => {
             .then((res) => {
               var _id = res.data.driverId;
               if (res.data != null) {
-                alert(_id);
                 axios
                   .get(
                     `http://localhost:8080/delivery-driver/driver-deliver/${_id}`
                   )
                   .then((res) => {
                     if (res.data != null) {
-                      window.location.replace(
-                        "/delivery-driver-view/view-delivery-driver"
-                      );
+                      window.location.replace("/driver");
                     }
                   })
                   .catch((err) => {
@@ -86,8 +86,7 @@ const DriverLayout = () => {
         status: "Dispatched",
       })
       .then((res) => {
-        if (res.data.status != null)
-          window.location.replace("/delivery-driver-view/view-delivery-driver");
+        if (res.data.status != null) window.location.replace("/driver");
       })
       .catch((err) => {
         console.error("Error : " + err.message);
@@ -120,21 +119,12 @@ const DriverLayout = () => {
 
   return (
     <>
-    <Header />
-      <input
-        type="search"
-        id="default-search"
-        onChange={(e) => setSearchKey(e.target.value)}
-        className="block w-full mt-3 p-4 pl-10 text-sm text-black border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500  dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
-        placeholder="Search"
-      />
+      <Header />
       <TableContainer component={Paper} style={{ marginTop: "20px" }}>
         <Table>
           <TableHead>
             <TableRow>
               <StyledTableCell>Delivery ID</StyledTableCell>
-              <StyledTableCell align="right">Payment Id</StyledTableCell>
-              <StyledTableCell align="right">Driver</StyledTableCell>
               <StyledTableCell align="right">Address</StyledTableCell>
               <StyledTableCell align="right">Phone Number</StyledTableCell>
               <StyledTableCell align="right">Status</StyledTableCell>
@@ -143,20 +133,17 @@ const DriverLayout = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {deliveries ? deliveries
-              .map((delivery) => (
+            {deliveries ? (
+              deliveries.filter((key) => {
+                const status = (key.status || "").toLowerCase();
+                return (
+                  status.includes("order confirmed") || status.includes("dispatched")
+                );
+              }).map((delivery) => (
                 <StyledTableRow>
                   <StyledTableCell component="th" scope="row">
                     {" "}
                     {delivery._id}{" "}
-                  </StyledTableCell>
-                  <StyledTableCell align="right">
-                    {" "}
-                    {delivery.paymentId}{" "}
-                  </StyledTableCell>
-                  <StyledTableCell align="right">
-                    {" "}
-                    {delivery.driverId}{" "}
                   </StyledTableCell>
                   <StyledTableCell align="right">
                     {" "}
@@ -187,7 +174,10 @@ const DriverLayout = () => {
                     </button>
                   </StyledTableCell>
                 </StyledTableRow>
-              )): (<></>)}
+              ))
+            ) : (
+              <></>
+            )}
           </TableBody>
         </Table>
       </TableContainer>
