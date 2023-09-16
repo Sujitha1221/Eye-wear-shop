@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faGlasses } from "@fortawesome/free-solid-svg-icons"
 
 export default function SignUp() {
   const [firstname, setFirstname] = useState("");
@@ -11,18 +13,7 @@ export default function SignUp() {
   const [nic, setNic] = useState("");
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
-  //   const [image,setImage] = useState("");
 
-  //   function convert(e) {//function to convert image as url
-  //     var reader = new FileReader();
-  //     reader.readAsDataURL(e.target.files[0]);
-  //     reader.onload = () => {
-  //       setImage(reader.result);
-  //     };
-  //     reader.onerror = (error) => {
-  //       console.log("Error: ", error);
-  //     };
-  //   }
 
   let navigate = useNavigate();
 
@@ -83,12 +74,10 @@ export default function SignUp() {
         <br />
         <div className="w-full max-w-xl bg-white p-6 rounded-lg shadow-lg mt-10">
           <div className="w-full">
-            {/* <img
-              className="mx-auto h-10 w-auto"
-              src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-              alt="Your Company"
-            /> */}
-            <h2 className=" text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+          <div className="flex justify-center text-black text-2xl font-semibold italic mt-5">
+                      <FontAwesomeIcon className="mr-[10px]" icon={faGlasses} />SolarFlare
+                    </div>
+            <h2 className="mt-5 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
               Sign Up
             </h2>
           </div>

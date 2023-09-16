@@ -1,14 +1,10 @@
 import React, { useEffect } from 'react';
-import { useNavigate } from "react-router-dom";
 
-const logOut = (e) => {
+const logOut = () => {
  
-
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  let navigate = useNavigate();
   console.log("delete");
   localStorage.removeItem("UserInfo");
-  navigate("/");
+  window.location.replace("/");
 }
 
 export default function LogOut() {

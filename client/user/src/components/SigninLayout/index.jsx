@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faGlasses } from "@fortawesome/free-solid-svg-icons"
 export default function SignIn() {
 
     const [email, setEmail] = useState("");
@@ -9,6 +10,8 @@ export default function SignIn() {
 
 
   let navigate = useNavigate();
+
+
 
 
    const  handleSubmit = (e) => {
@@ -63,12 +66,10 @@ export default function SignIn() {
     >
         <div className="w-full max-w-md bg-white p-6 rounded-lg shadow-lg">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-            {/* <img
-              className="mx-auto h-10 w-auto"
-              src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-              alt="Your Company"
-            /> */}
-            <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+            <div className="flex justify-center text-black text-2xl font-semibold italic">
+                      <FontAwesomeIcon className="mr-[10px]" icon={faGlasses} />SolarFlare
+                    </div>
+            <h2 className="mt-5 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
               Sign in to your account
             </h2>
           </div>
@@ -128,14 +129,10 @@ export default function SignIn() {
                 >
                   Sign in
                 </button>
+            
+              
                 
-                {/* <GoogleLogin
-    clientId = "122074645009-i1srlja2777lsga95qdj8cas7l25b95r.apps.googleusercontent.com"
-    buttonText="Login with google"
-    onSuccess={()=>{responseGoogleSuccess}}
-    onFailure={()=>{responseGoogleError}}
-    cookiePolicy={'single_host_origin'}
-  /> */}
+ 
               </div>
               </div>
 
@@ -143,7 +140,7 @@ export default function SignIn() {
             </form>
   
             <p className="mt-10 text-center text-sm text-gray-500">
-              Don't have an account?
+              Do not have an account?
 
               <span className="mr-3"></span>{" "}
 

@@ -11,6 +11,6 @@ UserRouter.get('/get/:id',UserController.getUserbyId);
 UserRouter.post('/login',UserController.userLogin);
 UserRouter.post('/forgot',UserController.forgotPassword);
 UserRouter.post('/reset/:id',UserController.resetPassword);
-
+UserRouter.get('/history/:userName',UserController.orderHistory);
 
 export default UserRouter;

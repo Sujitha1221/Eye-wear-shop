@@ -3,6 +3,8 @@ import logger from "../utils/logger.mjs";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import nodemailer from "nodemailer";
+import Payment from "../models/Payment.mjs";
+import Product from "../models/Product.mjs";
 
 const UserController = {
   createUser: async (req, res) => {
@@ -169,8 +171,63 @@ const UserController = {
             .catch(err => res.send({Status: err}))
         
     
-}
+},
 
+getProductbyId: async (req, res) => {
+  let id = req.params.id; //get the id from the request(parameter)
+
+  await Product.findOne({ _id: `${id}` }) //compare the did with the got id and return the details
+    .then((product) => {
+      res.status(200).send({ status: "Product Details fetched", name:product.productName }); //send response as a json object and a status
+    })
+    .catch((err) => {
+      console.log(err.message);
+
+      res.status(500).send({ status: "Error with fetching Product details", error: err.message }); //send error message
+    });
+},
+
+orderHistory:async(req,res)=>{
+  // Modify the order history route
+
+  try {
+    const userName = req.params.userName;
+
+    // Find all payments with the given userName
+    const payments = await Payment.find({ userName });
+
+    if (payments.length === 0) {
+      return res.status(404).json({ message: 'No orders found for this userName.' });
+    }
+
+    // Fetch product names based on product IDs in each payment
+    const orderHistory = await Promise.all(
+      payments.map(async (payment) => {
+        const productsWithNames = await Promise.all(
+          payment.products.map(async (productId) => {
+            const product = await Product.findById(productId);
+            console.log(`Product ID: ${productId}, Product Name: ${product ? product.productName : 'Unknown Product'}`);
+            return product ? product.productName : 'Unknown Product';
+          })
+        );
+
+        return {
+          ...payment._doc,
+          products: productsWithNames,
+        };
+      })
+    );
+
+    return res.status(200).json(orderHistory);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+
+
+
+
+}
 
 };
 
