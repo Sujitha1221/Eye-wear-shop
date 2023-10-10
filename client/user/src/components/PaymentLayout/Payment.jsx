@@ -16,7 +16,7 @@ import { toPng } from 'html-to-image';
 
 
 const Payment = () => {
-  const [products, setProducts] = useState();
+  const [products, setProducts] = useState(JSON.parse(localStorage.getItem("cart")));
   const [address, setAddress] = useState();
   const [phoneNumber, setPhoneNumber] = useState();
   const [paymentType, setPaymentType] = useState();
@@ -30,11 +30,22 @@ const Payment = () => {
   );
   const elementRef = useRef(null);
 
+  // useEffect(() => {
+  //   function getAllProducts() {
+  //     setProducts(JSON.parse(localStorage.getItem("cart")));
+  //   }
+  //   getAllProducts();
+  // }, []);
+
   useEffect(() => {
-    function getAllProducts() {
-      setProducts(JSON.parse(localStorage.getItem("cart")));
+    function setTotal() {
+      amount = 0;
+    products.forEach((product) => {
+      amount += product.price * product.selectedQuantity;
+    });
+    setAmount(amount);
     }
-    getAllProducts();
+    setTotal();
   }, []);
 
   const printBill = () => {
@@ -48,6 +59,11 @@ const Payment = () => {
       .catch((err) => {
         console.log(err);
       });
+  };
+
+  const clearCart = () => {
+    localStorage.removeItem('cart');
+    window.location.replace('http://localhost:4000/product/all-products');
   };
   
   function makePayment(e) {
@@ -301,6 +317,13 @@ const Payment = () => {
         )}
       </div>
       <div className="h-[64px] fixed bottom-0 w-full px-[20px] flex justify-end items-center shadow-[0px_0px_10px_0px_rgba(0,0,0,0.5)]  z-10 bg-white">
+      <button
+          onClick={clearCart}
+          className="bg-transparent text-red-600 border-red-600 hover:bg-red-600 hover:text-white font-semibold  py-2 px-4 mr-7 border border-blue-500 hover:border-transparent rounded"
+        >
+          Clear Cart
+        </button>
+
         <button
           type="submit"
           onClick={makePayment}
