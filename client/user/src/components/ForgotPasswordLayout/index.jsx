@@ -29,7 +29,7 @@ export default function ForgotPassword() {
         <div
       className="flex min-h-screen justify-center items-center bg-cover bg-center"
       style={{
-        backgroundImage: `url('https://www.chashmay.com.pk/images/blogs/8738Thickvs.ThinSunglassesFrames.jpg')` // Replace with the actual path to your background image
+        backgroundImage: `url('https://cdn5.vectorstock.com/i/1000x1000/17/04/retro-glasses-background-concept-vector-3471704.jpg')` // Replace with the actual path to your background image
         
 
       }}

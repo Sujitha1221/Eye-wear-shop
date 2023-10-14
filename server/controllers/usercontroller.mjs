@@ -12,6 +12,9 @@ const UserController = {
       const { password, ...userData } = req.body; // Destructure the password
       const user = new User(userData);
 
+      console.log("test ok");
+      console.log(user);
+
       // Hash the password asynchronously
       const hashedPassword = await bcrypt.hash(password, 12);
 
