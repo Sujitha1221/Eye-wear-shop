@@ -1,5 +1,6 @@
 import Category from "../models/Category.mjs";
 import slugify from "slugify";
+import Product from "../models/Product.mjs";
 
 //create new category
 export const createCategory = async (req, res) => {
@@ -101,13 +102,25 @@ export const getSingleCategory = async (req, res) => {
 export const deleteCategory = async (req, res) => {
   try {
     const { id } = req.params;
+
+    // Check if there are any products associated with the category
+    const productsInCategory = await Product.find({ category: id });
+
+    if (productsInCategory.length > 0) {
+      return res.status(400).send({
+        success: false,
+        message:
+          "Category cannot be deleted because it has associated products",
+      });
+    }
+
     await Category.findByIdAndDelete(id);
     res.status(200).send({
       success: true,
       message: "Category deleted successfully",
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.status(500).send({
       success: false,
       error,

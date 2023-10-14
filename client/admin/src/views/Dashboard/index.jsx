@@ -10,6 +10,9 @@ const Dashboard = () => {
   const [deliveryChartData, setDeliveryChartData] = useState(null);
   const [deliveryChartLabel, setDeliveryChartLabel] = useState(null);
   const [deliveries, setAllDeliveries] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [productChartData, setProductChartData] = useState(null);
+  const [productChartLabel, setProductChartLabel] = useState(null);
 
   useEffect(() => {
     const getAllRatings = () => {
@@ -67,8 +70,7 @@ const Dashboard = () => {
       let notDelivered = totalDeliveries - delivered;
 
       deliveries.map((delivery) => {
-        if (delivery.status == "Delivered") 
-          delivered++;
+        if (delivery.status == "Delivered") delivered++;
       });
 
       const data = [delivered, notDelivered];
@@ -114,18 +116,12 @@ const Dashboard = () => {
     labels: deliveryChartLabel,
     width: "300 px",
     height: "300 px",
-    datasets: [ 
+    datasets: [
       {
         label: "Deliveries",
         data: deliveryChartData,
-        backgroundColor: [
-          "rgba(255, 99, 132, 0.2)",
-          "rgba(54, 162, 235, 0.2)",
-        ],
-        borderColor: [
-          "rgba(255, 99, 132, 1)",
-          "rgba(54, 162, 235, 1)",
-        ],
+        backgroundColor: ["rgba(255, 99, 132, 0.2)", "rgba(54, 162, 235, 0.2)"],
+        borderColor: ["rgba(255, 99, 132, 1)", "rgba(54, 162, 235, 1)"],
         borderWidth: 2,
       },
     ],
@@ -140,17 +136,96 @@ const Dashboard = () => {
     },
   };
 
+  useEffect(() => {
+    // Fetch product data from your backend
+    const fetchProductData = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:8080/product/get-products"
+        );
+        if (response.data.success) {
+          setProducts(response.data.products);
+
+          // Process the product data to get chart data
+          const productCounts = {};
+          for (const product of response.data.products) {
+            if (product.category) {
+              if (!productCounts[product.category.categoryName]) {
+                productCounts[product.category.categoryName] = 1;
+              } else {
+                productCounts[product.category.categoryName]++;
+              }
+            }
+          }
+
+          const labels = Object.keys(productCounts);
+          const data = Object.values(productCounts);
+
+          setProductChartLabel(labels);
+          setProductChartData(data);
+        }
+      } catch (error) {
+        console.log(error);
+        alert("Error while fetching product data");
+      }
+    };
+
+    fetchProductData();
+  }, []);
+
+  ChartJS.register(ArcElement, Tooltip, Legend);
+
+  const productData = {
+    labels: productChartLabel,
+    datasets: [
+      {
+        label: "Product Categories",
+        data: productChartData,
+        backgroundColor: [
+          "rgba(255, 99, 132, 0.2)",
+          "rgba(54, 162, 235, 0.2)",
+          "rgba(255, 206, 86, 0.2)",
+          "rgba(75, 192, 192, 0.2)",
+          "rgba(153, 102, 255, 0.2)",
+          "rgba(255, 159, 64, 0.2)",
+        ],
+        borderColor: [
+          "rgba(255, 99, 132, 1)",
+          "rgba(54, 162, 235, 1)",
+          "rgba(255, 206, 86, 1)",
+          "rgba(75, 192, 192, 1)",
+          "rgba(153, 102, 255, 1)",
+          "rgba(255, 159, 64, 1)",
+        ],
+        borderWidth: 2,
+      },
+    ],
+  };
+
+  const productChartOptions = {
+    plugins: {
+      legend: {
+        display: true,
+        position: "right",
+      },
+    },
+  };
+
   return (
     <>
       <div className="flex">
-      <div className="h-[full] w-fit px-[40px] text-xl font-semibold pt-[20px] flex flex-col justify-center text-center rounded shadow-[0px_0px_10px_0px_rgba(0,0,0,0.3)]">
-        Total Ratings
-        <Pie data={data} options={chartOptions} />
-      </div>
-      <div className="h-[full] w-fit px-[40px] text-xl font-semibold pt-[20px] flex flex-col justify-center text-center rounded shadow-[0px_0px_10px_0px_rgba(0,0,0,0.3)]">
-        Deliveries
-        <Pie data={deliveryData} options={chartOptions} />
-      </div>
+        <div className="h-[full] w-fit px-[40px] text-xl font-semibold pt-[20px] flex flex-col justify-center text-center rounded shadow-[0px_0px_10px_0px_rgba(0,0,0,0.3)]">
+          Total Ratings
+          <Pie data={data} options={chartOptions} />
+        </div>
+        <div className="h-[full] w-fit px-[40px] text-xl font-semibold pt-[20px] flex flex-col justify-center text-center rounded shadow-[0px_0px_10px_0px_rgba(0,0,0,0.3)]">
+          Deliveries
+          <Pie data={deliveryData} options={chartOptions} />
+        </div>
+        <div className="h-[full] w-fit px-[40px] text-xl font-semibold pt-[20px] flex flex-col justify-center text-center rounded shadow-[0px_0px_10px_0px_rgba(0,0,0,0.3)]">
+          Product Categories
+          <Pie data={productData} options={productChartOptions} />
+        </div>
       </div>
     </>
   );

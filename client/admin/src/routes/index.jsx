@@ -15,7 +15,7 @@ import CommonLayout from "../layouts/CommonLayout";
 import UserLayout from "../layouts/UserLayout";
 import LogOut from "../layouts/LogoutLayout";
 import DriverLayout from "../layouts/DriverLayout";
-import SignIn from "../layouts/CommonLayout/SignIn"; 
+import SignIn from "../layouts/CommonLayout/SignIn";
 
 const FrontendRoutes = () => {
   return (
@@ -25,12 +25,12 @@ const FrontendRoutes = () => {
           <Route element={<AdminLayout />}>
             <Route path="/admin" element={<Dashboard />} />
             <Route path="/ratings" element={<ViewRating />} />
-             <Route path="/profile" />
+            <Route path="/profile" />
           </Route>
 
           <Route element={<CommonLayout />}>
-            <Route path="/" element={<SignIn />}/>
-            <Route path="signup"/>
+            <Route path="/" element={<SignIn />} />
+            <Route path="signup" />
           </Route>
 
           <Route element={<UserLayout />}>
@@ -65,14 +65,12 @@ const FrontendRoutes = () => {
             <Route path="view-product" />
             <Route path="add-product" />
             <Route path="update-product/:slug" />
+            <Route path="all-products" />
           </Route>
           <Route path="/product/rating" element={<GetRatingForProduct />} />
           <Route path="/product/give-rating" element={<GiveRating />} />
-          <Route path="/driver/*" element={<DriverLayout />}/>
+          <Route path="/driver/*" element={<DriverLayout />} />
         </Routes>
-
-        
-        
       </Router>
     </>
   );

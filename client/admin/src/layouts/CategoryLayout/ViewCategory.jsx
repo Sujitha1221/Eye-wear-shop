@@ -83,8 +83,10 @@ const ViewCategory = () => {
         `http://localhost:8080/category/delete-category/${pId}`
       );
       if (data.success) {
-        alert(`category is deleted`);
+        alert("Category is deleted");
         getAllCategory();
+      } else {
+        alert("Error: " + data.message);
       }
     } catch (error) {
       alert("Something went wrong");

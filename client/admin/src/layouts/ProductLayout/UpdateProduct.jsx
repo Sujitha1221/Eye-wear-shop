@@ -4,6 +4,12 @@ import axios from "axios";
 import { Select } from "antd";
 const { Option } = Select;
 import { useNavigate, useParams } from "react-router-dom";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const UpdateProduct = () => {
   const navigate = useNavigate();
@@ -17,6 +23,10 @@ const UpdateProduct = () => {
   const [photo, setPhoto] = useState("");
   const [id, setId] = useState("");
   const [errors, setErrors] = useState("");
+  const [openError, setOpenError] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState("");
+  const [openSuccess, setOpenSuccess] = React.useState(false); // Add a state for success Snackbar
+  const [successMessage, setSuccessMessage] = React.useState("");
 
   const getSingleProduct = async () => {
     try {
@@ -49,6 +59,20 @@ const UpdateProduct = () => {
       console.log(error);
       alert("Something went wrong in getting category");
     }
+  };
+
+  const handleCloseError = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpenError(false);
+  };
+
+  const handleCloseSuccess = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpenSuccess(false); // Close the success Snackbar
   };
 
   useEffect(() => {
@@ -91,14 +115,17 @@ const UpdateProduct = () => {
         productData
       );
       if (data?.success) {
-        alert("Product updated Successfully");
+        setSuccessMessage("The product successfully updated.");
+        setOpenSuccess(true);
         window.location.replace("/product/view-product");
       } else {
-        alert(data?.message);
+        setErrorMessage(data?.message);
+        setOpenError(true);
       }
     } catch (error) {
       console.log(error);
-      alert("Something went wrong");
+      setErrorMessage("An error occurred while updating the product.");
+      setOpenError(true);
     }
   };
 
@@ -220,6 +247,32 @@ const UpdateProduct = () => {
           </div>
         </form>
       </div>
+      <Snackbar
+        open={openError}
+        autoHideDuration={6000}
+        onClose={handleCloseError}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "center",
+        }}
+      >
+        <Alert onClose={handleCloseError} severity="error">
+          {errorMessage}
+        </Alert>
+      </Snackbar>
+      <Snackbar
+        open={openSuccess}
+        autoHideDuration={6000}
+        onClose={handleCloseSuccess}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "center",
+        }}
+      >
+        <Alert onClose={handleCloseSuccess} severity="success">
+          {successMessage}
+        </Alert>
+      </Snackbar>
     </>
   );
 };
