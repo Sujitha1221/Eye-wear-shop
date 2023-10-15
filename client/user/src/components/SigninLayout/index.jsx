@@ -11,7 +11,7 @@ export default function SignIn() {
   let navigate = useNavigate();
 
   const handleDemoClick = () => {
-    setEmail("johndoe@gmail.com");
+    setEmail("gokulabisheak12@gmail.com");
     setPassword("asdQWE123#");
   };
 

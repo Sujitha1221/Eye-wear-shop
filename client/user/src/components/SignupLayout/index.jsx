@@ -14,9 +14,9 @@ export default function SignUp() {
   const [repassword, setRePassword] = useState("");
 
   const handleDemoClick = () => {
-    setFirstname("John");
-    setLastname("Doe");
-    setEmail("johndoe@gmail.com");
+    setFirstname("Gokul");
+    setLastname("Abisheak");
+    setEmail("gokulabisheak12@gmail.com");
     setPassword("asdQWE123#");
     setRePassword("asdQWE123#");
   };
