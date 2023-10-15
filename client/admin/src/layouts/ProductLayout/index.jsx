@@ -6,6 +6,7 @@ import { Outlet } from "react-router-dom";
 import AddProduct from "./AddProduct";
 import ViewProduct from "./ViewProduct";
 import UpdateProduct from "./UpdateProduct";
+import AllProducts from "./AllProducts";
 
 const ProductLayout = () => {
   return (
@@ -20,6 +21,7 @@ const ProductLayout = () => {
               <Route>
                 <Route path="view-product" element={<ViewProduct />} />
                 <Route path="add-product" element={<AddProduct />} />
+                <Route path="all-products" element={<AllProducts />} />
                 <Route
                   path="update-product/:slug"
                   element={<UpdateProduct />}

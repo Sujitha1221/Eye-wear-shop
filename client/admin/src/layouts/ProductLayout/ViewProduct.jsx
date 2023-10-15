@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
@@ -11,9 +11,18 @@ import Paper from "@mui/material/Paper";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import axios from "axios";
-import { useReactToPrint } from "react-to-print";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import Button from "@mui/material/Button";
 
-const ViewProduct = () => {
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+const ViewProduct = React.forwardRef((props, ref) => {
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
       backgroundColor: "#1d93bc",
@@ -34,7 +43,13 @@ const ViewProduct = () => {
     },
   }));
   const [products, setProducts] = useState([]);
-  const componentPDF = useRef();
+  const [openError, setOpenError] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState("");
+  const [openSuccess, setOpenSuccess] = React.useState(false); // Add a state for success Snackbar
+  const [successMessage, setSuccessMessage] = React.useState("");
+  const [openDialog, setOpenDialog] = useState(false);
+  const [productIdToDelete, setProductIdToDelete] = useState(null);
+
   const getAllProducts = async () => {
     try {
       const { data } = await axios.get(
@@ -53,20 +68,49 @@ const ViewProduct = () => {
     getAllProducts();
   }, []);
 
-  const handleDelete = async (pId) => {
+  const handleDelete = (pId) => {
+    // Set the product ID to state
+    setProductIdToDelete(pId);
+    // Open the dialog
+    setOpenDialog(true);
+  };
+
+  const confirmDelete = async () => {
     try {
-      let answer = window.prompt("Are you sure want to delete this product ?");
-      if (!answer) return;
-      const { data } = await axios.delete(
-        `http://localhost:8080/product/delete-product/${pId}`
-      );
-      if (data.success) {
-        alert(`Product is deleted`);
-        getAllProducts();
+      // Check if there's a product ID to delete
+      if (productIdToDelete) {
+        const { data } = await axios.delete(
+          `http://localhost:8080/product/delete-product/${productIdToDelete}`
+        );
+        if (data.success) {
+          setSuccessMessage("The product was successfully deleted.");
+          setOpenSuccess(true);
+          getAllProducts();
+        }
       }
     } catch (error) {
-      alert("Something went wrong");
+      // Handle the error and display the error message
+      setErrorMessage("An error occurred while deleting the product.");
+      setOpenError(true);
     }
+
+    // Reset the product ID and close the dialog
+    setProductIdToDelete(null);
+    setOpenDialog(false);
+  };
+
+  const handleCloseError = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpenError(false);
+  };
+
+  const handleCloseSuccess = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpenSuccess(false); // Close the success Snackbar
   };
 
   //fetch search function from backend
@@ -82,11 +126,6 @@ const ViewProduct = () => {
       getAllProducts();
     }
   };
-  const generatePDF = useReactToPrint({
-    content: () => componentPDF.current,
-    documentTitle: "Products",
-    onAfterPrint: () => window.location.replace("/product/view-product"),
-  });
   return (
     <>
       <input
@@ -104,16 +143,14 @@ const ViewProduct = () => {
           </button>
         </Link>
         <div className="mr-6"></div>
-        <button
-          className="bg-transparent text-cyan-600 border-cyan-600 hover:bg-cyan-600 hover:text-white font-semibold py-2 px-4 border border-blue-500 hover:border-transparent rounded"
-          onClick={generatePDF}
-        >
-          Generate Report
-        </button>
+        <Link to={`/product/all-products`}>
+          <button className="bg-transparent text-cyan-600 border-cyan-600 hover:bg-cyan-600 hover:text-white font-semibold py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+            Go To Generate Report
+          </button>
+        </Link>
       </div>
-
       <TableContainer component={Paper} style={{ marginTop: "20px" }}>
-        <Table ref={componentPDF}>
+        <Table>
           <TableHead>
             <TableRow>
               <StyledTableCell>Product Name</StyledTableCell>
@@ -173,8 +210,54 @@ const ViewProduct = () => {
           </TableBody>
         </Table>
       </TableContainer>
+      <Snackbar
+        open={openError}
+        autoHideDuration={6000}
+        onClose={handleCloseError}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "center",
+        }}
+      >
+        <Alert onClose={handleCloseError} severity="error">
+          {errorMessage}
+        </Alert>
+      </Snackbar>
+      <Snackbar
+        open={openSuccess}
+        autoHideDuration={6000}
+        onClose={handleCloseSuccess}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "center",
+        }}
+      >
+        <Alert onClose={handleCloseSuccess} severity="success">
+          {successMessage}
+        </Alert>
+      </Snackbar>
+      <Dialog
+        open={openDialog}
+        onClose={() => setOpenDialog(false)}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Are you sure you want to delete this product?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpenDialog(false)} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={confirmDelete} color="primary" autoFocus>
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
-};
+});
 
 export default ViewProduct;
