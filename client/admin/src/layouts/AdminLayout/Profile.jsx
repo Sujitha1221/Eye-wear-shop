@@ -17,6 +17,8 @@ const AdminProfile = () => {
 
   var admin = JSON.parse(localStorage.getItem("AdminInfo"));
   const id = admin._id;
+  var admin = JSON.parse(localStorage.getItem("AdminInfo"));
+  const id = admin._id;
 
   useEffect(() => {
     function GET() {
@@ -40,6 +42,7 @@ const AdminProfile = () => {
   }, []);
 
   async function updateData(e) {
+  async function updateData(e) {
     e.preventDefault();
 
     if (!phone.match(/^\d{10}$/)) {
@@ -61,6 +64,7 @@ const AdminProfile = () => {
           setErrors(msg);
         });
     }
+  }
   }
 
   async function deleteData(e) {

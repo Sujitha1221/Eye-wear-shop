@@ -25,7 +25,10 @@ export default function SignUp() {
     e.preventDefault();
 
     if (!firstname || !lastname || !email || !password || !repassword) {
+
+    if (!firstname || !lastname || !email || !password || !repassword) {
       alert("Fields can't be empty");
+    } else if (password.trim().length < 8) {
     } else if (password.trim().length < 8) {
       alert("Password should consist atleast 8 chracters");
     } else if (!password.match(/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}/)) {
@@ -35,8 +38,10 @@ export default function SignUp() {
     } else if (!email.match(/^[a-z0-9._%+-]+@[a-z0-9-]+(?:\.[a-z0-9-]+)*$/)) {
       alert("Email invalid");
     } else if (password !== repassword) {
+    } else if (password !== repassword) {
       alert("Password Mismatch");
     } else {
+      axios
       axios
         .post("http://localhost:8080/user/add", {
           firstname,
@@ -52,6 +57,7 @@ export default function SignUp() {
           alert(err);
         });
     }
+  };
   };
 
   return (
@@ -72,6 +78,7 @@ export default function SignUp() {
               Sign Up
             </h2>
           </div>
+
 
           <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
             <form className="mt-6 space-y-6" action="#" method="POST">
@@ -144,8 +151,13 @@ export default function SignUp() {
                 </div>
               </div>
 
+
               <div>
                 <div className="flex items-center justify-between">
+                  <label
+                    htmlFor="password"
+                    className="block text-sm font-medium leading-6 text-gray-900"
+                  >
                   <label
                     htmlFor="password"
                     className="block text-sm font-medium leading-6 text-gray-900"
@@ -175,6 +187,10 @@ export default function SignUp() {
                     htmlFor="password"
                     className="block text-sm font-medium leading-6 text-gray-900"
                   >
+                  <label
+                    htmlFor="password"
+                    className="block text-sm font-medium leading-6 text-gray-900"
+                  >
                     Confirm Password
                   </label>
                 </div>
@@ -193,6 +209,7 @@ export default function SignUp() {
                   />
                 </div>
               </div>
+
 
               <div>
                 <div className="flex justify-center">
@@ -235,6 +252,11 @@ export default function SignUp() {
                 </div>
           </div>
         </div>
+      </div>
+    </>
+  );
+}
+
       </div>
     </>
   );

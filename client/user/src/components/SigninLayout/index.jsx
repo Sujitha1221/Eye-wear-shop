@@ -4,8 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faGlasses } from "@fortawesome/free-solid-svg-icons"
 export default function SignIn() {
-
-    const [email, setEmail] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
 
@@ -18,15 +17,14 @@ export default function SignIn() {
 
 
 
-
-   const  handleSubmit = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     try {
-         axios
-          .post("http://localhost:8080/user/login/", {
-            email,
-            password,
-          })
+      axios
+        .post("http://localhost:8080/user/login/", {
+          email,
+          password,
+        })
 
           
           .then(res => {
@@ -78,7 +76,7 @@ export default function SignIn() {
               Sign in to your account
             </h2>
           </div>
-  
+
           <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
             <form className="mt-6 space-y-6" action="#" method="POST">
               <div>
@@ -100,10 +98,13 @@ export default function SignIn() {
                   />
                 </div>
               </div>
-  
+
               <div>
                 <div className="flex items-center justify-between">
-                  <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
+                  <label
+                    htmlFor="password"
+                    className="block text-sm font-medium leading-6 text-gray-900"
+                  >
                     Password
                   </label>
                   <div className="text-sm">
@@ -142,8 +143,6 @@ export default function SignIn() {
  
               </div>
               </div>
-
-              
             </form>
   
             <p className="mt-5 text-center text-sm text-gray-500">
@@ -173,7 +172,7 @@ export default function SignIn() {
               </div>
           </div>
         </div>
-        </div>
-      </>
-    )
-  }
+      </div>
+    </>
+  );
+}

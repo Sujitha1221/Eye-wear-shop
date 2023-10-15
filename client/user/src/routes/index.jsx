@@ -1,5 +1,7 @@
-// import React from "react";
+import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import ProductLayout from "../components/ProductLayout";
+import Payment from "../components/PaymentLayout/Payment";
 import SignIn from "../components/SigninLayout";
 import SignUp from "../components/SignupLayout";
 import Header from "../components/HeaderLayout/index";
@@ -18,6 +20,11 @@ const FrontendRoutes = () => {
     <>
       <Router>
         <Routes>
+          <Route path="/product/*" element={<ProductLayout />}>
+            <Route path="all-products" />
+            <Route path="view-product/:slug" />
+          </Route>
+          <Route path="/payment" element={<Payment />} />
           
            <Route exact path="/" element={<SignIn />}/> 
           <Route exact path="/signup" element={<SignUp />}/> 

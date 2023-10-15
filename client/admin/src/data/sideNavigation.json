@@ -1,0 +1,51 @@
+{
+    "data" : [
+        {
+            "name": "Dashboard",
+            "icon": "fa-solid fa-chart-simple",
+            "link": "/admin"
+        },
+
+        {
+            "name": "User Management",
+            "icon": "fa-solid fa-users",
+            "link": "/view-user"
+        },
+
+        {
+            "name": "Product Management",
+            "icon": "fa-solid fa-cart-shopping",
+            "link": "/product/view-product"
+        },
+
+        {
+            "name": "Rating",
+            "icon": "fa-solid fa-star",
+            "link": "/ratings"
+        },
+      
+        {
+        "name": "Category Management",
+        "icon": "fa-solid fa-glasses",
+        "link": "/category/view-category"
+        },
+
+        {
+            "name": "Delivery Management",
+            "icon": "fa-solid fa-truck",
+            "link": "/delivery/view-delivery"
+        },
+
+        {
+            "name": "Delivery Driver Management",
+            "icon": "fa-solid fa-users",
+            "link": "/delivery-driver/view-delivery-driver"
+        },
+
+        {
+            "name": "Delivery Driver View",
+            "icon": "fa-solid fa-users",
+            "link": "/delivery-driver-view/view-delivery-driver"
+        }
+    ]
+}

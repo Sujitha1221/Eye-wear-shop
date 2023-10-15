@@ -29,6 +29,17 @@ export default function SignUp() {
       !phone ||
       !nic
     ) {
+
+    if (
+      !firstname ||
+      !lastname ||
+      !email ||
+      !password ||
+      !repassword ||
+      !address ||
+      !phone ||
+      !nic
+    ) {
       alert("Fields can't be empty");
     } else if (nic.length !== 12) {
       alert("NIC should consist of 12 characters");
@@ -45,6 +56,7 @@ export default function SignUp() {
     } else if (!phone.match(/^\d{10}$/)) {
       alert("Phone Number should contain only 10 numbers");
     } else {
+      axios
       axios
         .post("http://localhost:8080/admin/add", {
           firstname,
@@ -82,6 +94,11 @@ export default function SignUp() {
       <div className="flex justify-center items-center bg-cover bg-center bg-cyan-700">
         <br />
         <br />
+  return (
+    <>
+      <div className="flex justify-center items-center bg-cover bg-center bg-cyan-700">
+        <br />
+        <br />
         <div className="w-full max-w-xl bg-white p-6 rounded-lg shadow-lg mt-10">
           <div className="w-full">
             <div className="flex justify-center text-black text-2xl font-semibold italic mt-5">
@@ -91,6 +108,7 @@ export default function SignUp() {
               Sign Up
             </h2>
           </div>
+
 
           <div className="mt-6 sm:mt-8">
             <form className="mt-6 space-y-6" action="#" method="POST">
@@ -214,6 +232,10 @@ export default function SignUp() {
                   htmlFor="email"
                   className="block text-sm font-medium leading-6 text-gray-900"
                 >
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
                   Address
                 </label>
                 <div className="mt-2">
@@ -231,8 +253,13 @@ export default function SignUp() {
                 </div>
               </div>
 
+
               <div>
                 <div className="flex items-center justify-between">
+                  <label
+                    htmlFor="password"
+                    className="block text-sm font-medium leading-6 text-gray-900"
+                  >
                   <label
                     htmlFor="password"
                     className="block text-sm font-medium leading-6 text-gray-900"
@@ -258,6 +285,10 @@ export default function SignUp() {
 
               <div>
                 <div className="flex items-center justify-between">
+                  <label
+                    htmlFor="password"
+                    className="block text-sm font-medium leading-6 text-gray-900"
+                  >
                   <label
                     htmlFor="password"
                     className="block text-sm font-medium leading-6 text-gray-900"
