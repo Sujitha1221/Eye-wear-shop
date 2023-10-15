@@ -18,7 +18,7 @@ const AddDeliveryDriver = () => {
   const demo = () => {
     setFirstName('John');
     setLastName('Doei');
-    setEmail('john@gmail.com');
+    setEmail('john123@gmail.com');
     setNIC('123456789121');
     setLicenseNumber('12345678');
     setAddress('123 Main St, Colombo, Sri Lanka');
@@ -208,6 +208,7 @@ const AddDeliveryDriver = () => {
           </div>
           <div class="p-4 flex justify-center">
             <TextField
+            type="password"
               label="Password"
               name="password"
               value={password}
@@ -218,6 +219,7 @@ const AddDeliveryDriver = () => {
           </div>
           <div class="p-4 flex justify-center">
             <TextField
+              type="password"
               label="Re-Type-Password"
               name="rePassword"
               value={rePassword}

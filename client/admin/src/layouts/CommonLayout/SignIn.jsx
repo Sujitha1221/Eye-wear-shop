@@ -43,7 +43,7 @@ export default function SignIn() {
               // alert("Success")
             } else if (res.data.type === "driver") {
               window.localStorage.setItem("DriverInfo",JSON.stringify(res.data.driver))
-              navigate.replace("/driver");
+              window.location.replace("/driver");
               
               // alert("Success")
               

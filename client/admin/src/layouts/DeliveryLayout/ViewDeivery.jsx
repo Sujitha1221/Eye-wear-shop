@@ -33,7 +33,7 @@ const ViewDelivery = () => {
   }, []);
 
   const deleteDelivery = (objId) => {
-    var result = window.confirm("Do you want to delete this driver ?");
+    var result = window.confirm("Do you want to delete this delivery ?");
 
     if (result == true) {
     axios

@@ -78,7 +78,7 @@ const ViewCategory = () => {
   };
 
   const handleDelete = async (pId) => {
-    var result = window.confirm("Do you want to delete this driver ?");
+    var result = window.confirm("Do you want to delete this category ?");
 
     if (result == true) {
     try {
