@@ -1,8 +1,11 @@
 import { useState, useEffect } from "react";
 import { TextField } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const AdminProfile = () => {
+  let navigate = useNavigate();
+
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
@@ -10,6 +13,7 @@ const AdminProfile = () => {
   const [nic, setNic] = useState("");
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
+  const [errors, setErrors] = useState("");
 
   var admin = JSON.parse(localStorage.getItem("AdminInfo"));
   const id = admin._id;
@@ -28,53 +32,37 @@ const AdminProfile = () => {
           setPhone(res.data.admin.phone);
         })
         .catch((err) => {
-          alert(err.message);
+          setErrors(err.message);
         });
     }
 
     GET();
   }, []);
-  // setFirstname(admin.firstname)
-  // setLastname(admin.lastname)
-  // setEmail(admin.email)
-  //   setPassword(admin.password)
-  // setNic(admin.nic)
-  // setAddress(admin.address)
-  // setPhone(admin.phone)
-  // setImage(admin.image)
 
+  async function updateData(e) {
   async function updateData(e) {
     e.preventDefault();
 
-    if (!email.match(/^[a-z0-9._%+-]+@[a-z0-9-]+(?:\.[a-z0-9-]+)*$/)) {
-      alert("Email didn't match the format");
-    } else if (nic.length != 12) {
-      alert("NIC should consist 12 characters");
+    if (!phone.match(/^\d{10}$/)) {
+      setErrors("Phone Number should contain only 10 numbers");
     } else {
-      const updateAdmin = {
-        firstname,
-        lastname,
-        email,
-        password,
-        nic,
-        address,
-        phone,
-      };
+      const updateAdmin = { firstname, lastname, password, address, phone };
       await axios
         .put(`http://localhost:8080/admin/update/${admin._id}`, updateAdmin)
         .then((res) => {
           if (res.data === "Done") {
-            alert("Admin updated successfully ");
-            window.location.replace("/profile");
+            setErrors("Admin updated successfully ");
+            navigate("/profile");
           } else {
-            alert("Couldn't update profile");
-            window.location.replace("/admin");
+            setErrors("Couldn't update profile");
+            navigate("/admin");
           }
         })
         .catch((msg) => {
-          alert(msg);
+          setErrors(msg);
         });
     }
+  }
   }
 
   async function deleteData(e) {
@@ -90,13 +78,13 @@ const AdminProfile = () => {
         .delete(`http://localhost:8080/admin/delete/${admin._id}`)
         .then((res) => {
           if (res.data === "success") {
-            window.location.replace("/signUp");
+            navigate("/signUp");
           } else if (res.data === "failed") {
-            alert("Error deleting your profile");
+            setErrors("Error deleting your profile");
           }
         })
         .catch((err) => {
-          alert(err);
+          setErrors(err);
         });
     }
   }
@@ -151,14 +139,15 @@ const AdminProfile = () => {
               onChange={(e) => {
                 setNic(e.target.value);
               }}
+              disabled
             />
           </div>
           <div className="p-4 flex justify-center">
             <TextField
+              type="text"
               label="Phone Number"
               variant="outlined"
               value={phone}
-              tyep={Number}
               style={{ width: "100%" }}
               onChange={(e) => {
                 setPhone(e.target.value);
@@ -176,23 +165,33 @@ const AdminProfile = () => {
               }}
             />
           </div>
-
+        </div>
+        <div className="flex justify-center">
           <button
             type="submit"
             onClick={updateData}
-            className="w-48 ml-60 bg-transparent text-cyan-600 ml-100 border-cyan-600 hover:bg-cyan-600 hover:text-white font-semibold  py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+            className="w-48 bg-transparent text-cyan-600 ml-100 border-cyan-600 hover:bg-cyan-600 hover:text-white font-semibold  py-2 px-4 border border-blue-500 hover:border-transparent rounded"
           >
             Update
           </button>
-
+          <span className="mr-10"></span>{" "}
           <button
             type="submit"
             onClick={deleteData}
-            className="w-48 mr-60 bg-transparent text-rose-700 border-rose-700 hover:bg-rose-700 hover:text-white font-semibold  py-2 px-4 border border-rose-700 hover:border-transparent rounded"
+            className="w-48  bg-transparent text-rose-700 border-rose-700 hover:bg-rose-700 hover:text-white font-semibold  py-2 px-4 border border-rose-700 hover:border-transparent rounded"
           >
             Delete
           </button>
         </div>
+        <div className="col-span-2 flex justify-center pt-5"> 
+          {errors ? (
+            <div className="w-full justify-center text-center px-[20px] py-[10px] border-2 border-red-700 bg-red-100 text-red-700 rounded text-xs">
+              {errors ? errors : ""}
+            </div>
+          ) : (
+            <></>
+          )}
+          </div>
       </div>
     </>
   );

@@ -11,9 +11,10 @@ import Profile from "../components/ProfileLayout";
 import LogOut from "../components/LogoutLayout";
 import ForgotPassword from "../components/ForgotPasswordLayout";
 import ResetPassword from "../components/ForgotPasswordLayout/resetPassword";
-
+import History from "../components/OrderHistoryLayout";
 
 const FrontendRoutes = () => {
+
 
   return (
     <>
@@ -33,7 +34,8 @@ const FrontendRoutes = () => {
           <Route exact path="/profile" element={<Profile/>}/> 
           <Route exact path="/logout" element={<LogOut/>}/> 
           <Route exact path="/forgot" element={<ForgotPassword/>}/> 
-          <Route exact path="/reset" element={<ResetPassword/>}/> 
+          <Route exact path="/reset/:id" element={<ResetPassword/>}/> 
+          <Route exact path="/history" element={<History/>}/> 
            
           
 

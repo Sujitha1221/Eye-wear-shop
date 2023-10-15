@@ -2,7 +2,6 @@ import Admin from "../models/Admin.mjs"
 import DeliveryDriver from "../models/DeliveryDriver.mjs"
 import logger from "../utils/logger.mjs";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 
 
 const LoginController = {

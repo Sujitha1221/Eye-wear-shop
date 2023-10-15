@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Header from "../HeaderLayout";
 import Footer from "../FooterLayout";
 import axios from "axios";
 
 export default function Profile() {
+  let navigate = useNavigate();
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
-  //   const [user, setUser] = useState("");
+
 
   const user = JSON.parse(localStorage.getItem("UserInfo"));
   const id = user._id;
@@ -29,56 +31,48 @@ export default function Profile() {
     GET();
   }, []);
 
-  // useEffect(() => {
-
-  //       setFirstname(user.firstname);
-  //       setLastname(user.lastname);
-  //       setEmail(user.email);
-
-  //   }, []);
-
   async function updateData(e) {
     e.preventDefault();
 
     const updateUser = { firstname, lastname, email };
 
-    if (!email.match(/^[a-z0-9._%+-]+@[a-z0-9-]+(?:\.[a-z0-9-]+)*$/)) {
-      alert("Email doesn't match the format");
-    } else {
-      await axios
-        .put(`http://localhost:8080/user/update/${user._id}`, updateUser)
-        .then((res) => {
-          if (res.data === "Done") {
-            alert("User updated successfully ");
-            setFirstname(firstname);
-            setLastname(lastname);
-            setEmail(email);
-            window.location.replace("/profile");
-          } else {
-            alert("Couldn't update profile");
-            window.location.replace("/home");
-          }
-        })
-        .catch((msg) => {
-          alert(msg);
-        });
+    if(!email.match(/^[a-z0-9._%+-]+@[a-z0-9-]+(?:\.[a-z0-9-]+)*$/)){
+      alert("Email doesn't match the format")
+
+    }
+    else{
+    await axios
+      .put(`http://localhost:8080/user/update/${user._id}`, updateUser)
+      .then((res) => {
+        if (res.data === "Done") {
+          alert("User updated successfully ");
+          setFirstname(firstname);
+          setLastname(lastname);
+          setEmail(email);
+          window.location.replace("/profile");
+        } else {
+          alert("Couldn't update profile");
+          window.location.replace("/home");
+        }
+      })
+      .catch((msg) => {
+        alert(msg);
+      });
     }
   }
 
   async function deleteData(e) {
     e.preventDefault();
-
+  
     // Show a confirmation dialog to the user
-    const confirmed = window.confirm(
-      "Are you sure you want to delete your profile? This action cannot be undone."
-    );
-
+    const confirmed = window.confirm("Are you sure you want to delete your profile? This action cannot be undone.");
+  
     if (confirmed) {
       axios
         .delete(`http://localhost:8080/user/delete/${user._id}`)
         .then((res) => {
           if (res.data === "success") {
-            window.location.replace("/signup");
+            navigate("/signup");
           } else if (res.data === "failed") {
             alert("Error deleting your profile");
           }
@@ -88,6 +82,7 @@ export default function Profile() {
         });
     }
   }
+  
 
   return (
     <div
@@ -164,6 +159,7 @@ export default function Profile() {
                 value={email}
                 className="border-1 bg-white rounded-r px-4 py-2 w-full"
                 type="email"
+                disabled
               />
             </div>
 

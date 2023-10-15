@@ -15,6 +15,7 @@ import CommonLayout from "../layouts/CommonLayout";
 import UserLayout from "../layouts/UserLayout";
 import LogOut from "../layouts/LogoutLayout";
 import DriverLayout from "../layouts/DriverLayout";
+import ForgotPasswordLayout from "../layouts/ForgotPasswordLayout";
 import SignIn from "../layouts/CommonLayout/SignIn";
 
 const FrontendRoutes = () => {
@@ -70,6 +71,11 @@ const FrontendRoutes = () => {
           <Route path="/product/rating" element={<GetRatingForProduct />} />
           <Route path="/product/give-rating" element={<GiveRating />} />
           <Route path="/driver/*" element={<DriverLayout />} />
+
+          <Route element={<ForgotPasswordLayout />}>
+            <Route path="/forgot" />
+            <Route path="/reset/:id" />
+          </Route>
         </Routes>
       </Router>
     </>

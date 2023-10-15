@@ -1,20 +1,20 @@
-import React, { useState} from "react";
+import  { useState } from "react";
 import { useParams,useNavigate } from "react-router-dom";
 import axios from "axios";
 
-
 export default function ResetPassword() {
 
-  const [password, setPassword] = useState("");
-  const[repassword,setRePassword] = useState("");
-  const {id} = useParams()
+    const [password, setPassword] = useState("");
+    const [repassword, setRepassword] = useState("");
+
+    const {id} = useParams()
 
   let navigate = useNavigate();
   
 const handleSubmit = (e) => {
     e.preventDefault()
     if(password === repassword){
-      axios.post(`http://localhost:8080/user/reset/${id}`, {password})
+      axios.post(`http://localhost:8080/admin/reset/${id}`, {password})
     .then(res => {
         if(res.data.Status === "Success") {
           alert("Password changed successfully")
@@ -29,13 +29,15 @@ const handleSubmit = (e) => {
     
 }
 
+
+
     return (
       <>
         <div
-      className="flex min-h-screen justify-center items-center bg-cover bg-center"
+      className="flex min-h-screen justify-center items-center bg-cover bg-center bg-cyan-700"
       style={{
-        backgroundImage: `url('https://cdn5.vectorstock.com/i/1000x1000/17/04/retro-glasses-background-concept-vector-3471704.jpg')` // Replace with the actual path to your background image
-        
+        // backgroundImage: `url('https://www.chashmay.com.pk/images/blogs/8738Thickvs.ThinSunglassesFrames.jpg')` // Replace with the actual path to your background image
+        backgroundColor:"#0e7490"
 
       }}
     >
@@ -53,21 +55,16 @@ const handleSubmit = (e) => {
   
           <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
             <form className="mt-6 space-y-6" action="#" method="POST">
-              
-  
               <div>
-                <div className="flex items-center justify-between">
-                  <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
-                    New Password
-                  </label>
-                  
-                </div>
+                <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
+                  Password
+                </label>
                 <div className="mt-2">
                   <input
-                    id="password"
-                    name="password"
+                    id="email"
+                    name="email"
                     type="password"
-                    autoComplete="current-password"
+                    autoComplete="email"
                     required
                     className="block p-5 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     onChange={(e) => {
@@ -78,44 +75,37 @@ const handleSubmit = (e) => {
               </div>
 
               <div>
-                <div className="flex items-center justify-between">
-                  <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
-                    Re-enter Password
-                  </label>
-                  
-                </div>
+                <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
+                  Re-enter Password
+                </label>
                 <div className="mt-2">
                   <input
-                    id="password"
-                    name="password"
+                    id="email"
+                    name="email"
                     type="password"
-                    autoComplete="current-password"
+                    autoComplete="email"
                     required
-                    className="block p-5 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="block w-full p-5 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     onChange={(e) => {
-                        setRePassword(e.target.value);
+                        setRepassword(e.target.value);
                      }}
                   />
                 </div>
               </div>
               <div className="flex justify-center">
+  
               <div>
                 <button
                   type="submit"
-                  onClick={handleSubmit}
-                  className="flex w-full justify-center rounded-md bg-gray-800 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                onClick={handleSubmit}
+                  className="flex w-full justify-center rounded-md bg-cyan-700 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-stone-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
-                  Reset
+                  Send
                 </button>
-                <br/>
-   
-              
+                
               </div>
               </div>
-
-              
             </form>
-  
 
           </div>
         </div>

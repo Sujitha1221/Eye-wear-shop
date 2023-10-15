@@ -13,9 +13,10 @@ const navigation = [
   { name: "About Us", href: "#", current: false },
 ];
 const userNavigation = [
-  { name: "Your Profile", href: "/profile" },
-  { name: "Sign out", href: "/logout" },
-];
+  { name: 'Your Profile', href: '/profile' },
+  { name: 'My orders', href:'/history' },
+  { name: 'Sign out', href:'/logout' },
+]
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");

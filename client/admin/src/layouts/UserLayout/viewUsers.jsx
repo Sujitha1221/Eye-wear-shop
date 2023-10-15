@@ -61,6 +61,7 @@ const ViewUsers = () => {
 
   return (
     <>
+    <div className="flex justify-center">
       <form>
         <label
           htmlFor="default-search"
@@ -86,18 +87,26 @@ const ViewUsers = () => {
               />
             </svg>
           </div>
+          
           <input
             type="search"
             id="default-search"
             onChange={(e) => setQuery(e.target.value)}
-            className="block w-full p-4 pl-10 text-sm text-black border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500  dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            className="block w-80 p-4 pl-10 text-sm text-black border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500  dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Search"
             required
           ></input>
           
+          
         </div>
       </form>
+      </div>
       <div ref={componentPDF}>
+        <br/>
+        <div className="flex justify-center">
+  <h2 className="text-4xl font-bold">User List</h2>
+</div>
+
 
       <TableContainer component={Paper} style={{ marginTop: "20px" }}>
         <Table>
