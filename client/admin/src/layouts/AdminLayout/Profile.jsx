@@ -17,8 +17,6 @@ const AdminProfile = () => {
 
   var admin = JSON.parse(localStorage.getItem("AdminInfo"));
   const id = admin._id;
-  var admin = JSON.parse(localStorage.getItem("AdminInfo"));
-  const id = admin._id;
 
   useEffect(() => {
     function GET() {
