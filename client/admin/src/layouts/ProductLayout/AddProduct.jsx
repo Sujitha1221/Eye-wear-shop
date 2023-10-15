@@ -106,7 +106,21 @@ const AddProduct = () => {
     if (reason === "clickaway") {
       return;
     }
-    setOpenSuccess(false); // Close the success Snackbar
+    setOpenSuccess(false);
+  };
+  const handleDemoButtonClick = () => {
+    setProductName("Luxe Glasses");
+    setDescription(
+      "Luxe Prescription glasses are a perfect fit for your everyday needs."
+    );
+    setPrice(3000);
+    setInStock(20);
+
+    setErrors("");
+    setOpenError(false);
+    setErrorMessage("");
+    setOpenSuccess(false);
+    setSuccessMessage("");
   };
 
   return (
@@ -115,6 +129,13 @@ const AddProduct = () => {
         <div className="px-[20px] h-[64px] font-bold text-xl w-full flex justify-center items-center gap-[20px]">
           Add Product
         </div>
+        <button
+          type="button"
+          onClick={handleDemoButtonClick}
+          className="bg-transparent text-cyan-600 border-cyan-600 hover:bg-cyan-600 hover:text-white font-semibold  py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+        >
+          Demo
+        </button>
         <form onSubmit={handleSubmit}>
           <div className="flex justify-center grid grid-cols-2 gap-4 p-10">
             <div className="col-span-2 p-4">
