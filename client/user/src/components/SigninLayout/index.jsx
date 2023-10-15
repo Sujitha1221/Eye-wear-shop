@@ -11,6 +11,11 @@ export default function SignIn() {
 
   let navigate = useNavigate();
 
+  const handleDemoClick = () => {
+    setEmail("johndoe@gmail.com");
+    setPassword("asdQWE123#");
+  };
+
 
 
 
@@ -37,7 +42,7 @@ export default function SignIn() {
 
             else{
               window.localStorage.setItem("UserInfo",JSON.stringify(res.data.user))
-            console.log(res.data)
+            // console.log(res.data)
             navigate("/home");
 
             }
@@ -78,7 +83,7 @@ export default function SignIn() {
             <form className="mt-6 space-y-6" action="#" method="POST">
               <div>
                 <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
-                  Email address
+                  Email Address
                 </label>
                 <div className="mt-2">
                   <input
@@ -91,6 +96,7 @@ export default function SignIn() {
                     onChange={(e) => {
                         setEmail(e.target.value);
                      }}
+                     value={email}
                   />
                 </div>
               </div>
@@ -102,7 +108,7 @@ export default function SignIn() {
                   </label>
                   <div className="text-sm">
                     <a href="/forgot" className="font-semibold text-stone-500 hover:text-black">
-                      Forgot password?
+                      Forgot Password?
                     </a>
                   </div>
                 </div>
@@ -117,6 +123,7 @@ export default function SignIn() {
                     onChange={(e) => {
                         setPassword(e.target.value);
                      }}
+                     value={password}
                   />
                 </div>
               </div>
@@ -139,7 +146,7 @@ export default function SignIn() {
               
             </form>
   
-            <p className="mt-10 text-center text-sm text-gray-500">
+            <p className="mt-5 text-center text-sm text-gray-500">
               Do not have an account?
 
               <span className="mr-3"></span>{" "}
@@ -148,6 +155,22 @@ export default function SignIn() {
                   Sign Up
               </a>
             </p>
+
+            <div className="flex justify-center mt-5">
+              <div>
+                <button
+                  type="submit"
+                  onClick={handleDemoClick}
+                  className="flex w-full justify-center rounded-md bg-gray-800 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                >
+                  Demo
+                </button>
+            
+              
+                
+ 
+              </div>
+              </div>
           </div>
         </div>
         </div>

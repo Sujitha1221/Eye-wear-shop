@@ -12,6 +12,10 @@ export default function SignIn() {
 
   let navigate = useNavigate();
 
+  const handleDemoClick = () => {
+    setEmail("johndoe@gmail.com");
+    setPassword("asdQWE123#");
+  };
 
    const  handleSubmit = (e) => {
     e.preventDefault();
@@ -36,12 +40,12 @@ export default function SignIn() {
               navigate("/admin");
 
               
-              alert("Success")
+              // alert("Success")
             } else if (res.data.type === "driver") {
               window.localStorage.setItem("DriverInfo",JSON.stringify(res.data.driver))
               navigate.replace("/driver");
               
-              alert("Success")
+              // alert("Success")
               
             }
           })
@@ -81,7 +85,7 @@ export default function SignIn() {
             <form className="mt-6 space-y-6" action="#" method="POST">
               <div>
                 <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
-                  Email address
+                  Email Address
                 </label>
                 <div className="mt-2">
                   <input
@@ -94,6 +98,7 @@ export default function SignIn() {
                     onChange={(e) => {
                         setEmail(e.target.value);
                      }}
+                     value={email}
                   />
                 </div>
               </div>
@@ -105,7 +110,7 @@ export default function SignIn() {
                   </label>
                   <div className="text-sm">
                     <a href="/forgot" className="font-semibold text-cyan-700 hover:text-black">
-                      Forgot password?
+                      Forgot Password?
                     </a>
                   </div>
                 </div>
@@ -120,6 +125,7 @@ export default function SignIn() {
                     onChange={(e) => {
                         setPassword(e.target.value);
                      }}
+                     value={password}
                   />
                 </div>
               </div>
@@ -130,20 +136,33 @@ export default function SignIn() {
                 onClick={handleSubmit}
                   className="flex w-full justify-center rounded-md bg-cyan-700 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-stone-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
-                  Sign in
+                  Sign In
                 </button>
                 
               </div>
               </div>
             </form>
   
-            <p className="mt-10 text-center text-sm text-gray-500">
+            <p className="mt-5 text-center text-sm text-gray-500">
               New Admin?
               <span className="mr-2"></span>{" "}
               <a href="/signup" className="font-semibold leading-6 text-cyan-700 hover:text-black">
                   Sign Up
               </a>
             </p>
+            <div className="flex justify-center mt-5">
+              <div >
+                <button
+                  type="submit"
+                onClick={handleDemoClick}
+                  className="flex w-full justify-center rounded-md bg-cyan-700 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-stone-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                >
+                  Demo
+                </button>
+                
+              </div>
+              </div>
+            
           </div>
         </div>
         </div>

@@ -13,6 +13,7 @@ const AdminProfile = () => {
   const [nic, setNic] = useState("");
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
+  const [errors, setErrors] = useState("");
 
   var admin = JSON.parse(localStorage.getItem("AdminInfo"));
   const id = admin._id;
@@ -31,7 +32,7 @@ const AdminProfile = () => {
           setPhone(res.data.admin.phone);
         })
         .catch((err) => {
-          alert(err.message);
+          setErrors(err.message);
         });
     }
 
@@ -42,22 +43,22 @@ const AdminProfile = () => {
     e.preventDefault();
 
     if (!phone.match(/^\d{10}$/)) {
-      alert("Phone Number should contain only 10 numbers");
+      setErrors("Phone Number should contain only 10 numbers");
     } else {
       const updateAdmin = { firstname, lastname, password, address, phone };
       await axios
         .put(`http://localhost:8080/admin/update/${admin._id}`, updateAdmin)
         .then((res) => {
           if (res.data === "Done") {
-            alert("Admin updated successfully ");
+            setErrors("Admin updated successfully ");
             navigate("/profile");
           } else {
-            alert("Couldn't update profile");
+            setErrors("Couldn't update profile");
             navigate("/admin");
           }
         })
         .catch((msg) => {
-          alert(msg);
+          setErrors(msg);
         });
     }
   }
@@ -77,11 +78,11 @@ const AdminProfile = () => {
           if (res.data === "success") {
             navigate("/signUp");
           } else if (res.data === "failed") {
-            alert("Error deleting your profile");
+            setErrors("Error deleting your profile");
           }
         })
         .catch((err) => {
-          alert(err);
+          setErrors(err);
         });
     }
   }
@@ -180,6 +181,15 @@ const AdminProfile = () => {
             Delete
           </button>
         </div>
+        <div className="col-span-2 flex justify-center pt-5"> 
+          {errors ? (
+            <div className="w-full justify-center text-center px-[20px] py-[10px] border-2 border-red-700 bg-red-100 text-red-700 rounded text-xs">
+              {errors ? errors : ""}
+            </div>
+          ) : (
+            <></>
+          )}
+          </div>
       </div>
     </>
   );
