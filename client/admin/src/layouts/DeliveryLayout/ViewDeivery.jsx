@@ -33,6 +33,9 @@ const ViewDelivery = () => {
   }, []);
 
   const deleteDelivery = (objId) => {
+    var result = window.confirm("Do you want to delete this driver ?");
+
+    if (result == true) {
     axios
       .delete(`http://localhost:8080/delivery/delete-delivery/${objId}`)
       .then((res) => {
@@ -42,6 +45,7 @@ const ViewDelivery = () => {
       .catch((err) => {
         console.error("Error : " + err.message);
       });
+    }
   };
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
