@@ -30,6 +30,14 @@ const Payment = () => {
   );
   const elementRef = useRef(null);
 
+  const demo = () => {
+    setAddress('123 Example St, Colombo, Sri lanka');
+    setPhoneNumber('1234567890');
+    setCardNumber('1234567890123456');
+    setCVV('123');
+    setCardDate('2023-10-25');
+  };
+
   // useEffect(() => {
   //   function getAllProducts() {
   //     setProducts(JSON.parse(localStorage.getItem("cart")));
@@ -48,18 +56,17 @@ const Payment = () => {
     setTotal();
   }, []);
 
-  const printBill = () => {
-    toPng(elementRef.current, { cacheBust: false })
-      .then((dataUrl) => {
-        const link = document.createElement("a");
-        link.download = "Receipt";
-        link.href = dataUrl;
-        link.click();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+  const printBill = async () => {
+  try {
+    const dataUrl = await toPng(elementRef.current, { cacheBust: false });
+    const link = document.createElement("a");
+    link.download = "Receipt.png";
+    link.href = dataUrl;
+    link.click();
+  } catch (error) {
+    console.log("Error : " + error);
+  }
+};
 
   const clearCart = () => {
     localStorage.removeItem('cart');
@@ -96,8 +103,8 @@ const Payment = () => {
     if (!cardNumber) {
       setErrors("Please provide a card number");
       return;
-    } else if (cardNumber.length != 10) {
-      setErrors("card number must 10 characters");
+    } else if (cardNumber.length != 16) {
+      setErrors("card number must 16 characters");
       return;
     }
 
@@ -235,6 +242,7 @@ const Payment = () => {
             <TextField
               label="Address"
               name="address"
+              value={address}
               onChange={(e) => setAddress(e.target.value)}
               variant="outlined"
               style={{ width: "100%" }}
@@ -245,6 +253,7 @@ const Payment = () => {
               type="number"
               label="Phone Number"
               name="phoneNumber"
+              value={phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value)}
               variant="outlined"
               style={{ width: "100%" }}
@@ -283,6 +292,7 @@ const Payment = () => {
               type="number"
               label="Card Number"
               name=""
+              value={cardNumber}
               onChange={(e) => setCardNumber(e.target.value)}
               variant="outlined"
               style={{ width: "100%" }}
@@ -293,6 +303,7 @@ const Payment = () => {
               label="CVV"
               onChange={(e) => setCVV(e.target.value)}
               name="cvv"
+              value={cvv}
               variant="outlined"
               style={{ width: "100%" }}
             />
@@ -301,6 +312,7 @@ const Payment = () => {
             <TextField
               type="date"
               label=" "
+              value={cardDate}
               variant="outlined"
               style={{ width: "100%" }}
             />
@@ -317,6 +329,14 @@ const Payment = () => {
         )}
       </div>
       <div className="h-[64px] fixed bottom-0 w-full px-[20px] flex justify-end items-center shadow-[0px_0px_10px_0px_rgba(0,0,0,0.5)]  z-10 bg-white">
+
+      <button
+          onClick={demo}
+          className="bg-transparent text-red-600 border-red-600 hover:bg-red-600 hover:text-white font-semibold  py-2 px-4 mr-7 border border-blue-500 hover:border-transparent rounded"
+        >
+          Demo
+        </button>
+
       <button
           onClick={clearCart}
           className="bg-transparent text-red-600 border-red-600 hover:bg-red-600 hover:text-white font-semibold  py-2 px-4 mr-7 border border-blue-500 hover:border-transparent rounded"
