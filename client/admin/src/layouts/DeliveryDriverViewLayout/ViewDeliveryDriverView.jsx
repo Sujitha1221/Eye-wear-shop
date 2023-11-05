@@ -46,7 +46,6 @@ const ViewDeliveryDriverView = () => {
             .then((res) => {
               var _id = res.data.driverId;
               if (res.data != null) {
-                alert(_id);
                 axios
                   .get(
                     `http://localhost:8080/delivery-driver/driver-deliver/${_id}`

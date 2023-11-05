@@ -38,9 +38,9 @@ export const registerDeliveryDriver = async (req, res) => {
 };
 
 export const getDeliveryDriverByEmail = async (req, res) => {
-  const { email } = req.body;
+  const { email } = req.params;
 
-  DeliveryDriver.findOne({ email: email })
+  DeliveryDriver.find({ email: email })
     .then((DeliveryDriver) => {
       if (!DeliveryDriver) {
         return res.json({ status: "No drivers found" });

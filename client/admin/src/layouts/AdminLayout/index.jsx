@@ -12,7 +12,7 @@ const AdminLayout = () => {
                 <SideNav />
                 <div className='flex flex-col flex-1'>
                     <Header />
-                    <div className='p-[20px] overflow-y-scroll pt-20'>
+                    <div className='p-[20px] overflow-y-scroll'>
                         <Outlet />
                         <Routes>
                             <Route>

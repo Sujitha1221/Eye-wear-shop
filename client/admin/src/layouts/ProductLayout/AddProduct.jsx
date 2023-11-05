@@ -4,6 +4,12 @@ import axios from "axios";
 import { Select } from "antd";
 const { Option } = Select;
 import { useNavigate } from "react-router-dom";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const AddProduct = () => {
   const navigate = useNavigate();
@@ -15,6 +21,10 @@ const AddProduct = () => {
   const [category, setCategory] = useState("");
   const [photo, setPhoto] = useState("");
   const [errors, setErrors] = useState("");
+  const [openError, setOpenError] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState("");
+  const [openSuccess, setOpenSuccess] = React.useState(false); // Add a state for success Snackbar
+  const [successMessage, setSuccessMessage] = React.useState("");
 
   const getAllCategory = async () => {
     try {
@@ -35,7 +45,6 @@ const AddProduct = () => {
   }, []);
 
   const minStock = 10;
-  const maxStock = 1000;
   const minimumPrice = 1000;
 
   const handleSubmit = async (e) => {
@@ -48,10 +57,8 @@ const AddProduct = () => {
       setErrors("Please provide a product price greater than 1000");
       return;
     }
-    if (!inStock || inStock < minStock || inStock > maxStock) {
-      setErrors(
-        `Please provide available stock details between ${minStock} and ${maxStock}`
-      );
+    if (!inStock || inStock < minStock) {
+      setErrors(`Please provide available stock details between ${minStock} `);
       return;
     }
     if (!photo) {
@@ -75,14 +82,45 @@ const AddProduct = () => {
         productData
       );
       if (data?.success) {
-        alert("Product created Successfully");
+        setSuccessMessage("The product successfully added.");
+        setOpenSuccess(true);
+        window.location.replace("/product/view-product");
       } else {
         alert(data?.message);
       }
     } catch (error) {
       console.log(error);
-      alert("Something went wrong");
+      setErrorMessage("An error occurred while adding the product.");
+      setOpenError(true);
     }
+  };
+
+  const handleCloseError = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpenError(false);
+  };
+
+  const handleCloseSuccess = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpenSuccess(false);
+  };
+  const handleDemoButtonClick = () => {
+    setProductName("Luxe Glasses");
+    setDescription(
+      "Luxe Prescription glasses are a perfect fit for your everyday needs."
+    );
+    setPrice(3000);
+    setInStock(20);
+
+    setErrors("");
+    setOpenError(false);
+    setErrorMessage("");
+    setOpenSuccess(false);
+    setSuccessMessage("");
   };
 
   return (
@@ -91,6 +129,13 @@ const AddProduct = () => {
         <div className="px-[20px] h-[64px] font-bold text-xl w-full flex justify-center items-center gap-[20px]">
           Add Product
         </div>
+        <button
+          type="button"
+          onClick={handleDemoButtonClick}
+          className="bg-transparent text-cyan-600 border-cyan-600 hover:bg-cyan-600 hover:text-white font-semibold  py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+        >
+          Demo
+        </button>
         <form onSubmit={handleSubmit}>
           <div className="flex justify-center grid grid-cols-2 gap-4 p-10">
             <div className="col-span-2 p-4">
@@ -193,6 +238,32 @@ const AddProduct = () => {
           </div>
         </form>
       </div>
+      <Snackbar
+        open={openError}
+        autoHideDuration={6000}
+        onClose={handleCloseError}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "center",
+        }}
+      >
+        <Alert onClose={handleCloseError} severity="error">
+          {errorMessage}
+        </Alert>
+      </Snackbar>
+      <Snackbar
+        open={openSuccess}
+        autoHideDuration={6000}
+        onClose={handleCloseSuccess}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "center",
+        }}
+      >
+        <Alert onClose={handleCloseSuccess} severity="success">
+          {successMessage}
+        </Alert>
+      </Snackbar>
     </>
   );
 };

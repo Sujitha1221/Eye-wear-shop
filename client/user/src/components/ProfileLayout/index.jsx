@@ -7,7 +7,7 @@ export default function Profile() {
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
-  //   const [user, setUser] = useState("");
+//   const [user, setUser] = useState("");
 
   const user = JSON.parse(localStorage.getItem("UserInfo"));
   const id = user._id;
@@ -17,9 +17,10 @@ export default function Profile() {
       axios
         .get(`http://localhost:8080/user/get/${id}`)
         .then((res) => {
-          setFirstname(res.data.user.firstname);
-          setLastname(res.data.user.lastname);
-          setEmail(res.data.user.email);
+            setFirstname(res.data.user.firstname);
+            setLastname(res.data.user.lastname);
+            setEmail(res.data.user.email)
+          
         })
         .catch((err) => {
           alert(err.message);
@@ -28,65 +29,60 @@ export default function Profile() {
 
     GET();
   }, []);
+    
 
-  // useEffect(() => {
+    // useEffect(() => {
 
-  //       setFirstname(user.firstname);
-  //       setLastname(user.lastname);
-  //       setEmail(user.email);
-
-  //   }, []);
+    //       setFirstname(user.firstname);
+    //       setLastname(user.lastname);
+    //       setEmail(user.email);
+ 
+    //   }, []);
 
   async function updateData(e) {
     e.preventDefault();
 
     const updateUser = { firstname, lastname, email };
 
-    if (!email.match(/^[a-z0-9._%+-]+@[a-z0-9-]+(?:\.[a-z0-9-]+)*$/)) {
-      alert("Email doesn't match the format");
-    } else {
-      await axios
-        .put(`http://localhost:8080/user/update/${user._id}`, updateUser)
-        .then((res) => {
-          if (res.data === "Done") {
-            alert("User updated successfully ");
-            setFirstname(firstname);
-            setLastname(lastname);
-            setEmail(email);
-            window.location.replace("/profile");
-          } else {
-            alert("Couldn't update profile");
-            window.location.replace("/home");
-          }
-        })
-        .catch((msg) => {
-          alert(msg);
-        });
+    if(!email.match(/^[a-z0-9._%+-]+@[a-z0-9-]+(?:\.[a-z0-9-]+)*$/)){
+      alert("Email doesn't match the format")
+
+    }
+    else{
+    await axios
+      .put(`http://localhost:8080/user/update/${user._id}`, updateUser)
+      .then((res) => {
+        if (res.data === "Done") {
+          alert("User updated successfully ");
+          setFirstname(firstname);
+          setLastname(lastname);
+          setEmail(email);
+          window.location.replace("/profile");
+        } else {
+          alert("Couldn't update profile");
+          window.location.replace("/home");
+        }
+      })
+      .catch((msg) => {
+        alert(msg);
+      });
     }
   }
 
   async function deleteData(e) {
     e.preventDefault();
-
-    // Show a confirmation dialog to the user
-    const confirmed = window.confirm(
-      "Are you sure you want to delete your profile? This action cannot be undone."
-    );
-
-    if (confirmed) {
-      axios
-        .delete(`http://localhost:8080/user/delete/${user._id}`)
-        .then((res) => {
-          if (res.data === "success") {
-            window.location.replace("/signup");
-          } else if (res.data === "failed") {
-            alert("Error deleting your profile");
-          }
-        })
-        .catch((err) => {
-          alert(err);
-        });
-    }
+    axios
+      .delete(`http://localhost:8080/user/delete/${user._id}`)
+      .then((res) => {
+        if (res.data === "success") {
+          window.location.replace("/user/signup");
+        } else if (res.data === "failed") {
+          alert("Error deleting your profile");
+        }
+      })
+      .catch((err) => {
+        alert(err);
+      });
   }
 
   return (
@@ -97,7 +93,7 @@ export default function Profile() {
     >
       <Header />
       <div className="w-full flex justify-center">
-        <div className="w-full max-w-sm bg-gray-800 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+        <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
           <div className="flex justify-end px-10 pt-10"></div>
           <div className="flex flex-col items-center pb-10">
             <img
@@ -105,7 +101,7 @@ export default function Profile() {
               src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOaDiUMRWbbmP9Ib9O7-JpIlxCf1q_96fuJ4BsjKKpbApekNO8YSzByuP59Gh0-JnJX5I&usqp=CAU"
               alt="Bonnie image"
             />
-            <h5 className="mb-1 text-xl font-medium text-white dark:text-white">
+            <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">
               User Profile
             </h5>
 
@@ -142,7 +138,7 @@ export default function Profile() {
                   onChange={(e) => {
                     setLastname(e.target.value);
                   }}
-                  value={lastname}
+                    value={lastname}
                   className="border-1 bg-white rounded-r px-4 py-2 w-full"
                   type="text"
                 />
@@ -160,7 +156,6 @@ export default function Profile() {
                 onChange={(e) => {
                   setEmail(e.target.value);
                 }}
-                disabled
                 value={email}
                 className="border-1 bg-white rounded-r px-4 py-2 w-full"
                 type="email"
@@ -170,7 +165,7 @@ export default function Profile() {
             <div className="flex mt-4 space-x-3 md:mt-6">
               <button
                 onClick={updateData}
-                className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-black bg-white rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-gray rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               >
                 Update
               </button>

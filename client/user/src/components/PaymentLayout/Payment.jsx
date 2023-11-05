@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -12,25 +12,76 @@ import { TextField } from "@mui/material";
 import axios from "axios";
 import Header from "../HeaderLayout";
 import Footer from "../FooterLayout";
+import { toPng } from 'html-to-image';
+
 
 const Payment = () => {
-  const [products, setProducts] = useState();
+  const [products, setProducts] = useState(JSON.parse(localStorage.getItem("cart")));
   const [address, setAddress] = useState();
   const [phoneNumber, setPhoneNumber] = useState();
   const [paymentType, setPaymentType] = useState();
   const [cardNumber, setCardNumber] = useState();
   const [cvv, setCVV] = useState();
   const [cardDate, setCardDate] = useState();
-  const [amount, setAmount] = useState();
+  var [amount, setAmount] = useState(0);
   const [errors, setErrors] = useState("");
+  const [userEmail, setUserEmail] = useState(
+    JSON.parse(localStorage.getItem("UserInfo")).email
+  );
+  const elementRef = useRef(null);
+
+  const demo = () => {
+    setAddress('123 Example St, Colombo, Sri lanka');
+    setPhoneNumber('1234567890');
+    setCardNumber('1234567890123456');
+    setCVV('123');
+    setCardDate('2023-10-25');
+  };
+
+  // useEffect(() => {
+  //   function getAllProducts() {
+  //     setProducts(JSON.parse(localStorage.getItem("cart")));
+  //   }
+  //   getAllProducts();
+  // }, []);
 
   useEffect(() => {
-    //var product = JSON.parse(localStorage.getItem("cart"));
-    setProducts(JSON.parse(localStorage.getItem("cart")));
+    function setTotal() {
+      amount = 0;
+    products.forEach((product) => {
+      amount += product.price * product.selectedQuantity;
+    });
+    setAmount(amount);
+    }
+    setTotal();
   }, []);
 
+  const printBill = async () => {
+  try {
+    const dataUrl = await toPng(elementRef.current, { cacheBust: false });
+    const link = document.createElement("a");
+    link.download = "Receipt.png";
+    link.href = dataUrl;
+    link.click();
+  } catch (error) {
+    console.log("Error : " + error);
+  }
+};
+
+  const clearCart = () => {
+    localStorage.removeItem('cart');
+    window.location.replace('http://localhost:4000/product/all-products');
+  };
+  
   function makePayment(e) {
     e.preventDefault();
+
+    amount = 0;
+    products.forEach((product) => {
+      amount += product.price * product.selectedQuantity;
+    });
+    setAmount(amount);
+
     if (!address) {
       setErrors("Please provide a address");
       return;
@@ -52,8 +103,8 @@ const Payment = () => {
     if (!cardNumber) {
       setErrors("Please provide a card number");
       return;
-    } else if (cardNumber.length != 10) {
-      setErrors("card number must 10 characters");
+    } else if (cardNumber.length != 16) {
+      setErrors("card number must 16 characters");
       return;
     }
 
@@ -62,13 +113,15 @@ const Payment = () => {
       return;
     }
 
+    printBill();
+
     axios
       .post("http://localhost:8080/payment/new-payment", {
         products,
-        userName: "ask",
+        userName: userEmail,
         paymentType,
         cardNumber,
-        amount: "1212",
+        amount,
       })
       .then((res) => {
         console.log(res.data);
@@ -87,6 +140,7 @@ const Payment = () => {
               })
               .then((res) => {
                 console.log(res.data);
+                
                 localStorage.removeItem("cart");
                 window.location.replace(
                   "http://localhost:4000/product/all-products"
@@ -103,22 +157,6 @@ const Payment = () => {
       .catch((err) => {
         console.error("Error : " + err.message);
       });
-  }
-
-  function test(e) {
-    const productData = {
-      _id: "64f7502a4bb126cf1ca4c923",
-      categoryName: "sun glasses",
-      createdAt: "2023-09-09T05:46:40.361Z",
-      description:
-        "Keep it HIGH KEY with our #1 bestselling aviator designed to flatter every face shape",
-      inStock: 18,
-      price: 5600,
-      productName: "HIGH KEY",
-      selectedQuantity: "3",
-      updatedAt: "2023-09-09T05:46:40.361Z",
-      __v: 0,
-    };
 
     const productDataString = JSON.stringify(productData);
     localStorage.setItem("productData", productDataString);
@@ -148,8 +186,8 @@ const Payment = () => {
     <>
       <Header></Header>
       <div className="w-full">
-        <div className="w-full flex justify-center mt-6">
-          <TableContainer component={Paper} sx={{ width: 800 }}>
+        <div className="w-full flex justify-center mt-6 bg-white">
+          <TableContainer component={Paper} sx={{ width: 800 }} ref={elementRef}>
             <Table aria-label="spanning table">
               <TableHead>
                 <StyledTableRow>
@@ -188,7 +226,7 @@ const Payment = () => {
                   <TableCell colSpan={3} align="right">
                     Total
                   </TableCell>
-                  <TableCell align="right">039403940</TableCell>
+                  <TableCell align="right">{amount}</TableCell>
                 </StyledTableRow>
               </TableBody>
             </Table>
@@ -204,6 +242,7 @@ const Payment = () => {
             <TextField
               label="Address"
               name="address"
+              value={address}
               onChange={(e) => setAddress(e.target.value)}
               variant="outlined"
               style={{ width: "100%" }}
@@ -214,6 +253,7 @@ const Payment = () => {
               type="number"
               label="Phone Number"
               name="phoneNumber"
+              value={phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value)}
               variant="outlined"
               style={{ width: "100%" }}
@@ -227,7 +267,7 @@ const Payment = () => {
         </div>
         <div className="flex justify-center grid grid-cols-3">
           <div className="col-span-3 p-4 flex justify-center">
-            <label>
+            <label style={{fontSize: 17}}>
               <input
                 type="radio"
                 value="credit"
@@ -236,12 +276,13 @@ const Payment = () => {
               />
               Credit Card
             </label>
-            <label>
+            <label style={{fontSize: 17}}>
               <input
                 type="radio"
                 value="debit"
                 name="card"
                 onChange={(e) => setPaymentType(e.target.value)}
+                style={{marginLeft: 27}}
               />
               Debit Card
             </label>
@@ -251,6 +292,7 @@ const Payment = () => {
               type="number"
               label="Card Number"
               name=""
+              value={cardNumber}
               onChange={(e) => setCardNumber(e.target.value)}
               variant="outlined"
               style={{ width: "100%" }}
@@ -261,6 +303,7 @@ const Payment = () => {
               label="CVV"
               onChange={(e) => setCVV(e.target.value)}
               name="cvv"
+              value={cvv}
               variant="outlined"
               style={{ width: "100%" }}
             />
@@ -269,6 +312,7 @@ const Payment = () => {
             <TextField
               type="date"
               label=" "
+              value={cardDate}
               variant="outlined"
               style={{ width: "100%" }}
             />
@@ -285,6 +329,21 @@ const Payment = () => {
         )}
       </div>
       <div className="h-[64px] fixed bottom-0 w-full px-[20px] flex justify-end items-center shadow-[0px_0px_10px_0px_rgba(0,0,0,0.5)]  z-10 bg-white">
+
+      <button
+          onClick={demo}
+          className="bg-transparent text-red-600 border-red-600 hover:bg-red-600 hover:text-white font-semibold  py-2 px-4 mr-7 border border-blue-500 hover:border-transparent rounded"
+        >
+          Demo
+        </button>
+
+      <button
+          onClick={clearCart}
+          className="bg-transparent text-red-600 border-red-600 hover:bg-red-600 hover:text-white font-semibold  py-2 px-4 mr-7 border border-blue-500 hover:border-transparent rounded"
+        >
+          Clear Cart
+        </button>
+
         <button
           type="submit"
           onClick={makePayment}
@@ -294,8 +353,6 @@ const Payment = () => {
         </button>
       </div>
       <h1> d</h1>
-      <h1> d </h1>
-      <h1> d </h1>
       <Footer></Footer>
     </>
   );

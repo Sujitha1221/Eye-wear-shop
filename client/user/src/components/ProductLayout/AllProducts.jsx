@@ -17,6 +17,7 @@ const AllProducts = () => {
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [noOfItemsError, setNoOfItemsError] = useState("");
 
   const getTotal = async () => {
     try {
@@ -87,6 +88,13 @@ const AllProducts = () => {
   }, [checked, radio]);
 
   const addToCart = (product, selectedQuantity) => {
+    if (!selectedQuantity || isNaN(selectedQuantity) || selectedQuantity <= 0) {
+      alert("Please enter a valid number of items.");
+      return;
+    } else {
+      setNoOfItemsError(""); // Clear the error message
+    }
+
     const existingCartItem = JSON.parse(localStorage.getItem("cart")) || [];
     const cartItemIndex = existingCartItem.findIndex(
       (item) => item._id === product._id
@@ -148,6 +156,11 @@ const AllProducts = () => {
   function redirect() {
     window.location.replace("/payment");
   }
+
+  const redirectToProduct = (pid, pslug) => {
+    localStorage.setItem("productId", pid);
+    navigate(`/product/view-product/${pslug}`);
+  };
 
   return (
     <>
@@ -234,21 +247,18 @@ const AllProducts = () => {
 
                       <TextField
                         id="outlined-basic"
-                        type="Number"
+                        type="number"
                         label="No of items you need"
                         variant="outlined"
                         onChange={(e) => setNoOfItems(e.target.value)}
                         sx={{ marginTop: "10px" }}
                         required
                       />
-
                       <div className="mt-4 flex space-x-4">
                         <button
                           type="submit"
                           className="bg-transparent text-gray-600 border-gray-600 hover:bg-gray-600 hover:text-white font-semibold py-2 px-4 border border-blue-500 hover:border-transparent rounded"
-                          onClick={() =>
-                            navigate(`/product/view-product/${p.slug}`)
-                          }
+                          onClick={() => redirectToProduct(p._id, p.slug)}
                         >
                           More Details
                         </button>

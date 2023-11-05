@@ -14,6 +14,20 @@ const AddDeliveryDriver = () => {
   const [rePassword, setRePassword] = useState();
   const [errors, setErrors] = useState("");
 
+
+  const demo = () => {
+    setFirstName('John');
+    setLastName('Doei');
+    setEmail('john123@gmail.com');
+    setNIC('123456789121');
+    setLicenseNumber('12345678');
+    setAddress('123 Main St, Colombo, Sri Lanka');
+    setVehicleNumber('XYZ-1237');
+    setPassword('asdQWE123#');
+    setRePassword('asdQWE123#');
+  };
+
+
   function registerDeliveryDriver(e) {
     e.preventDefault();
 
@@ -36,6 +50,13 @@ const AddDeliveryDriver = () => {
     if( !email) {
       setErrors("Please provide a email");
       return;
+    } else {
+      const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+
+      if (!emailPattern.test(email)) {
+        setErrors("Invalid email format");
+        return;
+      }
     }
 
     if( !NIC) {
@@ -117,6 +138,7 @@ const AddDeliveryDriver = () => {
             <TextField
               label="First Name"
               name="firstName"
+              value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
               variant="outlined"
               style={{ width: "100%" }}
@@ -126,6 +148,7 @@ const AddDeliveryDriver = () => {
             <TextField
               label="Last Name"
               name="lastName"
+              value={lastName}
               onChange={(e) => setLastName(e.target.value)}
               variant="outlined"
               style={{ width: "100%" }}
@@ -135,6 +158,7 @@ const AddDeliveryDriver = () => {
             <TextField
               label="Email"
               name="email"
+              value={email}
               onChange={(e) => setEmail(e.target.value)}
               variant="outlined"
               style={{ width: "100%" }}
@@ -145,6 +169,7 @@ const AddDeliveryDriver = () => {
               label="NIC Number"
               type="number"
               name="nic"
+              value={NIC}
               onChange={(e) => setNIC(e.target.value)}
               variant="outlined"
               style={{ width: "100%" }}
@@ -155,6 +180,7 @@ const AddDeliveryDriver = () => {
               label="License Number"
               type="number"
               name="licenseNo"
+              value={licenseNo}
               onChange={(e) => setLicenseNumber(e.target.value)}
               variant="outlined"
               style={{ width: "100%" }}
@@ -164,6 +190,7 @@ const AddDeliveryDriver = () => {
             <TextField
               label="Address"
               name="address"
+              value={address}
               onChange={(e) => setAddress(e.target.value)}
               variant="outlined"
               style={{ width: "100%" }}
@@ -173,6 +200,7 @@ const AddDeliveryDriver = () => {
             <TextField
               label="Vehicle Number"
               name="vehicleNumber"
+              value={vehicleNo}
               onChange={(e) => setVehicleNumber(e.target.value)}
               variant="outlined"
               style={{ width: "100%" }}
@@ -180,8 +208,10 @@ const AddDeliveryDriver = () => {
           </div>
           <div class="p-4 flex justify-center">
             <TextField
+            type="password"
               label="Password"
               name="password"
+              value={password}
               onChange={(e) => setPassword(e.target.value)}
               variant="outlined"
               style={{ width: "100%" }}
@@ -189,8 +219,10 @@ const AddDeliveryDriver = () => {
           </div>
           <div class="p-4 flex justify-center">
             <TextField
+              type="password"
               label="Re-Type-Password"
               name="rePassword"
+              value={rePassword}
               onChange={(e) => setRePassword(e.target.value)}
               variant="outlined"
               style={{ width: "100%" }}
@@ -206,6 +238,13 @@ const AddDeliveryDriver = () => {
           )}
           </div>
           <div class="col-span-2 flex justify-center pt-5">
+          <button
+              type="submit"
+              onClick={demo}
+              className="bg-transparent text-cyan-600 mr-3 border-cyan-600 hover:bg-cyan-600 hover:text-white font-semibold  py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+            >
+              Demo
+            </button>
             <button
               type="submit"
               onClick={registerDeliveryDriver}

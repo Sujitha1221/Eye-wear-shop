@@ -3,6 +3,8 @@ import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Person2Icon from "@mui/icons-material/Person2";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faGlasses } from "@fortawesome/free-solid-svg-icons"
 
 const navigation = [
   { name: "Home", href: "/home", current: true },
@@ -11,9 +13,10 @@ const navigation = [
   { name: "About Us", href: "#", current: false },
 ];
 const userNavigation = [
-  { name: "Your Profile", href: "/profile" },
-  { name: "Sign out", href: "/logout" },
-];
+  { name: 'Your Profile', href: '/profile' },
+  { name: 'My orders', href:'/history' },
+  { name: 'Sign out', href:'/logout' },
+]
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -33,12 +36,8 @@ export default function Header() {
               <div className="mx-auto max-w-10xl px-4 sm:px-6 lg:px-8">
                 <div className="flex h-16 items-center justify-between">
                   <div className="flex items-center">
-                    <div className="flex-shrink-0">
-                      <img
-                        className="h-12 w-25"
-                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPQr9QWfmitQh0Zqx_i_2oQ3_q8lzf3sGyyw&usqp=CAU"
-                        alt="Your Company"
-                      />
+                    <div className="flex-shrink-0 text-white text-2xl font-semibold italic">
+                      <FontAwesomeIcon className="mr-[10px]" icon={faGlasses} />SolarFlare
                     </div>
                     <div className="hidden md:block">
                       <div className="ml-10 flex items-baseline space-x-4">

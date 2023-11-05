@@ -14,7 +14,7 @@ import {
 const route = Router();
 
 route.post("/register-delivery-driver", registerDeliveryDriver);
-route.get("/get-delivery-driver-by-email", getDeliveryDriverByEmail);
+route.get("/get-delivery-driver-by-email/:email", getDeliveryDriverByEmail);
 route.get("/get-all-delivery-drivers", getAllDeliveryDrivers);
 route.get("/get-delivery-driver-by-id/:id", getDeliveryDriverByID);
 route.put("/update-delivery-driver", updateDeliveryDriver);

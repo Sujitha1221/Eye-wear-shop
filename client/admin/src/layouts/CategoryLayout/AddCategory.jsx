@@ -14,6 +14,7 @@ const AddCategory = () => {
       );
       if (data?.success) {
         alert(`${categoryName} is created`);
+        window.location.replace("/category/view-category");
       } else {
         alert(data.message);
       }

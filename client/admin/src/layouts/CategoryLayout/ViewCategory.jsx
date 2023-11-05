@@ -78,17 +78,23 @@ const ViewCategory = () => {
   };
 
   const handleDelete = async (pId) => {
+    var result = window.confirm("Do you want to delete this category ?");
+
+    if (result == true) {
     try {
       const { data } = await axios.delete(
         `http://localhost:8080/category/delete-category/${pId}`
       );
       if (data.success) {
-        alert(`category is deleted`);
+        alert("Category is deleted");
         getAllCategory();
+      } else {
+        alert("Error: " + data.message);
       }
     } catch (error) {
       alert("Something went wrong");
     }
+  }
   };
 
   return (

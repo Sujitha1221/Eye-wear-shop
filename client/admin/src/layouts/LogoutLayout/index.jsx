@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 
-const logOut = (e) => {
+const logOut = () => {
+
   console.log("delete");
   localStorage.removeItem("AdminInfo");
   window.location.replace("/");

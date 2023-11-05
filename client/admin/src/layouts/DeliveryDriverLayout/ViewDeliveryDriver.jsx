@@ -32,17 +32,21 @@ const ViewDeliveryDriver = () => {
   }, []);
 
   const deleteDeliveryDriver = (objId) => {
-    axios
-      .delete(
-        `http://localhost:8080/delivery-driver/delete-delivery-driver/${objId}`
-      )
-      .then((res) => {
-        if (res.data.status == "success")
-          window.location.replace("/delivery-driver/view-delivery-driver");
-      })
-      .catch((err) => {
-        console.error("Error : " + err.message);
-      });
+    var result = window.confirm("Do you want to delete this driver ?");
+
+    if (result == true) {
+      axios
+        .delete(
+          `http://localhost:8080/delivery-driver/delete-delivery-driver/${objId}`
+        )
+        .then((res) => {
+          if (res.data.status == "success")
+            window.location.replace("/delivery-driver/view-delivery-driver");
+        })
+        .catch((err) => {
+          console.error("Error : " + err.message);
+        });
+    }
   };
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -88,7 +92,7 @@ const ViewDeliveryDriver = () => {
             <TableRow>
               <StyledTableCell>Driver ID</StyledTableCell>
               <StyledTableCell align="right">First Name</StyledTableCell>
-              <StyledTableCell align="right">Last Name</StyledTableCell>
+              <StyledTableCell align="right">NIC</StyledTableCell>
               <StyledTableCell align="right">Email</StyledTableCell>
               <StyledTableCell align="right">License No</StyledTableCell>
               <StyledTableCell align="right"></StyledTableCell>
@@ -100,12 +104,12 @@ const ViewDeliveryDriver = () => {
             {deliveryDrivers
               .filter((key) => {
                 const firstName = (key.firstName || "").toLowerCase();
-                const lastName = (key.firstName || "").toLowerCase();
+                const NIC = (key.NIC || "").toLowerCase();
                 const email = (key.email || "").toLowerCase();
                 const licenseNo = (key.licenseNo || "").toLowerCase();
                 return (
                   firstName.includes(searchKey.toLowerCase()) ||
-                  lastName.includes(searchKey.toLowerCase()) ||
+                  NIC.includes(searchKey.toLowerCase()) ||
                   email.includes(searchKey.toLowerCase()) ||
                   licenseNo.includes(searchKey.toLowerCase())
                 );
@@ -120,7 +124,7 @@ const ViewDeliveryDriver = () => {
                     {deliveryDriver.firstName}
                   </StyledTableCell>
                   <StyledTableCell align="right">
-                    {deliveryDriver.lastName}
+                    {deliveryDriver.NIC}
                   </StyledTableCell>
                   <StyledTableCell align="right">
                     {deliveryDriver.email}
