@@ -1,1 +1,39 @@
-This application caters to eyewear shops, incorporating a cutting-edge virtual try-on experience. Users have the ability to browse and select glasses, activate their device's camera, and visualize how different glasses styles complement their appearance. The application features both an admin and user interface. The technology stack employed is MERN (MongoDB, Express.js, React.js, Node.js), and the user interface is elegantly styled using Tailwind CSS. The innovative modal training ensures an intuitive and personalized experience for users exploring the diverse range of eyewear options available. In terms of data storage, MongoDB serves as the database, ensuring efficient and scalable management of the project's data.
+# 🕶️ Eyewear Virtual Try-On Application
+
+An innovative web application that allows users to virtually try on glasses using their device's camera. Designed for modern eyewear retailers, this platform combines real-time AR experiences with robust admin tools and a stylish, responsive frontend.
+
+---
+
+## 🚀 Features
+
+- 📷 Virtual try-on with live camera feed
+- 🛍️ Eyewear catalog browsing and selection
+- 🧑‍💼 Admin interface for product and user management
+- 🎨 Tailwind CSS for responsive and elegant UI
+- ⚙️ Modal training system for personalized fit simulation
+- 🔐 Secure login and role-based access control
+
+---
+
+## 🧑‍💻 Tech Stack
+
+| Layer         | Technology           |
+|---------------|----------------------|
+| Frontend      | React.js             |
+| Styling       | Tailwind CSS         |
+| Backend       | Node.js, Express.js  |
+| Database      | MongoDB              |
+| Authentication| JWT or OAuth         |
+| Camera Access | WebRTC / HTML5 APIs  |
+
+---
+
+## 📦 Installation
+
+### Prerequisites
+
+- Node.js and npm
+- MongoDB running locally or on cloud (MongoDB Atlas)
+- Git
+
+---
